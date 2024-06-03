@@ -7,6 +7,7 @@ import NotFound from './pages/NotFound.tsx';
 import Home from './pages/Home.tsx';
 import Recipe from './pages/Recipe.tsx';
 import Ingredients from './pages/Ingredients.tsx';
+import ProtectedRoute from './pages/ProtectedRoute.tsx';
 
 const router = createBrowserRouter([
   {
@@ -15,8 +16,22 @@ const router = createBrowserRouter([
     errorElement: <NotFound />,
     children: [
       { index: true, path: '/', element: <Home /> },
-      { path: '/recipe', element: <Recipe /> },
-      { path: '/ingredients', element: <Ingredients /> },
+      {
+        path: '/recipe',
+        element: (
+          <ProtectedRoute>
+            <Recipe />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: '/ingredients',
+        element: (
+          <ProtectedRoute>
+            <Ingredients />
+          </ProtectedRoute>
+        ),
+      },
     ],
   },
 ]);

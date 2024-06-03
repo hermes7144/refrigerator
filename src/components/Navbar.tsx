@@ -18,7 +18,7 @@ export default function Navbar() {
     <header className='flex justify-between border-b border-gray-300 p-2 font-semibold bg-white'>
       <Link to='/' className='flex items-center text-4xl text-brand'>
         <LuRefrigerator />
-        <h1 className='hidden md:block'>나만의 냉장고</h1>
+        <h1 className='hidden md:block'>Ref</h1>
       </Link>
 
       <nav className='flex items-center gap-4'>
@@ -30,7 +30,7 @@ export default function Navbar() {
             <Link to='/ingredients' className='text-2xl'>
               <FaCartArrowDown />
             </Link>
-            <DisplayUser user={user} />
+            <DisplayUser />
           </>
         )}
 
