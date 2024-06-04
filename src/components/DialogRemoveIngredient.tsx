@@ -27,9 +27,9 @@ export default function DialogRemoveIngredient({ onSubmit, onClose, initialIngre
       <div className='modal-box flex flex-col'>
         삭제하시겠습니까?
         <div className='modal-action'>
-          <form method='dialog'>
-            <button className='btn btn-sm'>취소</button>
-          </form>
+          <button className='btn btn-sm' onClick={onClose}>
+            취소
+          </button>
           <button className='btn btn-sm' onClick={handleSubmit}>
             확인
           </button>

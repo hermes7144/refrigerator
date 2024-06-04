@@ -30,6 +30,7 @@ export default function Ingredients() {
 
   const handleOpenDialog = () => {
     setIsDialogOpen(true);
+    setEditingIngredient(null);
   };
 
   const handleCloseDialog = () => {
@@ -60,15 +61,17 @@ export default function Ingredients() {
 
       {isDialogOpen && <DialogAddIngredient onSubmit={handleAddIngredient} onClose={handleCloseDialog} initialIngredient={editingIngredient} />}
       {isRemoveDialogOpen && <DialogRemoveIngredient onSubmit={handleRemoveIngredient} onClose={handleCloseRomoveDialog} initialIngredient={editingIngredient} />}
-      <div className='flex justify-center  overflow-x-auto'>
+      <div className='flex justify-center'>
         <table className='table w-full sm:w-3/4'>
+          <colgroup>
+            <col className='w-1/4' />
+            <col className='w-1/4' />
+            <col className='w-1/4' />
+            <col className='w-1/6' />
+          </colgroup>
+
           <thead>
             <tr>
-              <th>
-                <label>
-                  <input type='checkbox' className='checkbox' />
-                </label>
-              </th>
               <th className='text-center'>Ingredient</th>
               <th className='text-center'>Qty</th>
               <th className='text-center'>Experiation</th>
