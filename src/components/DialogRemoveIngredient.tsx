@@ -11,19 +11,18 @@ export type Ingredient = {
 };
 
 type DialogAddIngredientProps = {
-  onSubmit: (ingredient: Ingredient) => void;
+  onSubmit: () => void;
   onClose: () => void;
-  initialIngredient: Ingredient;
 };
 
-export default function DialogRemoveIngredient({ onSubmit, onClose, initialIngredient }: DialogAddIngredientProps) {
+export default function DialogRemoveIngredient({ onSubmit, onClose }: DialogAddIngredientProps) {
   const handleSubmit = () => {
-    onSubmit(initialIngredient);
+    onSubmit();
     onClose();
   };
 
   return (
-    <dialog id='my_modal_2' className='modal modal-bottom sm:modal-middle' open>
+    <dialog id='my_modal_2' className='modal modal-bottom sm:modal-middle'>
       <div className='modal-box flex flex-col'>
         삭제하시겠습니까?
         <div className='modal-action'>
@@ -35,6 +34,9 @@ export default function DialogRemoveIngredient({ onSubmit, onClose, initialIngre
           </button>
         </div>
       </div>
+      <form method='dialog' className='modal-backdrop'>
+        <button>close</button>
+      </form>
     </dialog>
   );
 }

@@ -12,8 +12,6 @@ export default function Ingredients() {
     deleteIngredient,
   } = useIngredients();
 
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [isRemoveDialogOpen, setIsRemoveDialogOpen] = useState(false);
   const [editingIngredient, setEditingIngredient] = useState<Ingredient | null>(null);
 
   const handleAddIngredient = (ingredient: Ingredient) => {
@@ -24,31 +22,32 @@ export default function Ingredients() {
     }
   };
 
-  const handleRemoveIngredient = (ingredient: Ingredient) => {
-    deleteIngredient.mutate(ingredient);
+  const handleRemoveIngredient = (): void => {
+    if (!editingIngredient) return;
+    deleteIngredient.mutate(editingIngredient);
   };
 
   const handleOpenDialog = () => {
-    setIsDialogOpen(true);
+    document.getElementById('my_modal_1').showModal();
     setEditingIngredient(null);
   };
 
   const handleCloseDialog = () => {
-    setIsDialogOpen(false);
+    document.getElementById('my_modal_1').close();
   };
 
   const handleEditIngredient = (ingredient: Ingredient) => {
     setEditingIngredient(ingredient);
-    setIsDialogOpen(true);
+    document.getElementById('my_modal_1').showModal();
   };
 
-  const handleRomoveIngredientDialog = (ingredient: Ingredient) => {
+  const handleRomoveIngredientDialog = (ingredient) => {
     setEditingIngredient(ingredient);
-    setIsRemoveDialogOpen(true);
+    document.getElementById('my_modal_2').showModal();
   };
 
   const handleCloseRomoveDialog = () => {
-    setIsRemoveDialogOpen(false);
+    document.getElementById('my_modal_2').close();
   };
 
   return (
@@ -58,9 +57,9 @@ export default function Ingredients() {
           추가
         </button>
       </div>
+      <DialogAddIngredient onSubmit={handleAddIngredient} onClose={handleCloseDialog} initialIngredient={editingIngredient} />
+      <DialogRemoveIngredient onSubmit={handleRemoveIngredient} onClose={handleCloseRomoveDialog} />
 
-      {isDialogOpen && <DialogAddIngredient onSubmit={handleAddIngredient} onClose={handleCloseDialog} initialIngredient={editingIngredient} />}
-      {isRemoveDialogOpen && <DialogRemoveIngredient onSubmit={handleRemoveIngredient} onClose={handleCloseRomoveDialog} initialIngredient={editingIngredient} />}
       <div className='flex justify-center'>
         <table className='table w-full sm:w-3/4'>
           <colgroup>

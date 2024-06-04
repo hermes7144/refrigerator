@@ -22,6 +22,8 @@ type DialogAddIngredientProps = {
 };
 
 export default function DialogAddIngredient({ onSubmit, onClose, initialIngredient }: DialogAddIngredientProps) {
+  console.log(initialIngredient);
+
   const [ingredient, setIngredient] = useState<Partial<Ingredient>>({});
   const [unit, setUnit] = useState<string | undefined>('g');
   const [category, setCategory] = useState<string | undefined>('');
@@ -33,6 +35,11 @@ export default function DialogAddIngredient({ onSubmit, onClose, initialIngredie
       setUnit(initialIngredient.unit);
       setCategory(initialIngredient.category);
       setExpiration(initialIngredient.expiration ? moment(initialIngredient.expiration, 'yyyy-MM-DD').toDate() : undefined);
+    } else {
+      setIngredient({});
+      setUnit('');
+      setCategory('');
+      setExpiration(undefined);
     }
   }, [initialIngredient]);
 
@@ -74,7 +81,7 @@ export default function DialogAddIngredient({ onSubmit, onClose, initialIngredie
   };
 
   return (
-    <dialog id='my_modal_1' className='modal modal-bottom sm:modal-middle ' open>
+    <dialog id='my_modal_1' className='modal modal-bottom sm:modal-middle'>
       <div className='modal-box flex flex-col pt-10'>
         <div className='flex flex-col gap-4'>
           <label className={`input input-bordered flex items-center gap-2`}>
@@ -115,6 +122,9 @@ export default function DialogAddIngredient({ onSubmit, onClose, initialIngredie
           </button>
         </div>
       </div>
+      {/* <form method='dialog' className='modal-backdrop'>
+        <button>close</button>
+      </form> */}
     </dialog>
   );
 }

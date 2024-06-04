@@ -9,9 +9,6 @@ interface IngredientItemProps {
 }
 
 export const IngredientItem = ({ ingredient, onEdit, onDelete }: IngredientItemProps) => {
-  const handleDelete = () => onDelete(ingredient);
-  const handleEdit = () => onEdit(ingredient);
-
   return (
     <tr>
       <td>
@@ -37,10 +34,10 @@ export const IngredientItem = ({ ingredient, onEdit, onDelete }: IngredientItemP
           </button>
           <ul tabIndex={0} className='p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-20'>
             <li>
-              <a onClick={handleEdit}>수정</a>
+              <a onClick={() => onEdit(ingredient)}>수정</a>
             </li>
             <li>
-              <a onClick={handleDelete}>삭제</a>
+              <a onClick={() => onDelete(ingredient)}>삭제</a>
             </li>
           </ul>
         </div>
