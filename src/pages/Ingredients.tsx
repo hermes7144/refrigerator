@@ -41,7 +41,7 @@ export default function Ingredients() {
     document.getElementById('my_modal_1').showModal();
   };
 
-  const handleRomoveIngredientDialog = (ingredient) => {
+  const handleRomoveIngredientDialog = (ingredient: Ingredient) => {
     setEditingIngredient(ingredient);
     document.getElementById('my_modal_2').showModal();
   };
@@ -51,7 +51,7 @@ export default function Ingredients() {
   };
 
   return (
-    <div className='flex flex-col p-2'>
+    <div className='flex  flex-col p-2 justify-center max-w-screen-xl'>
       <div className='flex justify-end'>
         <button className='btn' onClick={handleOpenDialog}>
           추가

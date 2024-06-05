@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { formatDate, getDate } from '../ts/Util';
+import { formatDate, getDate } from '../ts/util';
 
 export default function DisplayDate({ date }: { date: string }) {
   const displayDate = useMemo(() => {

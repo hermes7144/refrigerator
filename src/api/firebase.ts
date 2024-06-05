@@ -2,7 +2,7 @@ import { initializeApp } from 'firebase/app';
 import { v4 as uuid } from 'uuid';
 import { getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithPopup, signOut, User } from 'firebase/auth';
 import { get, getDatabase, ref, remove, serverTimestamp, set } from 'firebase/database';
-import { Ingredient } from '../pages/Ingredients';
+import { Ingredient } from '../components/DialogAddIngredient';
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -56,24 +56,4 @@ export async function editIngredient(uid: string, ingredient: Ingredient): Promi
 
 export async function removeIngredient(uid: string, ingredient: Ingredient): Promise<void> {
   return remove(ref(database, `ingredients/${uid}/${ingredient.id}`));
-}
-
-export function getWeekDates() {
-  const today = new Date();
-  const dayOfWeek = today.getDay(); // 일요일=0, 월요일=1, ... 토요일=6
-  const startDate = new Date(today);
-
-  // 현재 날짜를 기준으로 이번 주의 시작일(월요일) 계산
-  const dayOffset = dayOfWeek === 0 ? -6 : 1 - dayOfWeek; // 일요일인 경우 -6, 다른 경우 1 - dayOfWeek
-  startDate.setDate(today.getDate() + dayOffset);
-
-  // 일주일치의 일자 계산
-  const weekDates = [];
-  for (let i = 0; i < 7; i++) {
-    const date = new Date(startDate);
-    date.setDate(startDate.getDate() + i);
-    weekDates.push(date.getDate());
-  }
-
-  return weekDates;
 }

@@ -9,7 +9,7 @@ export type Ingredient = {
   id?: string;
   name: string | undefined;
   qty: number;
-  unit?: string | undefined;
+  unit: string;
   category?: string | undefined;
   image?: string;
   expiration?: string;
@@ -22,10 +22,8 @@ type DialogAddIngredientProps = {
 };
 
 export default function DialogAddIngredient({ onSubmit, onClose, initialIngredient }: DialogAddIngredientProps) {
-  console.log(initialIngredient);
-
   const [ingredient, setIngredient] = useState<Partial<Ingredient>>({});
-  const [unit, setUnit] = useState<string | undefined>('g');
+  const [unit, setUnit] = useState<string>('g');
   const [category, setCategory] = useState<string | undefined>('');
   const [expiration, setExpiration] = useState<Date | undefined>();
 
@@ -37,7 +35,7 @@ export default function DialogAddIngredient({ onSubmit, onClose, initialIngredie
       setExpiration(initialIngredient.expiration ? moment(initialIngredient.expiration, 'yyyy-MM-DD').toDate() : undefined);
     } else {
       setIngredient({});
-      setUnit('');
+      setUnit('g');
       setCategory('');
       setExpiration(undefined);
     }

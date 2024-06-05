@@ -8,6 +8,7 @@ import Home from './pages/Home.tsx';
 import Recipe from './pages/Recipe.tsx';
 import Ingredients from './pages/Ingredients.tsx';
 import ProtectedRoute from './pages/ProtectedRoute.tsx';
+import Meal from './pages/Meal.tsx';
 
 const router = createBrowserRouter([
   {
@@ -29,6 +30,14 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <Ingredients />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: '/meal',
+        element: (
+          <ProtectedRoute>
+            <Meal />
           </ProtectedRoute>
         ),
       },
