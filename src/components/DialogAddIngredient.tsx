@@ -80,7 +80,7 @@ export default function DialogAddIngredient({ onSubmit, onClose, initialIngredie
 
   return (
     <dialog id='my_modal_1' className='modal modal-bottom sm:modal-middle'>
-      <div className='modal-box flex flex-col pt-10'>
+      <div className='modal-box flex flex-col pt-16'>
         <div className='flex flex-col gap-4'>
           <label className={`input input-bordered flex items-center gap-2`}>
             이름
@@ -109,7 +109,7 @@ export default function DialogAddIngredient({ onSubmit, onClose, initialIngredie
             <option value='etc'>기타</option>
           </select>
           유통기한
-          <DatePicker className='w-full h-12 border-gray-200 border-2 rounded-lg pl-2' toggleCalendarOnIconClick selected={expiration} onChange={(date: Date) => setExpiration(date)} dateFormat='yyyy-MM-dd' isClearable />
+          <DatePicker className='w-full h-12 border-gray-200 border-2 rounded-lg pl-2' toggleCalendarOnIconClick selected={expiration} onChange={setExpiration} dateFormat='yyyy-MM-dd' isClearable />
         </div>
         <div className='modal-action'>
           <button className='btn btn-sm' onClick={handleClose}>
