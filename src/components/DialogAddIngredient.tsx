@@ -4,16 +4,7 @@ import DatePicker from 'react-datepicker';
 import moment from 'moment/moment';
 
 import 'react-datepicker/dist/react-datepicker.css';
-
-export type Ingredient = {
-  id?: string;
-  name: string | undefined;
-  qty: number;
-  unit: string;
-  category?: string | undefined;
-  image?: string;
-  expiration?: string;
-};
+import { Ingredient } from '../types/ingredientTypes';
 
 type DialogAddIngredientProps = {
   onSubmit: (ingredient: Ingredient) => void;

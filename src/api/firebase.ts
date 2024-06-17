@@ -2,7 +2,6 @@ import { initializeApp } from 'firebase/app';
 import { v4 as uuid } from 'uuid';
 import { getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithPopup, signOut, User } from 'firebase/auth';
 import { get, getDatabase, ref, remove, serverTimestamp, set } from 'firebase/database';
-import { Ingredient } from '../components/DialogAddIngredient';
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -56,4 +55,62 @@ export async function editIngredient(uid: string, ingredient: Ingredient): Promi
 
 export async function removeIngredient(uid: string, ingredient: Ingredient): Promise<void> {
   return remove(ref(database, `ingredients/${uid}/${ingredient.id}`));
+}
+
+export async function getMeals(uid: string): Promise<Meal[]> {
+  const snapshot = await get(ref(database, `meals/${uid}`));
+
+  if (snapshot.exists()) {
+    return snapshot.val();
+  } else {
+    return [];
+  }
+}
+
+interface Ingredient {
+  id: string;
+  name: string;
+  unit: string;
+  qty: number;
+}
+
+interface Meal {
+  name: string;
+  date: string;
+  ingredients: Ingredient[];
+}
+
+export async function addNewMeal(uid: string, meal: Meal): Promise<void> {
+  const id = uuid();
+
+  // Create a new meal entry
+  const mealData = {
+    id,
+    name: meal.name,
+    createdDate: serverTimestamp(),
+    ingredients: meal.ingredients.reduce((acc, ingredient) => {
+      acc[ingredient.id] = ingredient;
+      return acc;
+    }, {}),
+  };
+
+  // Set the meal data in the database
+  await set(ref(database, `meals/${uid}/${meal.date}/${meal.name}`), mealData);
+}
+
+export async function editMeals(uid: string, meal: Meal): Promise<void> {
+  // Create a new meal entry
+  const mealData = {
+    id: meal.id,
+    name: meal.name,
+    createdDate: serverTimestamp(),
+    ingredients: meal.ingredients.reduce((acc, ingredient) => {
+      acc[ingredient.id] = ingredient;
+      return acc;
+    }, {}),
+  };
+  console.log('mealData', mealData);
+
+  // Set the meal data in the database
+  await set(ref(database, `meals/${uid}/${meal.date}/${meal.name}`), mealData);
 }

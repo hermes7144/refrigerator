@@ -59,7 +59,6 @@ export default function Ingredients() {
       </div>
       <DialogAddIngredient onSubmit={handleAddIngredient} onClose={handleCloseDialog} initialIngredient={editingIngredient} />
       <DialogRemoveIngredient onSubmit={handleRemoveIngredient} onClose={handleCloseRomoveDialog} />
-
       <div className='flex justify-center'>
         <table className='table w-full sm:w-3/4'>
           <colgroup>

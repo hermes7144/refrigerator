@@ -4,11 +4,11 @@ import App from './App.tsx';
 import './index.css';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import NotFound from './pages/NotFound.tsx';
-import Home from './pages/Home.tsx';
+import Index from './pages/Index.tsx';
 import Recipe from './pages/Recipe.tsx';
 import Ingredients from './pages/Ingredients.tsx';
 import ProtectedRoute from './pages/ProtectedRoute.tsx';
-import Meal from './pages/Meal.tsx';
+import Meals from './pages/Meals.tsx';
 
 const router = createBrowserRouter([
   {
@@ -16,7 +16,7 @@ const router = createBrowserRouter([
     element: <App />,
     errorElement: <NotFound />,
     children: [
-      { index: true, path: '/', element: <Home /> },
+      { index: true, path: '/', element: <Index /> },
       {
         path: '/recipe',
         element: (
@@ -34,10 +34,10 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: '/meal',
+        path: '/meals',
         element: (
           <ProtectedRoute>
-            <Meal />
+            <Meals />
           </ProtectedRoute>
         ),
       },

@@ -61,7 +61,7 @@ export function getDeadline(category, includeStart = false) {
   }
 }
 
-export function getWeekDates(): { date: number; month: string; day: string }[] {
+export function getWeekDates(): Date[] {
   const today = new Date();
   const dayOfWeek = today.getDay(); // 일요일=0, 월요일=1, ... 토요일=6
   const startDate = new Date(today);
@@ -70,17 +70,11 @@ export function getWeekDates(): { date: number; month: string; day: string }[] {
   const dayOffset = dayOfWeek === 0 ? -6 : 1 - dayOfWeek; // 일요일인 경우 -6, 다른 경우 1 - dayOfWeek
   startDate.setDate(today.getDate() + dayOffset);
 
-  const dayNames = ['월', '화', '수', '목', '금', '토', '일'];
-
   // 일주일치의 날짜와 요일 이름 계산
   const weekDates = Array.from({ length: 7 }, (_, i) => {
     const date = new Date(startDate);
     date.setDate(startDate.getDate() + i);
-    return {
-      date: date.getDate(),
-      month: date.getMonth(),
-      day: dayNames[i],
-    };
+    return date;
   });
 
   return weekDates;
