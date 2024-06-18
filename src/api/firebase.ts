@@ -2,6 +2,8 @@ import { initializeApp } from 'firebase/app';
 import { v4 as uuid } from 'uuid';
 import { getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithPopup, signOut, User } from 'firebase/auth';
 import { get, getDatabase, ref, remove, serverTimestamp, set } from 'firebase/database';
+import { Meal, MealsByDate } from '../types/mealTypes';
+import { Ingredient } from '../types/ingredientTypes';
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -57,27 +59,14 @@ export async function removeIngredient(uid: string, ingredient: Ingredient): Pro
   return remove(ref(database, `ingredients/${uid}/${ingredient.id}`));
 }
 
-export async function getMeals(uid: string): Promise<Meal[]> {
+export async function getMeals(uid: string): Promise<MealsByDate> {
   const snapshot = await get(ref(database, `meals/${uid}`));
 
   if (snapshot.exists()) {
     return snapshot.val();
   } else {
-    return [];
+    return {};
   }
-}
-
-interface Ingredient {
-  id: string;
-  name: string;
-  unit: string;
-  qty: number;
-}
-
-interface Meal {
-  name: string;
-  date: string;
-  ingredients: Ingredient[];
 }
 
 export async function addNewMeal(uid: string, meal: Meal): Promise<void> {

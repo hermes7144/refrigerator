@@ -1,19 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useAuthContext } from '../context/AuthContext';
 import { addNewMeal, getMeals, editMeals } from '../api/firebase';
-
-interface Ingredient {
-  id: string;
-  name: string;
-  unit: string;
-  qty: number;
-}
-
-interface Meal {
-  name: string;
-  date: string;
-  ingredients: Ingredient[];
-}
+import { Meal } from '../types/mealTypes';
 
 export default function useMeals() {
   const authContext = useAuthContext();

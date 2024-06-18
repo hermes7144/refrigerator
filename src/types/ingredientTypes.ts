@@ -1,9 +1,21 @@
 export interface Ingredient {
-  id?: string;
-  name: string | undefined;
+  id: string;
+  name: string;
   qty: number;
-  unit?: string | undefined;
-  category?: string | undefined;
+  unit: string;
+  category: string;
   image?: string;
   expiration?: string;
+}
+
+export interface DialogAddIngredientProps {
+  onSubmit: (ingredient: Ingredient) => void;
+  onClose: () => void;
+  initialIngredient?: Ingredient | null;
+}
+
+export interface IngredientItemProps {
+  ingredient: Ingredient;
+  onEdit: (ingredient: Ingredient) => void;
+  onDelete: (ingredient: Ingredient) => void;
 }

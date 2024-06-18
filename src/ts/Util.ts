@@ -1,3 +1,8 @@
+import dayjs, { Dayjs } from 'dayjs';
+import 'dayjs/locale/ko';
+
+dayjs.locale('ko');
+
 export function getDate(offset = 0) {
   const targetDate = new Date();
   targetDate.setDate(targetDate.getDate() + offset);
@@ -61,21 +66,12 @@ export function getDeadline(category, includeStart = false) {
   }
 }
 
-export function getWeekDates(): Date[] {
-  const today = new Date();
-  const dayOfWeek = today.getDay(); // 일요일=0, 월요일=1, ... 토요일=6
-  const startDate = new Date(today);
+export function getWeekDates(): Dayjs[] {
+  const today = dayjs();
+  const startOfWeek = today.startOf('week').add(1, 'day'); // 이번 주의 시작일(월요일)
 
-  // 현재 날짜를 기준으로 이번 주의 시작일(월요일) 계산
-  const dayOffset = dayOfWeek === 0 ? -6 : 1 - dayOfWeek; // 일요일인 경우 -6, 다른 경우 1 - dayOfWeek
-  startDate.setDate(today.getDate() + dayOffset);
-
-  // 일주일치의 날짜와 요일 이름 계산
-  const weekDates = Array.from({ length: 7 }, (_, i) => {
-    const date = new Date(startDate);
-    date.setDate(startDate.getDate() + i);
-    return date;
-  });
+  // 일주일치의 날짜 계산
+  const weekDates = Array.from({ length: 7 }, (_, i) => startOfWeek.add(i, 'day'));
 
   return weekDates;
 }

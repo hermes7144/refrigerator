@@ -1,12 +1,6 @@
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import DisplayDate from './DisplayDate';
-import { Ingredient } from './DialogAddIngredient';
-
-interface IngredientItemProps {
-  ingredient: Ingredient;
-  onEdit: (ingredient: Ingredient) => void;
-  onDelete: (ingredient: Ingredient) => void;
-}
+import { IngredientItemProps } from '../types/ingredientTypes';
 
 export const IngredientItem = ({ ingredient, onEdit, onDelete }: IngredientItemProps) => {
   return (

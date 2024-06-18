@@ -1,41 +1,33 @@
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import useIngredients from '../hooks/useIngredients';
 import React, { useState, useEffect } from 'react';
 import { formatDate } from '../ts/util';
 import IngredientSelector from '../components/IngredientSelector';
 import useMeals from '../hooks/useMeals';
+import { Meal } from '../types/mealTypes';
 import { Ingredient } from '../types/ingredientTypes';
-import { MealData } from '../types/mealTypes';
 
 export default function Meals() {
   const location = useLocation();
-  const { meal, date, meals } = location.state; // meals 추가
+  const navigate = useNavigate();
+  const { meal, date, meals } = location.state;
 
   const {
     ingredientsQuery: { data: ingredients },
   } = useIngredients();
 
-  const { addMeal, updateMeal } = useMeals(); // updateMeal 추가
+  const { addMeal, updateMeal } = useMeals();
 
-  const [ingredientList, setIngredientList] = useState<Ingredient[]>([]); // 초기 상태 빈 배열로 변경
+  const [ingredientList, setIngredientList] = useState<Ingredient[]>([]);
 
-  // useEffect를 사용하여 meals가 변경될 때 ingredientList를 설정
   useEffect(() => {
     if (meals) {
-      // meals의 ingredients 데이터를 ingredientList로 설정
-
-      const initialIngredients: Ingredient[] = Object.values(meals.ingredients).map((ingredient: any) => ({
-        id: ingredient.id,
-        name: ingredient.name,
-        unit: ingredient.unit,
-        qty: ingredient.qty,
-      }));
+      const initialIngredients: Ingredient[] = Object.values(meals.ingredients) as Ingredient[];
       setIngredientList(initialIngredients);
     } else {
-      // meals가 없는 경우 기본적으로 한 개의 빈 ingredientList 설정
-      setIngredientList([{ id: '', name: '', unit: '', qty: 0 }]);
+      setIngredientList([{ id: '', name: '', unit: '', qty: 0, category: '' }]);
     }
-  }, [meals]); // meals가 변경될 때마다 useEffect 실행
+  }, [meals]);
 
   const handleIngredientChange = (e: React.ChangeEvent<HTMLSelectElement>, index: number) => {
     const newIngredientList = [...ingredientList];
@@ -61,12 +53,11 @@ export default function Meals() {
   };
 
   const handleAddIngredient = () => {
-    setIngredientList([...ingredientList, { id: '', name: '', unit: '', qty: 0 }]);
+    setIngredientList([...ingredientList, { id: '', name: '', unit: '', qty: 0, category: '' }]);
   };
 
   const handleRemoveIngredient = (index: number) => {
     if (ingredientList.length === 1) {
-      // 최소 하나의 재료가 있어야 하므로, 한 개 이상의 재료가 있을 때만 삭제 가능하도록 설정
       return;
     }
     const newIngredientList = ingredientList.filter((_, i) => i !== index);
@@ -74,45 +65,44 @@ export default function Meals() {
   };
 
   const handleSubmit = () => {
-    const mealData: MealData = {
+    const mealData: Meal = {
       name: meal,
       date: formatDate(date),
       ingredients: ingredientList.filter((ingredient) => ingredient.id && ingredient.qty > 0),
     };
 
-    console.log(mealData);
-
     if (meals) {
-      // meals가 있는 경우 updateMeal 호출
       updateMeal.mutate({
         id: meals.id,
         ...mealData,
       });
     } else {
-      // meals가 없는 경우 addMeal 호출
       addMeal.mutate(mealData);
     }
+    navigate('/');
   };
 
   return (
-    <div className='flex flex-col items-center'>
-      {`${meal} ${date}`}
+    <div className='flex flex-col items-center bg-gray-100 p-8 rounded-lg shadow-lg max-w-xl mx-auto'>
+      <h1 className='text-2xl font-semibold mb-4'>{`${meal} - ${formatDate(date)}`}</h1>
       {ingredientList.map((ingredient, index) => (
-        <div key={index} className='mb-2'>
+        <div key={index} className='flex items-center mb-2 w-full'>
           <IngredientSelector ingredients={ingredients || []} selectedIngredient={ingredient.id} onIngredientChange={(e) => handleIngredientChange(e, index)} qty={ingredient.qty.toString()} onQtyChange={(e) => handleQtyChange(e, index)} index={index} />
           {index > 0 && (
-            <button className='ml-2' onClick={() => handleRemoveIngredient(index)}>
+            <button className='ml-2 btn btn-error text-white' onClick={() => handleRemoveIngredient(index)}>
               삭제
             </button>
           )}
         </div>
       ))}
-      <button className='btn' onClick={handleAddIngredient}>
-        재료 추가
-      </button>
-      <button className='btn' onClick={handleSubmit}>
-        확인
-      </button>
+      <div className='w-full flex justify-between items-center mt-10'>
+        <button className=' btn btn-success text-white' onClick={handleAddIngredient}>
+          재료 추가
+        </button>
+        <button className=' btn btn-primary' onClick={handleSubmit}>
+          확인
+        </button>
+      </div>
     </div>
   );
 }

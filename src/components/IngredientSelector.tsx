@@ -10,17 +10,19 @@ interface IngredientSelectorProps {
 }
 
 const IngredientSelector: React.FC<IngredientSelectorProps> = ({ ingredients, selectedIngredient, onIngredientChange, qty, onQtyChange, index }) => {
+  console.log(ingredients);
+
   return (
-    <div>
+    <div className='flex '>
       <select className='select select-bordered' onChange={(e) => onIngredientChange(e, index)} value={selectedIngredient}>
         <option value=''>카테고리</option>
         {ingredients?.map((ingredient) => (
           <option key={ingredient.id} value={ingredient.id}>
-            {ingredient.name} ({ingredient.unit})
+            {ingredient.name}({ingredient.unit === 'ea' ? '개' : ingredient.unit})
           </option>
         ))}
       </select>
-      <input type='text' onChange={(e) => onQtyChange(e, index)} value={qty} />
+      <input type='text' className='input' onChange={(e) => onQtyChange(e, index)} value={+qty > 0 ? qty : undefined} />
     </div>
   );
 };

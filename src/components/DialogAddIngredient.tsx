@@ -1,31 +1,26 @@
-// DialogAddIngredient.tsx
 import React, { useState, useEffect } from 'react';
 import DatePicker from 'react-datepicker';
-import moment from 'moment/moment';
+import dayjs from 'dayjs';
+import 'dayjs/locale/ko';
+dayjs.locale('ko'); // global로 한국어 locale 사용
 
 import 'react-datepicker/dist/react-datepicker.css';
-import { Ingredient } from '../types/ingredientTypes';
-
-type DialogAddIngredientProps = {
-  onSubmit: (ingredient: Ingredient) => void;
-  onClose: () => void;
-  initialIngredient?: Ingredient | null;
-};
+import { DialogAddIngredientProps, Ingredient } from '../types/ingredientTypes';
 
 export default function DialogAddIngredient({ onSubmit, onClose, initialIngredient }: DialogAddIngredientProps) {
-  const [ingredient, setIngredient] = useState<Partial<Ingredient>>({});
+  const [ingredient, setIngredient] = useState({ name: '', qty: 0 });
   const [unit, setUnit] = useState<string>('g');
-  const [category, setCategory] = useState<string | undefined>('');
-  const [expiration, setExpiration] = useState<Date | undefined>();
+  const [category, setCategory] = useState<string>('');
+  const [expiration, setExpiration] = useState<Date>();
 
   useEffect(() => {
     if (initialIngredient) {
       setIngredient(initialIngredient);
       setUnit(initialIngredient.unit);
       setCategory(initialIngredient.category);
-      setExpiration(initialIngredient.expiration ? moment(initialIngredient.expiration, 'yyyy-MM-DD').toDate() : undefined);
+      setExpiration(initialIngredient.expiration ? new Date(initialIngredient.expiration) : undefined);
     } else {
-      setIngredient({});
+      setIngredient({ name: '', qty: 0 });
       setUnit('g');
       setCategory('');
       setExpiration(undefined);
@@ -46,6 +41,10 @@ export default function DialogAddIngredient({ onSubmit, onClose, initialIngredie
     setCategory(e.currentTarget.value);
   };
 
+  const handleDateChange = (date: Date | null) => {
+    setExpiration(date ? date : undefined);
+  };
+
   const handleSubmit = (): void => {
     const newIngredient: Ingredient = {
       id: initialIngredient ? initialIngredient.id : '',
@@ -53,7 +52,7 @@ export default function DialogAddIngredient({ onSubmit, onClose, initialIngredie
       qty: Number(ingredient.qty),
       unit,
       category,
-      expiration: expiration ? moment(expiration).format('yyyy-MM-DD') : '',
+      expiration: expiration ? dayjs(expiration).format('YYYY-MM-DD') : '',
     };
 
     onSubmit(newIngredient);
@@ -100,7 +99,7 @@ export default function DialogAddIngredient({ onSubmit, onClose, initialIngredie
             <option value='etc'>기타</option>
           </select>
           유통기한
-          <DatePicker className='w-full h-12 border-gray-200 border-2 rounded-lg pl-2' toggleCalendarOnIconClick selected={expiration} onChange={setExpiration} dateFormat='yyyy-MM-dd' isClearable />
+          <DatePicker className='w-full h-12 border-gray-200 border-2 rounded-lg pl-2' toggleCalendarOnIconClick selected={expiration} onChange={handleDateChange} dateFormat='yyyy-MM-dd' isClearable />
         </div>
         <div className='modal-action'>
           <button className='btn btn-sm' onClick={handleClose}>

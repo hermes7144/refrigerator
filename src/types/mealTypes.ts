@@ -1,14 +1,21 @@
 import { Ingredient } from './ingredientTypes';
 
 export interface MealItemProps {
-  meal: string;
+  meal: 'breakfast' | 'lunch' | 'dinner';
   date: string;
-  meals: any; // 적절한 타입으로 변경 필요
+  meals: Meal | null;
 }
-
-export interface MealData {
+export interface Meal {
   id?: string;
   name: string;
   date: string;
   ingredients: Ingredient[];
+}
+
+export interface MealsByDate {
+  [date: string]: {
+    breakfast?: Meal;
+    lunch?: Meal;
+    dinner?: Meal;
+  };
 }

@@ -1,15 +1,4 @@
 // DialogAddIngredient.tsx
-
-export type Ingredient = {
-  id?: string;
-  name: string | undefined;
-  qty: unknown;
-  unit?: string | undefined;
-  category?: string | undefined;
-  image?: string;
-  expiration?: string;
-};
-
 type DialogAddIngredientProps = {
   onSubmit: () => void;
   onClose: () => void;
