@@ -1,9 +1,9 @@
+import { Ingredient } from './../types/ingredientTypes';
 import { initializeApp } from 'firebase/app';
 import { v4 as uuid } from 'uuid';
 import { getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithPopup, signOut, User } from 'firebase/auth';
-import { get, getDatabase, ref, remove, serverTimestamp, set } from 'firebase/database';
+import { get, getDatabase, ref, remove, runTransaction, serverTimestamp, set, update } from 'firebase/database';
 import { Meal, MealsByDate } from '../types/mealTypes';
-import { Ingredient } from '../types/ingredientTypes';
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -72,34 +72,49 @@ export async function getMeals(uid: string): Promise<MealsByDate> {
 export async function addNewMeal(uid: string, meal: Meal): Promise<void> {
   const id = uuid();
 
-  // Create a new meal entry
   const mealData = {
     id,
     name: meal.name,
     createdDate: serverTimestamp(),
-    ingredients: meal.ingredients.reduce((acc, ingredient) => {
+    done: false,
+    ingredients: meal.ingredients.reduce((acc: Record<string, Ingredient>, ingredient: Ingredient) => {
       acc[ingredient.id] = ingredient;
       return acc;
     }, {}),
   };
 
-  // Set the meal data in the database
   await set(ref(database, `meals/${uid}/${meal.date}/${meal.name}`), mealData);
 }
 
-export async function editMeals(uid: string, meal: Meal): Promise<void> {
-  // Create a new meal entry
+export async function editMeal(uid: string, meal: Meal): Promise<void> {
   const mealData = {
     id: meal.id,
     name: meal.name,
     createdDate: serverTimestamp(),
-    ingredients: meal.ingredients.reduce((acc, ingredient) => {
+    ingredients: meal.ingredients.reduce((acc: Record<string, Ingredient>, ingredient) => {
       acc[ingredient.id] = ingredient;
       return acc;
     }, {}),
   };
-  console.log('mealData', mealData);
 
-  // Set the meal data in the database
   await set(ref(database, `meals/${uid}/${meal.date}/${meal.name}`), mealData);
+}
+
+export async function deleteMeal(uid: string, meal: { name: string; date: string }): Promise<void> {
+  console.log(meal);
+  await remove(ref(database, `meals/${uid}/${meal.date}/${meal.name}`));
+}
+
+export async function checkMeal(uid: string, meal: { name: string; date: string; done: boolean }): Promise<void> {
+  const mealRef = ref(database, `meals/${uid}/${meal.date}/${meal.name}`);
+  await update(mealRef, { done: meal.done });
+}
+
+// Ingredient 수량 업데이트 함수
+export async function updateIngredientQuantity(uid: string, ingredientId: string, quantityChange: number): Promise<void> {
+  const ingredientRef = ref(database, `ingredients/${uid}/${ingredientId}/qty`);
+
+  await runTransaction(ingredientRef, (currentQty) => {
+    return (currentQty || 0) + quantityChange;
+  });
 }

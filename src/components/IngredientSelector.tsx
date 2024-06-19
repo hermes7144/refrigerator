@@ -10,8 +10,6 @@ interface IngredientSelectorProps {
 }
 
 const IngredientSelector: React.FC<IngredientSelectorProps> = ({ ingredients, selectedIngredient, onIngredientChange, qty, onQtyChange, index }) => {
-  console.log(ingredients);
-
   return (
     <div className='flex '>
       <select className='select select-bordered' onChange={(e) => onIngredientChange(e, index)} value={selectedIngredient}>

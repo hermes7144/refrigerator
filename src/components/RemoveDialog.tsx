@@ -4,7 +4,7 @@ type DialogAddIngredientProps = {
   onClose: () => void;
 };
 
-export default function DialogRemoveIngredient({ onSubmit, onClose }: DialogAddIngredientProps) {
+export default function RemoveDialog({ onSubmit, onClose }: DialogAddIngredientProps) {
   const handleSubmit = () => {
     onSubmit();
     onClose();

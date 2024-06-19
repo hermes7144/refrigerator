@@ -58,8 +58,8 @@ const DateItem: React.FC<{ date: string; weekday: dayjs.Dayjs; onClick: (date: D
         scrollTo();
         onClick(weekday);
       }}>
-      <span className='text-gray-600 text-xs'>{dayjs(weekday).format('ddd')}</span>
-      <div className={`flex items-center justify-center rounded-full w-10 h-10 text-xl mt-2 p-2 ${date === weekday.format('YYYY-MM-DD') ? 'bg-blue-500 text-white' : 'bg-slate-300 text-gray-600'}`}>{dayjs(weekday).format('DD')}</div>
+      <span className='text-gray-600 font-bold'>{dayjs(weekday).format('ddd')}</span>
+      <div className={`flex items-center justify-center rounded-full w-10 h-10 text-xl mt-2 font-bold p-2 ${date === weekday.format('YYYY-MM-DD') ? 'bg-blue-500 text-white' : 'bg-slate-300 text-gray-600'}`}>{dayjs(weekday).format('DD')}</div>
     </li>
   );
 };
@@ -71,10 +71,10 @@ const MealSection: React.FC<{ date: string; weekday: dayjs.Dayjs; meals: MealsBy
 
   return (
     <div ref={scrollRef} className='flex flex-col gap-2 p-4 relative'>
-      <div className='flex'>
+      <div className='flex items-center gap-1'>
         {date === formattedDate && (
-          <svg xmlns='http://www.w3.org/2000/svg' className='h-6 w-6 text-blue-500' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
-            <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M9 5l7 7-7 7' />
+          <svg xmlns='http://www.w3.org/2000/svg' className='h-4 w-4 text-blue-500' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
+            <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={5} d='M9 5l7 7-7 7' />
           </svg>
         )}
         <h2 className='text-lg font-semibold'>{`${dayjs(weekday).format('M월 D일 ddd요일')}`}</h2>

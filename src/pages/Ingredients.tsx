@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import useIngredients from '../hooks/useIngredients';
 import { IngredientItem } from '../components/IngredientItem';
-import DialogAddIngredient, { Ingredient } from '../components/DialogAddIngredient';
-import DialogRemoveIngredient from '../components/DialogRemoveIngredient';
+import DialogAddIngredient from '../components/DialogAddIngredient';
+import { Ingredient } from '../types/ingredientTypes';
+import RemoveDialog from '../components/RemoveDialog';
 
 export default function Ingredients() {
   const {
@@ -58,7 +59,7 @@ export default function Ingredients() {
         </button>
       </div>
       <DialogAddIngredient onSubmit={handleAddIngredient} onClose={handleCloseDialog} initialIngredient={editingIngredient} />
-      <DialogRemoveIngredient onSubmit={handleRemoveIngredient} onClose={handleCloseRomoveDialog} />
+      <RemoveDialog onSubmit={handleRemoveIngredient} onClose={handleCloseRomoveDialog} />
       <div className='flex justify-center'>
         <table className='table w-full sm:w-3/4'>
           <colgroup>

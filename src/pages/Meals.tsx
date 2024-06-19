@@ -6,11 +6,19 @@ import IngredientSelector from '../components/IngredientSelector';
 import useMeals from '../hooks/useMeals';
 import { Meal } from '../types/mealTypes';
 import { Ingredient } from '../types/ingredientTypes';
+import ErrorDialog from '../components/ErrorDialog';
+import dayjs from 'dayjs';
+
+const mealTranslations = {
+  breakfast: '아침',
+  lunch: '점심',
+  dinner: '저녁',
+};
 
 export default function Meals() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { meal, date, meals } = location.state;
+  const { meal, date, meals }: { meal: string; date: string; meals: Meal } = location.state;
 
   const {
     ingredientsQuery: { data: ingredients },
@@ -19,6 +27,7 @@ export default function Meals() {
   const { addMeal, updateMeal } = useMeals();
 
   const [ingredientList, setIngredientList] = useState<Ingredient[]>([]);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
     if (meals) {
@@ -38,6 +47,7 @@ export default function Meals() {
         id: selectedIngredient.id,
         name: selectedIngredient.name,
         unit: selectedIngredient.unit,
+        category: selectedIngredient.category,
       };
       setIngredientList(newIngredientList);
     }
@@ -65,11 +75,40 @@ export default function Meals() {
   };
 
   const handleSubmit = () => {
+    const isValid = ingredientList.every((ingredient, i) => {
+      if (!ingredient.category) {
+        setErrorMessage(`${i + 1}번째 카테고리가 없습니다.`);
+        return false;
+      }
+      if (!ingredient.qty) {
+        setErrorMessage(`재료: ${ingredient.name}의 수량을 입력해주세요.`);
+        return false;
+      }
+      return true;
+    });
+
+    if (!isValid) {
+      return false;
+    }
+
+    // 같은 카테고리의 재료를 합치는 로직
+    const mergedIngredients = ingredientList.reduce((acc, ingredient) => {
+      const existingIngredient = acc.find((item) => item.category === ingredient.category);
+      if (existingIngredient) {
+        existingIngredient.qty += ingredient.qty;
+      } else {
+        acc.push({ ...ingredient });
+      }
+      return acc;
+    }, [] as Ingredient[]);
+
     const mealData: Meal = {
       name: meal,
       date: formatDate(date),
-      ingredients: ingredientList.filter((ingredient) => ingredient.id && ingredient.qty > 0),
+      ingredients: mergedIngredients.filter((ingredient) => ingredient.id && ingredient.qty > 0),
     };
+
+    console.log(mealData);
 
     if (meals) {
       updateMeal.mutate({
@@ -84,7 +123,7 @@ export default function Meals() {
 
   return (
     <div className='flex flex-col items-center bg-gray-100 p-8 rounded-lg shadow-lg max-w-xl mx-auto'>
-      <h1 className='text-2xl font-semibold mb-4'>{`${meal} - ${formatDate(date)}`}</h1>
+      <h1 className='text-2xl font-semibold mb-4'>{`${dayjs(date).format('M월 D일 ddd요일')} ${mealTranslations[meal]} `}</h1>
       {ingredientList.map((ingredient, index) => (
         <div key={index} className='flex items-center mb-2 w-full'>
           <IngredientSelector ingredients={ingredients || []} selectedIngredient={ingredient.id} onIngredientChange={(e) => handleIngredientChange(e, index)} qty={ingredient.qty.toString()} onQtyChange={(e) => handleQtyChange(e, index)} index={index} />
@@ -103,6 +142,7 @@ export default function Meals() {
           확인
         </button>
       </div>
+      {errorMessage && <ErrorDialog message={errorMessage} onClose={() => setErrorMessage(null)} />}
     </div>
   );
 }

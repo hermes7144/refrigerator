@@ -60,11 +60,6 @@ export default function DialogAddIngredient({ onSubmit, onClose, initialIngredie
   };
 
   const handleClose = (): void => {
-    setIngredient({ name: '', qty: 0 });
-    setUnit('g');
-    setCategory('');
-    setExpiration(undefined);
-
     onClose();
   };
 
