@@ -1,5 +1,5 @@
 import { BsThreeDotsVertical } from 'react-icons/bs';
-import DisplayDate from './DisplayDate';
+import {DisplayDate} from './DisplayDate';
 import { IngredientItemProps } from '../types/ingredientTypes';
 
 export const IngredientItem = ({ ingredient, onEdit, onDelete }: IngredientItemProps) => {

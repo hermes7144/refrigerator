@@ -1,7 +1,7 @@
 import { useAuthContext } from '../context/AuthContext';
 import Loading from './Loading';
-import Home from './Home';
 import Landing from './Landing';
+import { Home } from './Home';
 
 export default function Index() {
   const { user, isAuthLoading } = useAuthContext();

@@ -1,15 +1,14 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import useIngredients from '../hooks/useIngredients';
 import React, { useState, useEffect } from 'react';
-import { formatDate } from '../ts/util';
 import IngredientSelector from '../components/IngredientSelector';
 import useMeals from '../hooks/useMeals';
-import { Meal } from '../types/mealTypes';
+import { Meal, MealType } from '../types/mealTypes';
 import { Ingredient } from '../types/ingredientTypes';
 import ErrorDialog from '../components/ErrorDialog';
 import dayjs from 'dayjs';
 
-const mealTranslations = {
+const mealTranslations  = {
   breakfast: '아침',
   lunch: '점심',
   dinner: '저녁',
@@ -18,7 +17,7 @@ const mealTranslations = {
 export default function Meals() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { meal, date, meals }: { meal: string; date: string; meals: Meal } = location.state;
+  const { meal, date, meals }: { meal: MealType; date: string; meals: Meal } = location.state;
 
   const {
     ingredientsQuery: { data: ingredients },
@@ -104,11 +103,10 @@ export default function Meals() {
 
     const mealData: Meal = {
       name: meal,
-      date: formatDate(date),
+      date: dayjs(date).format('YYYY-MM-DD'),
       ingredients: mergedIngredients.filter((ingredient) => ingredient.id && ingredient.qty > 0),
+      done:false
     };
-
-    console.log(mealData);
 
     if (meals) {
       updateMeal.mutate({
