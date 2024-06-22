@@ -1,4 +1,4 @@
-import { Dayjs } from 'dayjs';
+import  { Dayjs } from 'dayjs';
 import { Ingredient } from './ingredientTypes';
 
 export interface Meal {
@@ -20,7 +20,7 @@ export interface MealListProps {
 export interface MealSectionProps {
   date: string;
   weekday: Dayjs;
-  meals?: MealsByDate;
+  meals?: MealsByDate2;
   scrollRef: (el: HTMLDivElement | null) => void;
 }
 
@@ -31,10 +31,17 @@ export interface MealsByDate {
     dinner?: Meal;
   };
 }
+
+export interface MealsByDate2 {
+  breakfast?: Meal;
+  lunch?: Meal;
+  dinner?: Meal;
+}
+
 export interface MealItemProps {
   meal: MealType;
-  date: string;
-  meals: Meal | null;
+  date: Dayjs;
+  meals: Meal ;
   done?: boolean;
 }
 

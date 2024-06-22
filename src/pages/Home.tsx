@@ -2,7 +2,7 @@ import { FC, useRef, useState } from 'react';
 import dayjs, { Dayjs } from 'dayjs';
 import { getWeekDates } from '../ts/util';
 import {DateList} from '../components/date/DateList';
-import { MealList } from '../components/MealList';
+import { MealList } from '../components/meal/MealList';
 
 
 export const Home: FC = () => {

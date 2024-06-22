@@ -1,6 +1,6 @@
-import { ReactComponent as Breakfast } from '../assets/image/breakfast.svg';
-import { ReactComponent as Lunch } from '../assets/image/lunch.svg';
-import { ReactComponent as Dinner } from '../assets/image/dinner.svg';
+import { ReactComponent as Breakfast } from '../../assets/image/breakfast.svg';
+import { ReactComponent as Lunch } from '../../assets/image/lunch.svg';
+import { ReactComponent as Dinner } from '../../assets/image/dinner.svg';
 
 export default function MealImage({ meal }: { meal: string }) {
   let IconComponent;
