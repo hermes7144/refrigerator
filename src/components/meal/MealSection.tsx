@@ -1,13 +1,13 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { MealItem } from './MealItem';
-import { MealSectionProps } from '../../types/mealTypes';
+import { MealSectionProps, MealType } from '../../types/mealTypes';
 import { EmptyMealItem } from './EmptyMealItem';
 
+
+const MEAL_TYPES: MealType[] = ['breakfast', 'lunch', 'dinner'];
+
+
 export const MealSection: FC<MealSectionProps> = ({ date, weekday, meals, scrollRef }) => {
-  const renderMealItem = (mealType: 'breakfast' | 'lunch' | 'dinner') => {
-    const meal = meals?.[mealType];
-    return meal ? <MealItem meal={mealType} date={weekday} meals={meal} /> : <EmptyMealItem meal={mealType} date={weekday} />;
-  };
 
   return (
     <div ref={scrollRef} className='flex flex-col gap-2 p-4 relative'>
@@ -19,11 +19,11 @@ export const MealSection: FC<MealSectionProps> = ({ date, weekday, meals, scroll
         )}
         <h2 className='text-lg font-semibold'>{`${weekday.format('M월 D일 ddd요일')}`}</h2>
       </div>
-      {['breakfast', 'lunch', 'dinner'].map(mealType => (
-        <React.Fragment key={mealType}>
-          {renderMealItem(mealType as 'breakfast' | 'lunch' | 'dinner')}
-        </React.Fragment>
-      ))}
+      {MEAL_TYPES.map(mealType => {
+        const meal = meals?.[mealType];
+        return meal ? <MealItem key={mealType} meal={meal} date={weekday} />: <EmptyMealItem key={mealType} meal={{name:mealType}} date={weekday} />
+        ;
+      })}
     </div>
   );
 };

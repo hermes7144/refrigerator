@@ -90,6 +90,7 @@ export async function editMeal(uid: string, meal: Meal): Promise<void> {
   const mealData = {
     id: meal.id,
     name: meal.name,
+    done:meal.done,
     createdDate: serverTimestamp(),
     ingredients: meal.ingredients.reduce((acc: Record<string, Ingredient>, ingredient) => {
       acc[ingredient.id] = ingredient;
@@ -97,11 +98,13 @@ export async function editMeal(uid: string, meal: Meal): Promise<void> {
     }, {}),
   };
 
+  console.log(mealData);
+  
+
   await set(ref(database, `meals/${uid}/${meal.date}/${meal.name}`), mealData);
 }
 
 export async function deleteMeal(uid: string, meal: { name: string; date: string }): Promise<void> {
-  console.log(meal);
   await remove(ref(database, `meals/${uid}/${meal.date}/${meal.name}`));
 }
 

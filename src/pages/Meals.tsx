@@ -3,7 +3,7 @@ import useIngredients from '../hooks/useIngredients';
 import React, { useState, useEffect } from 'react';
 import IngredientSelector from '../components/IngredientSelector';
 import useMeals from '../hooks/useMeals';
-import { Meal, MealType } from '../types/mealTypes';
+import { Meal } from '../types/mealTypes';
 import { Ingredient } from '../types/ingredientTypes';
 import ErrorDialog from '../components/ErrorDialog';
 import dayjs from 'dayjs';
@@ -17,7 +17,10 @@ const mealTranslations  = {
 export default function Meals() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { meal, date, meals }: { meal: MealType; date: string; meals: Meal } = location.state;
+  const { meal, date }: { meal: Meal; date: string } = location.state;
+   
+  
+
 
   const {
     ingredientsQuery: { data: ingredients },
@@ -29,13 +32,13 @@ export default function Meals() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
-    if (meals) {
-      const initialIngredients: Ingredient[] = Object.values(meals.ingredients) as Ingredient[];
+    if (meal.ingredients) {
+      const initialIngredients: Ingredient[] = Object.values(meal.ingredients) as Ingredient[];
       setIngredientList(initialIngredients);
     } else {
       setIngredientList([{ id: '', name: '', unit: '', qty: 0, category: '' }]);
     }
-  }, [meals]);
+  }, [meal]);
 
   const handleIngredientChange = (e: React.ChangeEvent<HTMLSelectElement>, index: number) => {
     const newIngredientList = [...ingredientList];
@@ -102,15 +105,16 @@ export default function Meals() {
     }, [] as Ingredient[]);
 
     const mealData: Meal = {
-      name: meal,
+      name: meal.name,
       date: dayjs(date).format('YYYY-MM-DD'),
       ingredients: mergedIngredients.filter((ingredient) => ingredient.id && ingredient.qty > 0),
-      done:false
+      done:meal?.done
     };
 
-    if (meals) {
+    
+    if (meal.ingredients) {
       updateMeal.mutate({
-        id: meals.id,
+        id: meal.id,
         ...mealData,
       });
     } else {
@@ -121,7 +125,7 @@ export default function Meals() {
 
   return (
     <div className='flex flex-col items-center bg-gray-100 p-8 rounded-lg shadow-lg max-w-xl mx-auto'>
-      <h1 className='text-2xl font-semibold mb-4'>{`${dayjs(date).format('M월 D일 ddd요일')} ${mealTranslations[meal]} `}</h1>
+      <h1 className='text-2xl font-semibold mb-4'>{`${dayjs(date).format('M월 D일 ddd요일')} ${mealTranslations[meal.name]} `}</h1>
       {ingredientList.map((ingredient, index) => (
         <div key={index} className='flex items-center mb-2 w-full'>
           <IngredientSelector ingredients={ingredients || []} selectedIngredient={ingredient.id} onIngredientChange={(e) => handleIngredientChange(e, index)} qty={ingredient.qty.toString()} onQtyChange={(e) => handleQtyChange(e, index)} index={index} />
