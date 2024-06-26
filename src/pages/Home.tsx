@@ -1,8 +1,8 @@
 import { FC, useRef, useState } from 'react';
 import dayjs, { Dayjs } from 'dayjs';
-import { getWeekDates } from '../ts/util';
 import {DateList} from '../components/date/DateList';
 import { MealList } from '../components/meal/MealList';
+import { getWeekDates } from '../ts/Util';
 
 
 export const Home: FC = () => {
