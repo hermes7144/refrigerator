@@ -15,7 +15,7 @@ export const Home: FC = () => {
     const formattedDate = date.format('YYYY-MM-DD');
 
     setSelectedDate(formattedDate);
-    const target = scrollRefs.current[formattedDate];    
+    const target = scrollRefs.current[formattedDate];
     if (target) {
       target.scrollIntoView({ behavior: 'smooth' });
     }

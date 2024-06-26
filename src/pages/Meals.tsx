@@ -124,16 +124,27 @@ export default function Meals() {
   };
 
   return (
-    <div className='flex flex-col items-center bg-gray-100 p-8 rounded-lg shadow-lg max-w-xl mx-auto'>
+    <div className='flex flex-col items-center  p-2 w-4/5 mx-auto'>
       <h1 className='text-2xl font-semibold mb-4'>{`${dayjs(date).format('M월 D일 ddd요일')} ${mealTranslations[meal.name]} `}</h1>
       {ingredientList.map((ingredient, index) => (
         <div key={index} className='flex items-center mb-2 w-full'>
           <IngredientSelector ingredients={ingredients || []} selectedIngredient={ingredient.id} onIngredientChange={(e) => handleIngredientChange(e, index)} qty={ingredient.qty.toString()} onQtyChange={(e) => handleQtyChange(e, index)} index={index} />
-          {index > 0 && (
-            <button className='ml-2 btn btn-error text-white' onClick={() => handleRemoveIngredient(index)}>
-              삭제
-            </button>
-          )}
+          {index > 0 && 
+          <button className="btn btn-circle ml-1 btn-error text-white" onClick={() => handleRemoveIngredient(index)}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor">
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M6 18L18 6M6 6l12 12" />
+            </svg>  
+          </button>
+          }
         </div>
       ))}
       <div className='w-full flex justify-between items-center mt-10'>
