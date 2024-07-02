@@ -9,7 +9,7 @@ export interface Meals {
 
 export interface Meal {
   id?: string;
-  name: string;
+  name: MealType;
   date: string;
   ingredients: Ingredient[];
   done: boolean;

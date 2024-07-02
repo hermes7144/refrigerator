@@ -96,10 +96,7 @@ export async function editMeal(uid: string, meal: Meal): Promise<void> {
       acc[ingredient.id] = ingredient;
       return acc;
     }, {}),
-  };
-
-  console.log(mealData);
-  
+  };  
 
   await set(ref(database, `meals/${uid}/${meal.date}/${meal.name}`), mealData);
 }

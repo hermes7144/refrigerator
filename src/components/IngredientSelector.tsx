@@ -1,26 +1,24 @@
 import React from 'react';
+import Select, { SingleValue } from 'react-select'
 
 interface IngredientSelectorProps {
   ingredients: Array<{ id: string; name: string; unit: string }>;
   selectedIngredient: string;
-  onIngredientChange: (e: React.ChangeEvent<HTMLSelectElement>, index: number) => void;
+  onIngredientChange: (e: SingleValue<{ value: string; label: string; }>, index: number) => void;
   qty: string;
   onQtyChange: (e: React.ChangeEvent<HTMLInputElement>, index: number) => void;
   index: number;
 }
 
 const IngredientSelector: React.FC<IngredientSelectorProps> = ({ ingredients, selectedIngredient, onIngredientChange, qty, onQtyChange, index }) => {
+  
+const ingredientList = ingredients.map((ingredient) => ({ value: ingredient.id, label: `${ingredient.name} (${ingredient.unit})` }));
+const defaultValue = ingredientList.find((ingredient) => ingredient.value === selectedIngredient);
+    
   return (
     <div className='flex gap-1'>
-      <select className='select select-bordered' onChange={(e) => onIngredientChange(e, index)} value={selectedIngredient}>
-        <option value=''>카테고리</option>
-        {ingredients?.map((ingredient) => (
-          <option key={ingredient.id} value={ingredient.id}>
-            {ingredient.name}({ingredient.unit === 'ea' ? '개' : ingredient.unit})
-          </option>
-        ))}
-      </select>
-      <input type='text' className='input  input-bordered w-full max-w-16' onChange={(e) => onQtyChange(e, index)} value={+qty > 0 ? qty : undefined} />
+       <Select className="basic-single w-60" classNamePrefix="select" options={ingredientList} defaultValue={defaultValue} onChange={(selectedOption) => onIngredientChange(selectedOption, index)}        />
+      <input type='text' className='input input-bordered w-full max-w-16 h-10' onChange={(e) => onQtyChange(e, index)} value={+qty > 0 ? qty : undefined} />
     </div>
   );
 };
