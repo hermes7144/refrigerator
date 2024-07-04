@@ -18,13 +18,8 @@ export default function Meals() {
   const location = useLocation();
   const navigate = useNavigate();
   const { meal, date }: { meal: Meal; date: string } = location.state;
-
-  const {
-    ingredientsQuery: { data: ingredients },
-  } = useIngredients();
-
+  const { ingredientsQuery: { data: ingredients }} = useIngredients();
   const { addMeal, updateMeal } = useMeals();
-
   const [ingredientList, setIngredientList] = useState<Ingredient[]>([]);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
@@ -38,9 +33,6 @@ export default function Meals() {
   }, [meal]);
 
   const handleIngredientChange = (e: SingleValue<{ value: string; label: string }>, index: number) => {
-    console.log(e, index);
-    
-
     const newIngredientList = [...ingredientList];
     const selectedIngredient = ingredients?.find((ingredient) => ingredient.id === e?.value);
     if (selectedIngredient) {
@@ -69,9 +61,8 @@ export default function Meals() {
   };
 
   const handleRemoveIngredient = (index: number) => {
-    if (ingredientList.length === 1) {
-      return;
-    }
+    if (ingredientList.length === 1) return;
+  
     const newIngredientList = ingredientList.filter((_, i) => i !== index);
     setIngredientList(newIngredientList);
   };
@@ -149,8 +140,8 @@ export default function Meals() {
             </div>
 
             {index > 0 && (
-              <button className='btn btn-circle ml-1 btn-error text-white' onClick={() => handleRemoveIngredient(index)}>
-                <svg xmlns='http://www.w3.org/2000/svg' className='h-6 w-6' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
+              <button className='btn btn-sm btn-circle ml-1 btn-error text-white' onClick={() => handleRemoveIngredient(index)}>
+                <svg xmlns='http://www.w3.org/2000/svg' className='h-5 w-5' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
                   <path strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M6 18L18 6M6 6l12 12' />
                 </svg>
               </button>
