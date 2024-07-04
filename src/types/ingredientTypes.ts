@@ -11,6 +11,7 @@ export interface Ingredient {
 export interface DialogAddIngredientProps {
   onSubmit: (ingredient: Ingredient) => void;
   onClose: () => void;
+  visible: boolean;
   initialIngredient?: Ingredient | null;
 }
 

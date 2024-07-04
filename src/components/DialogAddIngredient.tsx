@@ -1,17 +1,23 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import DatePicker from 'react-datepicker';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
 dayjs.locale('ko'); // global로 한국어 locale 사용
-
 import 'react-datepicker/dist/react-datepicker.css';
 import { DialogAddIngredientProps, Ingredient } from '../types/ingredientTypes';
 
-export default function DialogAddIngredient({ onSubmit, onClose, initialIngredient }: DialogAddIngredientProps) {
+export default function DialogAddIngredient({ visible, onSubmit, onClose, initialIngredient }: DialogAddIngredientProps) {
   const [ingredient, setIngredient] = useState({ name: '', qty: 0 });
   const [unit, setUnit] = useState<string>('g');
   const [category, setCategory] = useState<string>('');
   const [expiration, setExpiration] = useState<Date>();
+
+  const modalRef = useRef<HTMLDialogElement>(null);
+  useEffect(() => {
+    if (!modalRef.current) return;
+    
+    visible ? modalRef.current.showModal() : modalRef.current.close();
+  }, [visible]);
 
   useEffect(() => {
     if (initialIngredient) {
@@ -19,13 +25,15 @@ export default function DialogAddIngredient({ onSubmit, onClose, initialIngredie
       setUnit(initialIngredient.unit);
       setCategory(initialIngredient.category);
       setExpiration(initialIngredient.expiration ? new Date(initialIngredient.expiration) : undefined);
-    } else {
-      setIngredient({ name: '', qty: 0 });
-      setUnit('g');
-      setCategory('');
-      setExpiration(undefined);
     }
-  }, [initialIngredient]);
+  }, [initialIngredient]);  
+
+  const handleReset =() => {
+    setIngredient({ name: '', qty: 0 });
+    setUnit('g');
+    setCategory('');
+    setExpiration(undefined);
+  }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -60,11 +68,12 @@ export default function DialogAddIngredient({ onSubmit, onClose, initialIngredie
   };
 
   const handleClose = (): void => {
+    handleReset();
     onClose();
   };
 
   return (
-    <dialog id='my_modal_1' className='modal modal-bottom sm:modal-middle'>
+    <dialog ref={modalRef}  id='my_modal_1' className='modal modal-bottom sm:modal-middle'>
       <div className='modal-box flex flex-col pt-16'>
         <div className='flex flex-col gap-4'>
           <label className={`input input-bordered flex items-center gap-2`}>
@@ -105,9 +114,6 @@ export default function DialogAddIngredient({ onSubmit, onClose, initialIngredie
           </button>
         </div>
       </div>
-      {/* <form method='dialog' className='modal-backdrop'>
-        <button>close</button>
-      </form> */}
     </dialog>
   );
 }

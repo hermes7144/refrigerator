@@ -1,17 +1,28 @@
+import { useEffect, useRef } from 'react';
+
 // DialogAddIngredient.tsx
 type DialogAddIngredientProps = {
+  removeVisible:boolean;
   onSubmit: () => void;
   onClose: () => void;
 };
 
-export default function RemoveDialog({ onSubmit, onClose }: DialogAddIngredientProps) {
+export default function RemoveDialog({ removeVisible, onSubmit, onClose }: DialogAddIngredientProps) {
+  const modalRef = useRef<HTMLDialogElement>(null);
+
+  useEffect(() => {
+    if (!modalRef.current) return;
+    
+    removeVisible ? modalRef.current.showModal() : modalRef.current.close();
+  }, [removeVisible]);
+
   const handleSubmit = () => {
     onSubmit();
     onClose();
   };
 
   return (
-    <dialog id='my_modal_2' className='modal modal-bottom sm:modal-middle'>
+    <dialog ref={modalRef} id='my_modal_2' className='modal modal-bottom sm:modal-middle'>
       <div className='modal-box flex flex-col'>
         삭제하시겠습니까?
         <div className='modal-action'>

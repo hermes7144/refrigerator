@@ -6,13 +6,10 @@ import { Ingredient } from '../types/ingredientTypes';
 import RemoveDialog from '../components/RemoveDialog';
 
 export default function Ingredients() {
-  const {
-    ingredientsQuery: { data: ingredients },
-    addIngredient,
-    updateIngredient,
-    deleteIngredient,
-  } = useIngredients();
+  const { ingredientsQuery: { data: ingredients }, addIngredient, updateIngredient, deleteIngredient } = useIngredients();
 
+  const [visible, setVisible] = useState(false);
+  const [removeVisible, setRemoveVisible] = useState(false);
   const [editingIngredient, setEditingIngredient] = useState<Ingredient | null>(null);
 
   const handleAddIngredient = (ingredient: Ingredient) => {
@@ -23,43 +20,43 @@ export default function Ingredients() {
     }
   };
 
+  const handleDialog = () => {
+    setEditingIngredient(null);
+    setVisible(true);    
+  };
+
+  const handleCloseDialog = () => {
+    setVisible(false);
+  };
+
+  const handleEditIngredient = (ingredient: Ingredient) => {
+    setEditingIngredient(ingredient);
+    setVisible(true);    
+  };
+
   const handleRemoveIngredient = (): void => {
     if (!editingIngredient) return;
     deleteIngredient.mutate(editingIngredient);
   };
 
-  const handleOpenDialog = () => {
-    document.getElementById('my_modal_1').showModal();
-    setEditingIngredient(null);
-  };
-
-  const handleCloseDialog = () => {
-    document.getElementById('my_modal_1').close();
-  };
-
-  const handleEditIngredient = (ingredient: Ingredient) => {
+  const handleRomoveDialog = (ingredient: Ingredient) => {
     setEditingIngredient(ingredient);
-    document.getElementById('my_modal_1').showModal();
-  };
-
-  const handleRomoveIngredientDialog = (ingredient: Ingredient) => {
-    setEditingIngredient(ingredient);
-    document.getElementById('my_modal_2').showModal();
+    setRemoveVisible(true)
   };
 
   const handleCloseRomoveDialog = () => {
-    document.getElementById('my_modal_2').close();
+    setRemoveVisible(false)
   };
 
   return (
     <div className='flex  flex-col p-2 justify-center max-w-screen-xl'>
       <div className='flex justify-end'>
-        <button className='btn' onClick={handleOpenDialog}>
+        <button className='btn' onClick={handleDialog}>
           추가
         </button>
       </div>
-      <DialogAddIngredient onSubmit={handleAddIngredient} onClose={handleCloseDialog} initialIngredient={editingIngredient} />
-      <RemoveDialog onSubmit={handleRemoveIngredient} onClose={handleCloseRomoveDialog} />
+      <DialogAddIngredient visible={visible} onSubmit={handleAddIngredient} onClose={handleCloseDialog} initialIngredient={editingIngredient} />
+      <RemoveDialog removeVisible={removeVisible} onSubmit={handleRemoveIngredient} onClose={handleCloseRomoveDialog} />
       <div className='flex justify-center'>
         <table className='table w-full sm:w-3/4'>
           <colgroup>
@@ -68,7 +65,6 @@ export default function Ingredients() {
             <col className='w-1/4' />
             <col className='w-1/6' />
           </colgroup>
-
           <thead>
             <tr>
               <th className='text-center'>Ingredient</th>
@@ -77,9 +73,7 @@ export default function Ingredients() {
             </tr>
           </thead>
           <tbody>
-            {ingredients?.map((ingredient) => (
-              <IngredientItem key={ingredient?.id} ingredient={ingredient} onEdit={handleEditIngredient} onDelete={handleRomoveIngredientDialog} />
-            ))}
+            {ingredients?.map(ingredient => <IngredientItem key={ingredient?.id} ingredient={ingredient} onEdit={handleEditIngredient} onDelete={handleRomoveDialog} />)}
           </tbody>
         </table>
       </div>
