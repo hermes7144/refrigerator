@@ -1,6 +1,6 @@
 import { BsThreeDotsVertical } from 'react-icons/bs';
-import {DisplayDate} from './DisplayDate';
-import { IngredientItemProps } from '../types/ingredientTypes';
+import { IngredientItemProps } from '../../types/ingredientTypes';
+import { DisplayDate } from './DisplayDate';
 
 export const IngredientItem = ({ ingredient, onEdit, onDelete }: IngredientItemProps) => {
   return (
@@ -8,7 +8,7 @@ export const IngredientItem = ({ ingredient, onEdit, onDelete }: IngredientItemP
       <td>
         <div className='flex items-center gap-3'>
           <div className='avatar hidden sm:block'>
-            <div className='mask mask-squircle w-12 h-12'>{ingredient?.image ? <img src='' alt='Ingredient image' /> : <div className='w-8 h-8 bg-gray-100 rounded-full'></div>}</div>
+            <div className='mask mask-squircle w-8 h-8'>{ingredient?.image ? <img src='' alt='Ingredient image' /> : <div className='w-8 h-8 bg-gray-100 rounded-full'></div>}</div>
           </div>
           <div>
             <div className='font-bold'>{ingredient.name}</div>
@@ -21,7 +21,7 @@ export const IngredientItem = ({ ingredient, onEdit, onDelete }: IngredientItemP
         {ingredient.unit}
       </td>
       <td className='text-center'>{ingredient.expiration ? <DisplayDate date={ingredient.expiration} /> : ''}</td>
-      <td>
+      <td className='text-center'>
         <div className='dropdown dropdown-left sm:dropdown-right'>
           <button tabIndex={0} role='button' className='btn btn-ghost rounded-full'>
             <BsThreeDotsVertical />

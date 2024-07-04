@@ -1,42 +1,29 @@
 import { useState } from 'react';
-import useIngredients from '../hooks/useIngredients';
-import { IngredientItem } from '../components/ingredient/IngredientItem';
-import DialogAddIngredient from '../components/ingredient/DialogAddIngredient';
 import { Ingredient } from '../types/ingredientTypes';
 import RemoveDialog from '../components/ingredient/RemoveDialog';
+import useRecipes from '../hooks/useRecipes';
+import { Link } from 'react-router-dom';
 
-export default function Ingredients() {
-  const { ingredientsQuery: { data: ingredients }, addIngredient, updateIngredient, deleteIngredient } = useIngredients();
+export default function Recipes() {
+  const { recipesQuery: { data: recipes }, addRecipe, updateRecipe, removeRecipe } = useRecipes();
 
-  const [visible, setVisible] = useState(false);
   const [removeVisible, setRemoveVisible] = useState(false);
-  const [editingIngredient, setEditingIngredient] = useState<Ingredient | null>(null);
+  const [editingIngredient, setEditingIngredient] = useState<any | null>(null);
 
-  const handleAddIngredient = (ingredient: Ingredient) => {
-    if (ingredient.id) {
-      updateIngredient.mutate(ingredient);
+  const handleAddIngredient = (recipe) => {
+    if (recipe.id) {
+      updateRecipe.mutate(recipe);
     } else {
-      addIngredient.mutate(ingredient);
+      addRecipe.mutate(recipe);
     }
   };
-
-  const handleDialog = () => {
-    setVisible(true);    
-  };
-
-  const handleCloseDialog = () => {
-    setEditingIngredient(null);
-    setVisible(false);
-  };
-
   const handleEditIngredient = (ingredient: Ingredient) => {
     setEditingIngredient(ingredient);
-    setVisible(true);    
   };
 
   const handleRemoveIngredient = (): void => {
     if (!editingIngredient) return;
-    deleteIngredient.mutate(editingIngredient);
+    removeRecipe.mutate(editingIngredient);
     setRemoveVisible(false); // RemoveDialog를 닫습니다.
   };
 
@@ -52,14 +39,13 @@ export default function Ingredients() {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="flex justify-end mb-4">
+        <Link to='/recipework'  state={{ recipe:null }}>
         <button 
-          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none"
-          onClick={handleDialog}
-        >
+          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none">
           추가
         </button>
+        </Link>
       </div>
-      <DialogAddIngredient visible={visible} onSubmit={handleAddIngredient} onClose={handleCloseDialog} initialIngredient={editingIngredient} />
       <RemoveDialog removeVisible={removeVisible} onSubmit={handleRemoveIngredient} onClose={handleCloseRemoveDialog} />
       <div className="flex justify-center">
         <table className="table-auto w-full">
@@ -72,14 +58,14 @@ export default function Ingredients() {
             </tr>
           </thead>
           <tbody>
-            {ingredients?.map(ingredient => (
+            {/* {recipes?.map(recipe => (
               <IngredientItem 
                 key={ingredient?.id} 
                 ingredient={ingredient} 
                 onEdit={handleEditIngredient} 
                 onDelete={handleRemoveDialog} 
               />
-            ))}
+            ))} */}
           </tbody>
         </table>
       </div>

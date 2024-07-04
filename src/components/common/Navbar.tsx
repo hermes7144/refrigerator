@@ -1,6 +1,6 @@
 import { LuRefrigerator } from 'react-icons/lu';
 import { Link } from 'react-router-dom';
-import { useAuthContext } from '../context/AuthContext';
+import { useAuthContext } from '../../context/AuthContext';
 import { FaCartArrowDown } from 'react-icons/fa';
 import { MdMenuBook } from 'react-icons/md';
 
@@ -24,7 +24,7 @@ export default function Navbar() {
       <nav className='flex items-center gap-4'>
         {user && (
           <>
-            <Link to='/recipe' className='text-2xl'>
+            <Link to='/recipes' className='text-2xl'>
               <MdMenuBook />
             </Link>
             <Link to='/ingredients' className='text-2xl'>

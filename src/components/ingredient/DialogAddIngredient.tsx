@@ -4,7 +4,7 @@ import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
 dayjs.locale('ko'); // global로 한국어 locale 사용
 import 'react-datepicker/dist/react-datepicker.css';
-import { DialogAddIngredientProps, Ingredient } from '../types/ingredientTypes';
+import { DialogAddIngredientProps, Ingredient } from '../../types/ingredientTypes';
 
 export default function DialogAddIngredient({ visible, onSubmit, onClose, initialIngredient }: DialogAddIngredientProps) {
   const [ingredient, setIngredient] = useState({ name: '', qty: 0 });

@@ -1,36 +1,30 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import useIngredients from '../hooks/useIngredients';
 import React, { useState, useEffect } from 'react';
-import useMeals from '../hooks/useMeals';
-import { Meal } from '../types/mealTypes';
 import { Ingredient } from '../types/ingredientTypes';
 import ErrorDialog from '../components/common/ErrorDialog';
-import dayjs from 'dayjs';
 import Select, { SingleValue } from 'react-select';
+import useRecipes from '../hooks/useRecipes';
 
-const mealTranslations = {
-  breakfast: '아침',
-  lunch: '점심',
-  dinner: '저녁',
-};
 
-export default function Meals() {
+export default function RecipeWork() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { meal, date }: { meal: Meal; date: string } = location.state;
+  const { recipe } = location.state;
   const { ingredientsQuery: { data: ingredients }} = useIngredients();
-  const { addMeal, updateMeal } = useMeals();
+  const { addRecipe, updateRecipe } = useRecipes();
   const [ingredientList, setIngredientList] = useState<Ingredient[]>([]);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null); 
+  const [name, setName] = useState('');
 
-  useEffect(() => {
-    if (meal.ingredients) {
-      const initialIngredients: Ingredient[] = Object.values(meal.ingredients) as Ingredient[];
-      setIngredientList(initialIngredients);
-    } else {
-      setIngredientList([{ id: '', name: '', unit: '', qty: 0, category: '' }]);
-    }
-  }, [meal]);
+  // useEffect(() => {
+  //   if (meal.ingredients) {
+  //     const initialIngredients: Ingredient[] = Object.values(meal.ingredients) as Ingredient[];
+  //     setIngredientList(initialIngredients);
+  //   } else {
+  //     setIngredientList([{ id: '', name: '', unit: '', qty: 0, category: '' }]);
+  //   }
+  // }, [meal]);
 
   const handleIngredientChange = (e: SingleValue<{ value: string; label: string }>, index: number) => {
     const newIngredientList = [...ingredientList];
@@ -97,29 +91,33 @@ export default function Meals() {
       return acc;
     }, [] as Ingredient[]);
 
-    const mealData: Meal = {
-      name: meal.name,
-      date: dayjs(date).format('YYYY-MM-DD'),
+    const recipeData = {
+      name: name,
       ingredients: mergedIngredients.filter((ingredient) => ingredient.id && ingredient.qty > 0),
-      done: meal?.done,
     };
 
-    if (meal.ingredients) {
-      updateMeal.mutate({
-        ...mealData,
-        id: meal.id,
+    if (recipe) {
+      updateRecipe.mutate({
+        ...recipeData,
+        id: recipe.id,
       });
     } else {
-      addMeal.mutate(mealData);
+      addRecipe.mutate(recipeData);
     }
     navigate('/');
   };
 
   const ingredientOptions = ingredients?.map((ingredient) => ({ value: ingredient.id, label: `${ingredient.name} (${ingredient.unit})` }));
 
+   const handleChange =(e) => setName(e.target.value);
+
   return (
     <div className='flex flex-col items-center  p-2 w-full md:w-2/5 mx-auto'>
-      <h1 className='text-2xl font-semibold mb-4'>{`${dayjs(date).format('M월 D일 ddd요일')} ${mealTranslations[meal.name]} `}</h1>
+
+    <div>
+    <input type="text" value={name} onChange={handleChange} />
+
+    </div>
     <div>
       {ingredientList.map((ingredient, index) => (
           <div key={index} className='flex items-center mb-2 w-full'>
@@ -138,7 +136,6 @@ export default function Meals() {
                 value={+ingredient.qty.toString() > 0 ? ingredient.qty.toString() : undefined}
               />
             </div>
-
             {index > 0 && (
               <button className='btn btn-sm btn-circle ml-1 btn-error text-white' onClick={() => handleRemoveIngredient(index)}>
                 <svg xmlns='http://www.w3.org/2000/svg' className='h-5 w-5' fill='none' viewBox='0 0 24 24' stroke='currentColor'>

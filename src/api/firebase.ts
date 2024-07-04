@@ -118,3 +118,60 @@ export async function updateIngredientQuantity(uid: string, ingredientId: string
     return (currentQty || 0) + quantityChange;
   });
 }
+
+
+
+
+export async function getRecipes(uid: string): Promise<MealsByDate> {
+  const snapshot = await get(ref(database, `recipes/${uid}`));
+
+  if (snapshot.exists()) {
+    return snapshot.val();
+  } else {
+    return {};
+  }
+}
+
+export async function addNewRecipe(uid: string, recipe): Promise<void> {
+  const id = uuid();
+
+  const recipeData = {
+    id,
+    name: recipe.name,
+    createdDate: serverTimestamp(),
+    ingredients: recipe.ingredients.reduce((acc: Record<string, Ingredient>, ingredient: Ingredient) => {
+      acc[ingredient.id] = ingredient;
+      return acc;
+    }, {}),
+  };
+
+
+  await set(ref(database, `recipes/${uid}/${id}`), recipeData);
+}
+
+export async function editRecipe(uid: string, meal: Meal): Promise<void> {
+  const mealData = {
+    id: meal.id,
+    name: meal.name,
+    createdDate: serverTimestamp(),
+    ingredients: meal.ingredients.reduce((acc: Record<string, Ingredient>, ingredient) => {
+      acc[ingredient.id] = ingredient;
+      return acc;
+    }, {}),
+  };  
+
+  await set(ref(database, `recipes/${uid}/${meal.date}/${meal.name}`), mealData);
+}
+
+export async function deleteRecipe(uid: string, meal: { name: string; date: string }): Promise<void> {
+  await remove(ref(database, `recipes/${uid}/${meal.date}/${meal.name}`));
+}
+
+// Ingredient 수량 업데이트 함수
+export async function updateIngredientRecipe(uid: string, ingredientId: string, quantityChange: number): Promise<void> {
+  const ingredientRef = ref(database, `recipes/${uid}/${ingredientId}/qty`);
+
+  await runTransaction(ingredientRef, (currentQty) => {
+    return (currentQty || 0) + quantityChange;
+  });
+}

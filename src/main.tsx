@@ -5,10 +5,11 @@ import './index.css';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import NotFound from './pages/NotFound.tsx';
 import Index from './pages/Index.tsx';
-import Recipe from './pages/Recipe.tsx';
+import Recipes from './pages/Recipes.tsx';
 import Ingredients from './pages/Ingredients.tsx';
 import ProtectedRoute from './pages/ProtectedRoute.tsx';
 import Meals from './pages/Meals.tsx';
+import RecipeWork from './pages/RecipeWork.tsx';
 
 const router = createBrowserRouter([
   {
@@ -18,10 +19,18 @@ const router = createBrowserRouter([
     children: [
       { index: true, path: '/', element: <Index /> },
       {
-        path: '/recipe',
+        path: '/recipes',
         element: (
           <ProtectedRoute>
-            <Recipe />
+            <Recipes />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: '/recipework',
+        element: (
+          <ProtectedRoute>
+            <RecipeWork />
           </ProtectedRoute>
         ),
       },

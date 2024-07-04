@@ -10,9 +10,6 @@ body {
   /* @apply flex flex-col items-center; */
 }
 
-#root {
-  /* @apply flex flex-col items-center; */
-}
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
