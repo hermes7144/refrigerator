@@ -4,6 +4,7 @@ import { v4 as uuid } from 'uuid';
 import { getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithPopup, signOut, User } from 'firebase/auth';
 import { get, getDatabase, ref, remove, runTransaction, serverTimestamp, set, update } from 'firebase/database';
 import { Meal, MealsByDate } from '../types/mealTypes';
+import { Recipe } from '../types/RecipeTypes';
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -119,20 +120,17 @@ export async function updateIngredientQuantity(uid: string, ingredientId: string
   });
 }
 
-
-
-
-export async function getRecipes(uid: string): Promise<MealsByDate> {
+export async function getRecipes(uid: string): Promise<Recipe[]> {
   const snapshot = await get(ref(database, `recipes/${uid}`));
 
   if (snapshot.exists()) {
-    return snapshot.val();
+    return Object.values(snapshot.val());
   } else {
-    return {};
+    return [];
   }
 }
 
-export async function addNewRecipe(uid: string, recipe): Promise<void> {
+export async function addNewRecipe(uid: string, recipe:Recipe): Promise<void> {
   const id = uuid();
 
   const recipeData = {
@@ -149,22 +147,22 @@ export async function addNewRecipe(uid: string, recipe): Promise<void> {
   await set(ref(database, `recipes/${uid}/${id}`), recipeData);
 }
 
-export async function editRecipe(uid: string, meal: Meal): Promise<void> {
-  const mealData = {
-    id: meal.id,
-    name: meal.name,
+export async function editRecipe(uid: string, recipe:Recipe): Promise<void> {
+  const recipeData = {
+    id: recipe.id,
+    name: recipe.name,
     createdDate: serverTimestamp(),
-    ingredients: meal.ingredients.reduce((acc: Record<string, Ingredient>, ingredient) => {
+    ingredients: recipe.ingredients.reduce((acc: Record<string, Ingredient>, ingredient) => {
       acc[ingredient.id] = ingredient;
       return acc;
     }, {}),
   };  
 
-  await set(ref(database, `recipes/${uid}/${meal.date}/${meal.name}`), mealData);
+  return set(ref(database, `ingredients/${uid}/${recipe.id}`), recipeData);
 }
 
-export async function deleteRecipe(uid: string, meal: { name: string; date: string }): Promise<void> {
-  await remove(ref(database, `recipes/${uid}/${meal.date}/${meal.name}`));
+export async function deleteRecipe(uid: string, recipe:Recipe): Promise<void> {
+  await remove(ref(database, `recipes/${uid}/${recipe.id}`));
 }
 
 // Ingredient 수량 업데이트 함수

@@ -1,34 +1,29 @@
 import { useState } from 'react';
-import { Ingredient } from '../types/ingredientTypes';
 import RemoveDialog from '../components/ingredient/RemoveDialog';
 import useRecipes from '../hooks/useRecipes';
 import { Link } from 'react-router-dom';
+import RecipeItem from '../components/recipe/RecipeItem';
+import { Recipe } from '../types/RecipeTypes';
 
 export default function Recipes() {
-  const { recipesQuery: { data: recipes }, addRecipe, updateRecipe, removeRecipe } = useRecipes();
+  const { recipesQuery: { data: recipes }, removeRecipe } = useRecipes();
+
 
   const [removeVisible, setRemoveVisible] = useState(false);
-  const [editingIngredient, setEditingIngredient] = useState<any | null>(null);
+  const [editingRecipe, setEditingRecipe] = useState<Recipe | null>(null);
 
-  const handleAddIngredient = (recipe) => {
-    if (recipe.id) {
-      updateRecipe.mutate(recipe);
-    } else {
-      addRecipe.mutate(recipe);
-    }
-  };
-  const handleEditIngredient = (ingredient: Ingredient) => {
-    setEditingIngredient(ingredient);
+  const handleEditIngredient = (recipe: Recipe) => {
+    setEditingRecipe(recipe);
   };
 
   const handleRemoveIngredient = (): void => {
-    if (!editingIngredient) return;
-    removeRecipe.mutate(editingIngredient);
-    setRemoveVisible(false); // RemoveDialog를 닫습니다.
+    if (!editingRecipe) return;
+    removeRecipe.mutate(editingRecipe);
+    setRemoveVisible(false);
   };
 
-  const handleRemoveDialog = (ingredient: Ingredient) => {
-    setEditingIngredient(ingredient);
+  const handleRemoveDialog = (recipe:Recipe) => {
+    setEditingRecipe(recipe);
     setRemoveVisible(true);
   };
 
@@ -51,21 +46,20 @@ export default function Recipes() {
         <table className="table-auto w-full">
           <thead>
             <tr className="bg-gray-200">
+              <th className="px-4 py-2 text-center">Recipe</th>
               <th className="px-4 py-2 text-center">Ingredient</th>
-              <th className="px-4 py-2 text-center">Qty</th>
-              <th className="px-4 py-2 text-center">Expiration</th>
-              <th className="px-4 py-2 w-8"></th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
-            {/* {recipes?.map(recipe => (
-              <IngredientItem 
-                key={ingredient?.id} 
-                ingredient={ingredient} 
+            {recipes?.map(recipe => (
+              <RecipeItem 
+                key={recipe.id} 
+                recipe={recipe} 
                 onEdit={handleEditIngredient} 
                 onDelete={handleRemoveDialog} 
               />
-            ))} */}
+            ))}
           </tbody>
         </table>
       </div>

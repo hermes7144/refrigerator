@@ -78,8 +78,6 @@ export default function RecipeWork() {
       return false;
     }
 
-    
-
     // 같은 카테고리의 재료를 합치는 로직
     const mergedIngredients = ingredientList.reduce((acc, ingredient) => {
       const existingIngredient = acc.find((item) => item.id === ingredient.id);
@@ -104,7 +102,7 @@ export default function RecipeWork() {
     } else {
       addRecipe.mutate(recipeData);
     }
-    navigate('/');
+    navigate('/recipes');
   };
 
   const ingredientOptions = ingredients?.map((ingredient) => ({ value: ingredient.id, label: `${ingredient.name} (${ingredient.unit})` }));

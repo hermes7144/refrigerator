@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import useIngredients from '../hooks/useIngredients';
-import { IngredientItem } from '../components/ingredient/IngredientItem';
+import  IngredientItem  from '../components/ingredient/IngredientItem';
 import DialogAddIngredient from '../components/ingredient/DialogAddIngredient';
 import { Ingredient } from '../types/ingredientTypes';
 import RemoveDialog from '../components/ingredient/RemoveDialog';
 
 export default function Ingredients() {
   const { ingredientsQuery: { data: ingredients }, addIngredient, updateIngredient, deleteIngredient } = useIngredients();
+  
 
   const [visible, setVisible] = useState(false);
   const [removeVisible, setRemoveVisible] = useState(false);

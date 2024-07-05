@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useAuthContext } from '../context/AuthContext';
 import { getRecipes, addNewRecipe, editRecipe, deleteRecipe } from '../api/firebase';
-import { Meal } from '../types/mealTypes';
+import { Recipe } from '../types/RecipeTypes';
 
 export default function useRecipes() {
   const authContext = useAuthContext();
@@ -18,17 +18,17 @@ export default function useRecipes() {
   });
 
   const addRecipe = useMutation({
-    mutationFn: (recipe) => addNewRecipe(uid, recipe),
+    mutationFn: (recipe: Recipe) => addNewRecipe(uid, recipe),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['recipes'] }),
   });
 
   const updateRecipe = useMutation({
-    mutationFn: (recipe) => editRecipe(uid, recipe),
+    mutationFn: (recipe:Recipe) => editRecipe(uid, recipe),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['recipes'] }),
   });
 
   const removeRecipe = useMutation({
-    mutationFn: (recipe: { name: string; }) => deleteRecipe(uid, recipe),
+    mutationFn: (recipe: Recipe) => deleteRecipe(uid, recipe),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['recipes'] }),
   });
 
