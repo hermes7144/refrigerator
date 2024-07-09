@@ -24,9 +24,6 @@ export default function Navbar() {
       <nav className='flex items-center gap-4'>
         {user && (
           <>
-            <Link to='/recipes' className='text-2xl'>
-              <MdMenuBook />
-            </Link>
             <Link to='/ingredients' className='text-2xl'>
               <FaCartArrowDown />
             </Link>

@@ -73,7 +73,7 @@ export default function DialogAddIngredient({ visible, onSubmit, onClose, initia
   };
 
   return (
-    <dialog ref={modalRef}  id='my_modal_1' className='modal modal-bottom sm:modal-middle'>
+    <dialog ref={modalRef}  id='my_modal_1' className='modal modal-bottom sm:modal-middle' onCancel={handleClose} >
       <div className='modal-box flex flex-col pt-16'>
         <div className='flex flex-col gap-4'>
           <label className={`input input-bordered flex items-center gap-2`}>

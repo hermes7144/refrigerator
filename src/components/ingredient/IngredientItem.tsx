@@ -23,7 +23,7 @@ const IngredientItem = ({ ingredient, onEdit, onDelete }: IngredientItemProps) =
       <td className='text-center'>{ingredient.expiration ? <DisplayDate date={ingredient.expiration} /> : ''}</td>
       <td className='text-center'>
         <div className='dropdown dropdown-left sm:dropdown-right'>
-          <button tabIndex={0} role='button' className='btn btn-ghost rounded-full'>
+          <button tabIndex={0} role='button' className='btn-ghost btn-md  rounded-full'>
             <BsThreeDotsVertical />
           </button>
           <ul tabIndex={0} className='p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-20'>

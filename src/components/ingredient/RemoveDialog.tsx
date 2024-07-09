@@ -22,7 +22,7 @@ export default function RemoveDialog({ removeVisible, onSubmit, onClose }: Dialo
   };
 
   return (
-    <dialog ref={modalRef} id='my_modal_2' className='modal modal-bottom sm:modal-middle'>
+    <dialog ref={modalRef} id='my_modal_2' className='modal modal-bottom sm:modal-middle'  onCancel={onClose}>
       <div className='modal-box flex flex-col'>
         삭제하시겠습니까?
         <div className='modal-action'>

@@ -14,7 +14,7 @@ export default function useIngredients() {
 
   const queryClient = useQueryClient();
   const ingredientsQuery = useQuery({
-    queryKey: ['ingredients', uid],
+    queryKey: ['ingredients'],
     queryFn: () => getIngredients(uid),
   });
 
