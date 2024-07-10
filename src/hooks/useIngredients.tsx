@@ -11,31 +11,27 @@ export default function useIngredients() {
   }
 
   const { uid } = authContext;
-
   const queryClient = useQueryClient();
-  const ingredientsQuery = useQuery({
-    queryKey: ['ingredients'],
-    queryFn: () => getIngredients(uid),
-  });
+  const ingredientsQuery = useQuery({queryKey: ['ingredients',uid], queryFn: () => getIngredients(uid) });
 
   const addIngredient = useMutation({
     mutationFn: (ingredient: Ingredient) => addNewIngredient(uid, ingredient),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['ingredients'] }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['ingredients',uid] }),
   });
 
   const updateIngredient = useMutation({
     mutationFn: (ingredient: Ingredient) => editIngredient(uid, ingredient),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['ingredients'] }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['ingredients',uid] }),
   });
 
   const deleteIngredient = useMutation({
     mutationFn: (ingredient: Ingredient) => removeIngredient(uid, ingredient),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['ingredients'] }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['ingredients',uid] }),
   });
 
   const updateIngredientQty = useMutation({
     mutationFn: ({ ingredientId, quantityChange }: { ingredientId: string; quantityChange: number }) => updateIngredientQuantity(uid, ingredientId, quantityChange),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['ingredients'] }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['ingredients',uid] }),
   });
 
   return { ingredientsQuery, addIngredient, updateIngredient, deleteIngredient, updateIngredientQty };

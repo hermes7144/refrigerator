@@ -21,22 +21,22 @@ export default function useMeals() {
 
   const addMeal = useMutation({
     mutationFn: (meal: Meal) => addNewMeal(uid, meal),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['meals'] }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['meals',uid] }),
   });
 
   const updateMeal = useMutation({
     mutationFn: (meal: Meal) => editMeal(uid, meal),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['meals'] }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey:  ['meals',uid] }),
   });
 
   const removeMeal = useMutation({
     mutationFn: (meal: { name: string; date: string }) => deleteMeal(uid, meal),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['meals'] }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey:  ['meals',uid] }),
   });
 
   const editMealDone = useMutation({
     mutationFn: (meal: { name: string; date: string; done: boolean }) => checkMeal(uid, meal),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['meals'] }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey:  ['meals',uid] }),
   });
 
   return { mealsQuery, addMeal, updateMeal, removeMeal, editMealDone };

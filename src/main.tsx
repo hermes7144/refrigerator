@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App.tsx';
 import './index.css';
@@ -37,9 +37,11 @@ const router = createBrowserRouter([
       {
         path: '/ingredients',
         element: (
+          <Suspense fallback={'test'}>
           <ProtectedRoute>
             <Ingredients />
           </ProtectedRoute>
+          </Suspense>
         ),
       },
       {

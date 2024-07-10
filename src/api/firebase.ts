@@ -53,6 +53,8 @@ export async function addNewIngredient(uid: string, ingredient: Ingredient): Pro
 }
 
 export async function editIngredient(uid: string, ingredient: Ingredient): Promise<void> {
+   console.log(ingredient);
+   
   return set(ref(database, `ingredients/${uid}/${ingredient.id}`), ingredient);
 }
 

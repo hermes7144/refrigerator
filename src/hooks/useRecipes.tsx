@@ -12,24 +12,21 @@ export default function useRecipes() {
 
   const { uid } = authContext;
   const queryClient = useQueryClient();
-  const recipesQuery = useQuery({
-    queryKey: ['recipes'],
-    queryFn: () => getRecipes(uid),
-  });
+  const recipesQuery = useQuery({ queryKey: ['recipes',uid], queryFn: () => getRecipes(uid)});
 
   const addRecipe = useMutation({
     mutationFn: (recipe: Recipe) => addNewRecipe(uid, recipe),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['recipes'] }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['recipes',uid] }),
   });
 
   const updateRecipe = useMutation({
     mutationFn: (recipe:Recipe) => editRecipe(uid, recipe),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['recipes'] }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['recipes',uid] }),
   });
 
   const removeRecipe = useMutation({
     mutationFn: (recipe: Recipe) => deleteRecipe(uid, recipe),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['recipes'] }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['recipes',uid] }),
   });
 
   return { recipesQuery, addRecipe, updateRecipe, removeRecipe };
