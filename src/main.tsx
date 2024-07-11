@@ -1,15 +1,16 @@
-import React, { Suspense } from 'react';
+import React, { lazy } from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App.tsx';
 import './index.css';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import NotFound from './pages/NotFound.tsx';
-import Index from './pages/Index.tsx';
-import Recipes from './pages/Recipes.tsx';
-import Ingredients from './pages/Ingredients.tsx';
-import ProtectedRoute from './pages/ProtectedRoute.tsx';
-import Meals from './pages/Meals.tsx';
-import RecipeWork from './pages/RecipeWork.tsx';
+import { withSuspense, withProtectedRoute } from './utils/withHOC.tsx';
+
+const NotFound = withSuspense(lazy(() => import('./pages/NotFound.tsx')));
+const Index = withSuspense(lazy(() => import('./pages/Index.tsx')));
+const Recipes = withSuspense(withProtectedRoute(lazy(() => import('./pages/Recipes.tsx'))));
+const Ingredients = withSuspense(withProtectedRoute(lazy(() => import('./pages/Ingredients.tsx'))));
+const Meals = withSuspense(withProtectedRoute(lazy(() => import('./pages/Meals.tsx'))));
+const RecipeWork = withSuspense(withProtectedRoute(lazy(() => import('./pages/RecipeWork.tsx'))));
 
 const router = createBrowserRouter([
   {
@@ -18,40 +19,10 @@ const router = createBrowserRouter([
     errorElement: <NotFound />,
     children: [
       { index: true, path: '/', element: <Index /> },
-      {
-        path: '/recipes',
-        element: (
-          <ProtectedRoute>
-            <Recipes />
-          </ProtectedRoute>
-        ),
-      },
-      {
-        path: '/recipework',
-        element: (
-          <ProtectedRoute>
-            <RecipeWork />
-          </ProtectedRoute>
-        ),
-      },
-      {
-        path: '/ingredients',
-        element: (
-          <Suspense fallback={'test'}>
-          <ProtectedRoute>
-            <Ingredients />
-          </ProtectedRoute>
-          </Suspense>
-        ),
-      },
-      {
-        path: '/meals',
-        element: (
-          <ProtectedRoute>
-            <Meals />
-          </ProtectedRoute>
-        ),
-      },
+      { path: '/recipes', element: <Recipes /> },
+      { path: '/recipes/new', element: <RecipeWork /> },
+      { path: '/ingredients', element: <Ingredients /> },
+      { path: '/meals', element: <Meals /> },
     ],
   },
 ]);
@@ -61,4 +32,3 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <RouterProvider router={router} />
   </React.StrictMode>
 );
-

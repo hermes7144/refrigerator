@@ -34,7 +34,7 @@ export default function Recipes() {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="flex justify-end mb-4">
-        <Link to='/recipework'  state={{ recipe:null }}>
+        <Link to='/recipes/new'  state={{ recipe:null }}>
         <button 
           className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none">
           추가

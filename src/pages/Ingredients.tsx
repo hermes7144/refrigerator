@@ -60,20 +60,15 @@ export default function Ingredients() {
 
   const [isPending, startTransition] = useTransition();
 
-  const handleChange = (e) => {
-    setQuery(e.target.value);    
+  const handleChange = ({ target }) => {
+    setQuery(target.value);    
 
     startTransition(() => {
       const filteredIngredients = initIngredients?.filter(ingredient => 
-        ingredient.name.toLowerCase().includes(e.target.value.toLowerCase())
+        ingredient.name.toLowerCase().includes(target.value.toLowerCase())
       );
       filteredIngredients && setIngredients(filteredIngredients);
     })
-      // startTransition 미적용 테스트 함수
-      // const filteredIngredients = initIngredients?.filter(ingredient => 
-      //   ingredient.name.toLowerCase().includes(e.target.value.toLowerCase())
-      // );
-      // filteredIngredients && setIngredients(filteredIngredients);
   };
 
   return (
@@ -82,7 +77,7 @@ export default function Ingredients() {
         <IngredientsSearch query={query} onChange={handleChange} />
         <button className="btn btn-outline btn-info" onClick={handleDialog}>추가</button>
       </div>
-      <IngredientTable ingredients={ingredients} isPending={isPending} onEdit={handleEditIngredient} onDelete={handleRemoveDialog} />
+        <IngredientTable ingredients={ingredients} isPending={isPending} onEdit={handleEditIngredient} onDelete={handleRemoveDialog} />
       <DialogAddIngredient visible={visible} onSubmit={handleAddIngredient} onClose={handleCloseDialog} initialIngredient={editingIngredient} />
       <RemoveDialog removeVisible={removeVisible} onSubmit={handleRemoveIngredient} onClose={handleCloseRemoveDialog} />
     </div>

@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import useIngredients from '../hooks/useIngredients';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Ingredient } from '../types/ingredientTypes';
 import ErrorDialog from '../components/common/ErrorDialog';
 import Select, { SingleValue } from 'react-select';
@@ -10,7 +10,7 @@ import useRecipes from '../hooks/useRecipes';
 export default function RecipeWork() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { recipe } = location.state;
+  const { recipe  } = location.state;
   const { ingredientsQuery: { data: ingredients }} = useIngredients();
   const { addRecipe, updateRecipe } = useRecipes();
   const [ingredientList, setIngredientList] = useState<Ingredient[]>([]);
