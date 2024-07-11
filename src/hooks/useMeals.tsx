@@ -6,18 +6,15 @@ import { Meal } from '../types/mealTypes';
 export default function useMeals() {
   const authContext = useAuthContext();
 
-  if (!authContext || !authContext.uid) {
+  if (!authContext?.uid) {
     throw new Error('User is not authenticated');
   }
-
+  
   const { uid } = authContext;
 
   const queryClient = useQueryClient();
 
-  const mealsQuery = useQuery({
-    queryKey: ['meals'],
-    queryFn: () => getMeals(uid),
-  });
+  const mealsQuery = useQuery({ queryKey: ['meals',uid] ,queryFn: () => getMeals(uid) });
 
   const addMeal = useMutation({
     mutationFn: (meal: Meal) => addNewMeal(uid, meal),

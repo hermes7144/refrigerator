@@ -69,6 +69,11 @@ export default function Ingredients() {
       );
       filteredIngredients && setIngredients(filteredIngredients);
     })
+      // startTransition 미적용 테스트 함수
+      // const filteredIngredients = initIngredients?.filter(ingredient => 
+      //   ingredient.name.toLowerCase().includes(e.target.value.toLowerCase())
+      // );
+      // filteredIngredients && setIngredients(filteredIngredients);
   };
 
   return (
