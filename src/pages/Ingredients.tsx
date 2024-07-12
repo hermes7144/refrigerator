@@ -1,10 +1,11 @@
-import { useEffect, useState, useTransition } from 'react';
+import { ChangeEvent, useEffect, useState, useTransition } from 'react';
 import useIngredients from '../hooks/useIngredients';
 import DialogAddIngredient from '../components/ingredient/DialogAddIngredient';
 import { Ingredient } from '../types/ingredientTypes';
 import RemoveDialog from '../components/ingredient/RemoveDialog';
 import IngredientsSearch from '../components/ingredient/IngredientsSearch';
 import IngredientTable from '../components/ingredient/IngredientTable';
+import Button from '../components/ui/Button';
 
 export default function Ingredients() {
   const { ingredientsQuery: { data: initIngredients}, addIngredient, updateIngredient, deleteIngredient } = useIngredients();
@@ -60,7 +61,7 @@ export default function Ingredients() {
 
   const [isPending, startTransition] = useTransition();
 
-  const handleChange = ({ target }) => {
+  const handleChange = ({ target }: ChangeEvent<HTMLInputElement>) => {
     setQuery(target.value);    
 
     startTransition(() => {
@@ -75,7 +76,7 @@ export default function Ingredients() {
     <div className="container mx-auto px-4 py-8 w-full md:w-3/5 ">
       <div className="flex justify-between mb-4">
         <IngredientsSearch query={query} onChange={handleChange} />
-        <button className="btn btn-outline btn-info" onClick={handleDialog}>추가</button>
+        <Button text={'추가'} onClick={handleDialog} />
       </div>
         <IngredientTable ingredients={ingredients} isPending={isPending} onEdit={handleEditIngredient} onDelete={handleRemoveDialog} />
       <DialogAddIngredient visible={visible} onSubmit={handleAddIngredient} onClose={handleCloseDialog} initialIngredient={editingIngredient} />

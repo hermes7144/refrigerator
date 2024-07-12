@@ -1,8 +1,7 @@
-import { BsThreeDotsVertical } from 'react-icons/bs';
-import { Ingredient } from '../../types/ingredientTypes';
-import { Recipe } from '../../types/RecipeTypes';
+import { HiDotsVertical } from "@react-icons/all-files/hi/HiDotsVertical";
+import { RecipeItemProps } from '../../types/RecipeTypes';
 
- const RecipeItem = ({ recipe, onEdit, onDelete }: {recipe: Recipe})=> {
+ const RecipeItem = ({ recipe, onEdit, onDelete }: RecipeItemProps)=> {
   return (
     <tr>
       <td>
@@ -17,12 +16,12 @@ import { Recipe } from '../../types/RecipeTypes';
         </div>
       </td>
       <td>
-        {Object.values(recipe?.ingredients).map((ingredient: Ingredient) => <p>{ingredient.name + ingredient.qty + ingredient.unit}</p>)}
+        {Object.values(recipe?.ingredients).map((ingredient) => <p>{ingredient.name + ingredient.qty + ingredient.unit}</p>)}
       </td>
       <td className='text-center'>
         <div className='dropdown dropdown-left sm:dropdown-right'>
           <button tabIndex={0} role='button' className='btn btn-ghost rounded-full'>
-            <BsThreeDotsVertical />
+            <HiDotsVertical />
           </button>
           <ul tabIndex={0} className='p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-20'>
             <li>

@@ -5,7 +5,7 @@ import { MealIngredientsList } from './MealIngredientsList';
 import { RemoveMealButton } from './RemoveMealButton';
 import { MealCheckbox } from './MealCheckbox';
 import { MealImage } from './MealImage';
-import { FaRegCopy } from "react-icons/fa";
+import { FaRegCopy } from "@react-icons/all-files/fa/FaRegCopy";
 
 const mealTranslations = {
   breakfast: '아침',

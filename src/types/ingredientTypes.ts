@@ -15,6 +15,13 @@ export interface DialogAddIngredientProps {
   initialIngredient?: Ingredient | null;
 }
 
+export interface IngredientTableProps { 
+  ingredients: Ingredient[];
+  isPending:boolean;
+  onEdit: (ingredient: Ingredient) => void;
+  onDelete: (ingredient: Ingredient) => void;
+}
+
 export interface IngredientItemProps {
   ingredient: Ingredient;
   onEdit: (ingredient: Ingredient) => void;

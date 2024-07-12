@@ -1,4 +1,4 @@
-import { BsThreeDotsVertical } from 'react-icons/bs';
+import { HiDotsVertical } from "@react-icons/all-files/hi/HiDotsVertical";
 import { IngredientItemProps } from '../../types/ingredientTypes';
 import { DisplayDate } from './DisplayDate';
 
@@ -24,7 +24,7 @@ const IngredientItem = ({ ingredient, onEdit, onDelete }: IngredientItemProps) =
       <td className='text-center'>
         <div className='dropdown dropdown-left sm:dropdown-right'>
           <button tabIndex={0} role='button' className='btn-ghost btn-md  rounded-full'>
-            <BsThreeDotsVertical />
+            <HiDotsVertical />
           </button>
           <ul tabIndex={0} className='p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-20'>
             <li>

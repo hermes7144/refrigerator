@@ -1,7 +1,7 @@
-import { Ingredient } from '../../types/ingredientTypes';
+import { IngredientTableProps } from '../../types/ingredientTypes';
 import IngredientItem from './IngredientItem';
 
-export default function IngredientTable({ ingredients, isPending, onEdit, onDelete }: { ingredients: Ingredient[] }) {
+export default function IngredientTable({ ingredients, isPending, onEdit, onDelete }: IngredientTableProps) {
   return (
     <div className='flex justify-center'>
       <table className='table-auto w-full'>
@@ -14,9 +14,7 @@ export default function IngredientTable({ ingredients, isPending, onEdit, onDele
           </tr>
         </thead>
         <tbody className={isPending ? 'text-gray-400' : ''}>
-          {ingredients?.map((ingredient: Ingredient) => (
-            <IngredientItem key={ingredient?.id} ingredient={ingredient} onEdit={onEdit} onDelete={onDelete} />
-          ))}
+          {ingredients.map(ingredient => <IngredientItem key={ingredient?.id} ingredient={ingredient} onEdit={onEdit} onDelete={onDelete} /> )}
         </tbody>
       </table>
     </div>

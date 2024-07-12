@@ -35,12 +35,7 @@ export async function getIngredients(uid: string): Promise<Ingredient[]> {
   const snapshot = await get(ref(database, `ingredients/${uid}`));
 
   if (snapshot.exists()) {
-    // Get all values from snapshot
-    const ingredients = Object.values(snapshot.val());
-    
-    // Return up to 200 ingredients
-    // return ingredients.slice(0, 200);
-    return ingredients;
+    return Object.values(snapshot.val());
   } else {
     return []; // Return an empty array if snapshot doesn't exist
   }

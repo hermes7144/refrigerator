@@ -1,8 +1,11 @@
-import { LuRefrigerator } from 'react-icons/lu';
 import { Link } from 'react-router-dom';
 import { useAuthContext } from '../../context/AuthContext';
-import { FaCartArrowDown } from 'react-icons/fa';
-import { MdMenuBook } from 'react-icons/md';
+import { CgSmartHomeRefrigerator } from "@react-icons/all-files/cg/CgSmartHomeRefrigerator";
+import { FaCartArrowDown } from '@react-icons/all-files/fa/FaCartArrowDown';
+import { BiFoodMenu } from '@react-icons/all-files/bi/BiFoodMenu';
+
+// import { BiSolidFoodMenu } from "react-icons/bi";
+
 
 import DisplayUser from './DisplayUser';
 
@@ -17,7 +20,7 @@ export default function Navbar() {
   return (
     <header className='flex justify-between border-b border-gray-300 p-2 font-semibold bg-white'>
       <Link to='/' className='flex items-center text-4xl text-brand'>
-        <LuRefrigerator />
+        <CgSmartHomeRefrigerator />
         <h1 className='hidden md:block'>Ref</h1>
       </Link>
 
@@ -25,7 +28,7 @@ export default function Navbar() {
         {user && (
           <>
             <Link to='/recipes' className='text-2xl'>
-              <MdMenuBook />
+              <BiFoodMenu  />
             </Link>
             <Link to='/ingredients' className='text-2xl'>
               <FaCartArrowDown />

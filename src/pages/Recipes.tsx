@@ -4,6 +4,7 @@ import useRecipes from '../hooks/useRecipes';
 import { Link } from 'react-router-dom';
 import RecipeItem from '../components/recipe/RecipeItem';
 import { Recipe } from '../types/RecipeTypes';
+import Button from '../components/ui/Button';
 
 export default function Recipes() {
   const { recipesQuery: { data: recipes }, removeRecipe } = useRecipes();
@@ -32,13 +33,10 @@ export default function Recipes() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-8 w-full md:w-3/5 ">
       <div className="flex justify-end mb-4">
         <Link to='/recipes/new'  state={{ recipe:null }}>
-        <button 
-          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none">
-          추가
-        </button>
+          <Button text={'추가'} />
         </Link>
       </div>
       <RemoveDialog removeVisible={removeVisible} onSubmit={handleRemoveIngredient} onClose={handleCloseRemoveDialog} />

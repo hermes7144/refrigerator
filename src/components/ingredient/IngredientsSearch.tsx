@@ -1,4 +1,6 @@
-export default function IngredientsSearch({ query, onChange }) {
+import { SearchInputProps } from '../../types/commonTypes';
+
+export default function SearchInput({ query, onChange } :SearchInputProps) {
   return (
     <div className='flex-1 relative w-full max-w-xs'>
       <span className='absolute inset-y-0 left-0 flex items-center pl-3'>
@@ -20,7 +22,7 @@ export default function IngredientsSearch({ query, onChange }) {
       <input
         type='text'
         placeholder='검색하기...'
-        className='input input-bordered pl-10 w-full'
+        className='input input-bordered pl-10 w-full h-10'
         value={query}
         onChange={onChange}
       />
