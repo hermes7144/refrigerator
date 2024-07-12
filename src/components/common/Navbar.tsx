@@ -3,10 +3,6 @@ import { useAuthContext } from '../../context/AuthContext';
 import { CgSmartHomeRefrigerator } from "@react-icons/all-files/cg/CgSmartHomeRefrigerator";
 import { FaCartArrowDown } from '@react-icons/all-files/fa/FaCartArrowDown';
 import { BiFoodMenu } from '@react-icons/all-files/bi/BiFoodMenu';
-
-// import { BiSolidFoodMenu } from "react-icons/bi";
-
-
 import DisplayUser from './DisplayUser';
 
 export default function Navbar() {
@@ -23,7 +19,6 @@ export default function Navbar() {
         <CgSmartHomeRefrigerator />
         <h1 className='hidden md:block'>Ref</h1>
       </Link>
-
       <nav className='flex items-center gap-4'>
         {user && (
           <>
@@ -36,7 +31,6 @@ export default function Navbar() {
             <DisplayUser />
           </>
         )}
-
         {!user && <button onClick={login}>Login</button>}
         {user && <button onClick={logout}>Logout</button>}
       </nav>
