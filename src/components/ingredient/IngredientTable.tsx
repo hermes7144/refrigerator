@@ -1,7 +1,24 @@
-import { IngredientTableProps } from '../../types/ingredientTypes';
+import { useEffect, useState, useTransition } from 'react';
+import useIngredients from '../../hooks/useIngredients';
+import { Ingredient, IngredientTableProps } from '../../types/ingredientTypes';
 import IngredientItem from './IngredientItem';
 
-export default function IngredientTable({ ingredients, isPending, onEdit, onDelete }: IngredientTableProps) {
+export default function IngredientTable({ query, onEdit, onDelete }: IngredientTableProps) {
+  const { ingredientsQuery: { data: initIngredients} } = useIngredients();
+  const [filteredIngredients, setFilteredIngredients] = useState<Ingredient[]>();
+  const [isPending, startTransition] = useTransition();
+
+  useEffect(() => {
+    startTransition(() => {
+      setFilteredIngredients(
+        initIngredients?.filter(ingredient => 
+          ingredient.name.toLowerCase().includes(query.toLowerCase())
+        )
+      );
+    })
+
+  }, [initIngredients, query]);
+
   return (
     <div className='flex justify-center'>
       <table className='table-auto w-full'>
@@ -14,7 +31,7 @@ export default function IngredientTable({ ingredients, isPending, onEdit, onDele
           </tr>
         </thead>
         <tbody className={isPending ? 'text-gray-400' : ''}>
-          {ingredients.map(ingredient => <IngredientItem key={ingredient?.id} ingredient={ingredient} onEdit={onEdit} onDelete={onDelete} /> )}
+          {filteredIngredients?.map(ingredient => <IngredientItem key={ingredient?.id} ingredient={ingredient} onEdit={onEdit} onDelete={onDelete} /> )}
         </tbody>
       </table>
     </div>

@@ -16,8 +16,7 @@ export interface DialogAddIngredientProps {
 }
 
 export interface IngredientTableProps { 
-  ingredients: Ingredient[];
-  isPending:boolean;
+  query:string;
   onEdit: (ingredient: Ingredient) => void;
   onDelete: (ingredient: Ingredient) => void;
 }

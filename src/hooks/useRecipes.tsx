@@ -1,16 +1,15 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useAuthContext } from '../context/AuthContext';
+import  useAuthContext  from '../context/AuthContext';
 import { getRecipes, addNewRecipe, editRecipe, deleteRecipe } from '../api/firebase';
 import { Recipe } from '../types/RecipeTypes';
 
 export default function useRecipes() {
-  const authContext = useAuthContext();
+  const {uid} = useAuthContext() ?? {};
 
-  if (!authContext || !authContext.uid) {
+  if (!uid) {
     throw new Error('User is not authenticated');
   }
 
-  const { uid } = authContext;
   const queryClient = useQueryClient();
   const recipesQuery = useQuery({ queryKey: ['recipes',uid], queryFn: () => getRecipes(uid)});
 

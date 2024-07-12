@@ -35,9 +35,9 @@ export async function getIngredients(uid: string): Promise<Ingredient[]> {
   const snapshot = await get(ref(database, `ingredients/${uid}`));
 
   if (snapshot.exists()) {
-    return Object.values(snapshot.val());
+    return Object.values(snapshot.val())
   } else {
-    return []; // Return an empty array if snapshot doesn't exist
+    return [];
   }
 }
 

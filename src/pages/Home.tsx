@@ -1,11 +1,10 @@
-import { FC, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import dayjs, { Dayjs } from 'dayjs';
 import {DateList} from '../components/date/DateList';
 import { MealList } from '../components/meal/MealList';
-import { getWeekDates } from '../ts/Util';
+import { getWeekDates } from '../utils/utils';
 
-
-export const Home: FC = () => {
+export default function Home() {
   const week = getWeekDates();
   const [selectedDate, setSelectedDate] = useState(dayjs().format('YYYY-MM-DD'));
 
@@ -27,7 +26,7 @@ export const Home: FC = () => {
       <MealList week={week} scrollRefs={scrollRefs} selectedDate={selectedDate} />
     </div>
   );
-};
+}
 
 
 

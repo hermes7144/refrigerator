@@ -1,17 +1,21 @@
 import { createContext, useEffect, useState } from 'react';
 import { login, logout, onUserStateChange } from '../api/firebase';
 import { User } from 'firebase/auth';
-import { UserType } from './AuthContext';
+import { providerProps } from '../types/commonTypes';
 
-export const AuthContext = createContext<UserType | null>(null);
+interface AuthContextType {
+  user: User | null;
+  uid: string | null;
+  login: () => void;
+  logout: () => void;
+  isAuthLoading: boolean;
+}
 
-type AuthContextProviderProps = {
-  children: React.ReactNode;
-};
+export const AuthContext = createContext<AuthContextType | null>(null);
 
-export function AuthProvider({ children }: AuthContextProviderProps) {
+export function AuthProvider({ children }: providerProps) {
   const [user, setUser] = useState<User | null>(null);
-  const [isAuthLoading, setIsAuthLoading] = useState(true);
+  const [isAuthLoading, setIsAuthLoading] = useState<boolean>(true);
 
   useEffect(() => {
     onUserStateChange((user: User | null) => {

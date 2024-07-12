@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState, useTransition } from 'react';
+import { ChangeEvent, useState } from 'react';
 import useIngredients from '../hooks/useIngredients';
 import DialogAddIngredient from '../components/ingredient/DialogAddIngredient';
 import { Ingredient } from '../types/ingredientTypes';
@@ -8,19 +8,13 @@ import IngredientTable from '../components/ingredient/IngredientTable';
 import Button from '../components/ui/Button';
 
 export default function Ingredients() {
-  const { ingredientsQuery: { data: initIngredients}, addIngredient, updateIngredient, deleteIngredient } = useIngredients();
+  const { addIngredient, updateIngredient, deleteIngredient } = useIngredients();
 
   const [query, setQuery] = useState('');
   const [visible, setVisible] = useState(false);
   const [removeVisible, setRemoveVisible] = useState(false);
   const [editingIngredient, setEditingIngredient] = useState<Ingredient | null>(null);
-  const [ingredients, setIngredients] = useState<Ingredient[]>([]);
 
-  useEffect(() => {
-    if (initIngredients) {
-      setIngredients(initIngredients);
-    }
-  }, [initIngredients]);
 
   const handleAddIngredient = (ingredient: Ingredient) => {
     if (ingredient.id) {
@@ -30,9 +24,7 @@ export default function Ingredients() {
     }
   };
 
-  const handleDialog = () => {
-    setVisible(true);    
-  };
+  const handleDialog = () => setVisible(true);    
 
   const handleCloseDialog = () => {
     setEditingIngredient(null);
@@ -45,9 +37,10 @@ export default function Ingredients() {
   };
 
   const handleRemoveIngredient = (): void => {
-    if (!editingIngredient) return;
-    deleteIngredient.mutate(editingIngredient);
-    setRemoveVisible(false);
+    if (editingIngredient) {
+      deleteIngredient.mutate(editingIngredient);
+      setRemoveVisible(false);
+    }
   };
 
   const handleRemoveDialog = (ingredient: Ingredient) => {
@@ -55,22 +48,8 @@ export default function Ingredients() {
     setRemoveVisible(true);
   };
 
-  const handleCloseRemoveDialog = () => {
-    setRemoveVisible(false);
-  };
-
-  const [isPending, startTransition] = useTransition();
-
-  const handleChange = ({ target }: ChangeEvent<HTMLInputElement>) => {
-    setQuery(target.value);    
-
-    startTransition(() => {
-      const filteredIngredients = initIngredients?.filter(ingredient => 
-        ingredient.name.toLowerCase().includes(target.value.toLowerCase())
-      );
-      filteredIngredients && setIngredients(filteredIngredients);
-    })
-  };
+  const handleCloseRemoveDialog = () => setRemoveVisible(false);
+  const handleChange = ({ target }: ChangeEvent<HTMLInputElement>) => setQuery(target.value);    
 
   return (
     <div className="container mx-auto px-4 py-8 w-full md:w-3/5 ">
@@ -78,7 +57,7 @@ export default function Ingredients() {
         <IngredientsSearch query={query} onChange={handleChange} />
         <Button text={'추가'} onClick={handleDialog} />
       </div>
-        <IngredientTable ingredients={ingredients} isPending={isPending} onEdit={handleEditIngredient} onDelete={handleRemoveDialog} />
+      <IngredientTable query={query} onEdit={handleEditIngredient} onDelete={handleRemoveDialog} />
       <DialogAddIngredient visible={visible} onSubmit={handleAddIngredient} onClose={handleCloseDialog} initialIngredient={editingIngredient} />
       <RemoveDialog removeVisible={removeVisible} onSubmit={handleRemoveIngredient} onClose={handleCloseRemoveDialog} />
     </div>
