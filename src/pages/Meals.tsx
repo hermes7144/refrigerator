@@ -116,7 +116,7 @@ export default function Meals() {
   const ingredientOptions = ingredients?.map((ingredient) => ({ value: ingredient.id, label: `${ingredient.name} (${ingredient.unit})` }));
 
   return (
-    <div className='flex flex-col items-center  p-2 w-full md:w-2/5 mx-auto'>
+    <div className='flex flex-col items-center  p-2 w-full md:w-1/3 mx-auto'>
       <h1 className='text-2xl font-semibold mb-4'>{`${dayjs(date).format('M월 D일 ddd요일')} ${mealTranslations[meal.name]} `}</h1>
       <div className='flex gap-1'>
         <button className='btn btn-success btn-sm text-white mt-1' onClick={handleAddIngredient}>
