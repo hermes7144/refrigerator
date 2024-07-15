@@ -20,6 +20,7 @@ export interface MealListProps {
   selectedDate: string;
   meals?: MealsByDate ;
   scrollRefs: React.MutableRefObject<{ [key: string]: HTMLDivElement | null }>;
+  isSkeleton?:boolean;
 }
 
 
@@ -28,6 +29,7 @@ export interface MealSectionProps {
   weekday: Dayjs;
   meals?: Meals;
   scrollRef: (el: HTMLDivElement | null) => void;
+  isSkeleton?:boolean;
 }
 
 export interface MealsByDate {

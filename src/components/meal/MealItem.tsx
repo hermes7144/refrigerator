@@ -5,7 +5,7 @@ import { MealIngredientsList } from './MealIngredientsList';
 import { RemoveMealButton } from './RemoveMealButton';
 import { MealCheckbox } from './MealCheckbox';
 import { MealImage } from './MealImage';
-import { FaRegCopy } from "@react-icons/all-files/fa/FaRegCopy";
+import { FaRegCopy } from '@react-icons/all-files/fa/FaRegCopy';
 
 const mealTranslations = {
   breakfast: '아침',
@@ -13,21 +13,33 @@ const mealTranslations = {
   dinner: '저녁',
 };
 
-export const MealItem: React.FC<MealItemProps> = ({ meal, date }) => (
-  <div className='flex flex-col w-full px-4 py-2 border border-gray-200 rounded-lg shadow-md hover:shadow-xl transition duration-300'>
-    <div className='flex justify-between p-1'>
-    <h3 className='font-semibold'>{mealTranslations[meal.name as keyof typeof mealTranslations]}</h3>
-    <div className='flex justify-center items-center w-7 h-7 rounded-full hover:bg-gray-200 hover:cursor-pointer'>
-    <FaRegCopy className='w-4 h-4' />
-    </div>
-    </div> 
-    <div className='flex mt-3 gap-3'>
-      <MealCheckbox meal={meal} date={date.format('YYYY-MM-DD')} />
-      <Link className='flex flex-1 items-center gap-4' to='/meals' state={{ meal, date }}>
-        <MealImage meal={meal} />
-        <MealIngredientsList ingredients={meal.ingredients} />
-      </Link>
-      <RemoveMealButton meal={meal} date={date.format('YYYY-MM-DD')} />
-    </div>
-  </div>
-);
+
+export const MealItem: React.FC<MealItemProps> = ({ meal, date }) => {
+  const handleButtonClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
+  return (
+    <Link to='/meals' state={{ meal, date }} className='bg-white shadow-md hover:shadow-lg rounded-lg p-4 transition duration-300 border border-gray-200'>
+      <div className='flex justify-between items-center mb-1'>
+        <div className='flex items-start space-x-1'>
+           <div onClick={handleButtonClick}>
+              <MealCheckbox meal={meal} date={date.format('YYYY-MM-DD')} />
+           </div>
+          <MealImage meal={meal} />
+          <h3 className='font-semibold tracking-tight'>{mealTranslations[meal.name as keyof typeof mealTranslations]}</h3>
+        </div>
+        <div className='flex items-center space-x-2'>
+          <div className='flex' onClick={handleButtonClick}>
+          <button className='btn btn-circle btn-ghost btn-sm'>
+            <FaRegCopy className='w-4 h-4 text-gray-600' />
+          </button>
+          <RemoveMealButton meal={meal} date={date.format('YYYY-MM-DD')} />
+          </div>          
+        </div>
+      </div>
+      <MealIngredientsList ingredients={meal.ingredients} />
+    </Link>
+  );
+};

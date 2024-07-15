@@ -84,8 +84,6 @@ export default function Meals() {
       return false;
     }
 
-    
-
     // 같은 카테고리의 재료를 합치는 로직
     const mergedIngredients = ingredientList.reduce((acc, ingredient) => {
       const existingIngredient = acc.find((item) => item.id === ingredient.id);

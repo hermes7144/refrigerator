@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient, useSuspenseQuery } from '@tanstack/react-query';
 import  useAuthContext  from '../context/AuthContext';
 import { addNewMeal, getMeals, editMeal, deleteMeal, checkMeal } from '../api/firebase';
 import { Meal } from '../types/mealTypes';
@@ -12,7 +12,7 @@ export default function useMeals() {
 
   const queryClient = useQueryClient();
 
-  const mealsQuery = useQuery({ queryKey: ['meals',uid] ,queryFn: () => getMeals(uid) });
+  const mealsQuery = useSuspenseQuery({ queryKey: ['meals',uid] ,queryFn: () => getMeals(uid) });
 
   const addMeal = useMutation({
     mutationFn: (meal: Meal) => addNewMeal(uid, meal),

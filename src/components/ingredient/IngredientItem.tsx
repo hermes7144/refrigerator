@@ -1,6 +1,6 @@
-import { HiDotsVertical } from "@react-icons/all-files/hi/HiDotsVertical";
 import { IngredientItemProps } from '../../types/ingredientTypes';
 import { DisplayDate } from './DisplayDate';
+import { HiDotsVertical } from "@react-icons/all-files/hi/HiDotsVertical";
 
 const IngredientItem = ({ ingredient, onEdit, onDelete }: IngredientItemProps) => {
   return (

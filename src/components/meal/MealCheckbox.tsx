@@ -7,7 +7,6 @@ export const MealCheckbox: React.FC<{ meal: Meal; date: string }> = ({ meal, dat
   const { updateIngredientQty } = useIngredients();
 
   const handleCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
-    
     const { checked } = e.target;
     editMealDone.mutate({ name: meal.name, date, done: checked });
 
@@ -18,5 +17,5 @@ export const MealCheckbox: React.FC<{ meal: Meal; date: string }> = ({ meal, dat
     });
   };
 
-  return <input type='checkbox' onChange={handleCheck} checked={meal?.done ?? false} />;
+  return <input className='checkbox' type='checkbox' onChange={handleCheck} checked={meal?.done ?? false} />;
 };
