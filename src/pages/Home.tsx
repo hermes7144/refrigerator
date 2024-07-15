@@ -8,6 +8,7 @@ import { MealListSkeleton } from '../components/meal/MealListSkeleton';
 export default function Home() {
   const week = getWeekDates();
   const [selectedDate, setSelectedDate] = useState(dayjs().format('YYYY-MM-DD'));
+
   const scrollRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
   
   const handleDateClick = (date: Dayjs) => {
