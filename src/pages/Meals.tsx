@@ -19,9 +19,7 @@ export default function Meals() {
   const location = useLocation();
   const navigate = useNavigate();
   const { meal, date }: { meal: Meal; date: string } = location.state;
-  const {
-    ingredientsQuery: { data: ingredients },
-  } = useIngredients();
+  const { ingredientsQuery: { data: ingredients } } = useIngredients();
   const { addMeal, updateMeal } = useMeals();
   const [ingredientList, setIngredientList] = useState<Ingredient[]>([]);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -65,7 +63,6 @@ export default function Meals() {
 
   const handleRemoveIngredient = (index: number) => {
     if (ingredientList.length === 1) return;
-
     const newIngredientList = ingredientList.filter((_, i) => i !== index);
     setIngredientList(newIngredientList);
   };
@@ -121,7 +118,6 @@ export default function Meals() {
   return (
     <div className='flex flex-col items-center  p-2 w-full md:w-2/5 mx-auto'>
       <h1 className='text-2xl font-semibold mb-4'>{`${dayjs(date).format('M월 D일 ddd요일')} ${mealTranslations[meal.name]} `}</h1>
-
       <div className='flex gap-1'>
         <button className='btn btn-success btn-sm text-white mt-1' onClick={handleAddIngredient}>
           재료 추가
@@ -133,7 +129,7 @@ export default function Meals() {
                 className='basic-single w-60'
                 classNamePrefix='select'
                 options={ingredientOptions}
-                defaultValue={ingredientOptions?.find((option) => option.value === ingredient.id)}
+                value={ingredientOptions?.find((option) => option.value === ingredient.id)}
                 onChange={(selectedOption: SingleValue<{ value: string; label: string }>) => handleIngredientChange(selectedOption, index)}
               />
               <input
@@ -154,9 +150,7 @@ export default function Meals() {
       <div className='w-full flex justify-between items-center mt-10'>
         <button
           className='btn'
-          onClick={() => {
-            navigate(-1);
-          }}>
+          onClick={() => { navigate(-1); }}>
           목록
         </button>
         <button className='btn btn-primary' onClick={handleSubmit}>
