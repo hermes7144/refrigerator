@@ -4,7 +4,7 @@ import { MealListProps } from '../../types/mealTypes';
 import useMeals from '../../hooks/useMeals';
 
 export const MealList: FC<MealListProps> = ({ week, selectedDate, scrollRefs }) => {
-  const {mealsQuery: { data: meals }} = useMeals(); ''
+  const {mealsQuery: { data: meals }} = useMeals(); 
 
   return (
     <ul className='flex flex-col w-full md:w-[500px] gap-4 pb-80'>

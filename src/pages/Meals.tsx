@@ -7,6 +7,7 @@ import { Ingredient } from '../types/ingredientTypes';
 import ErrorDialog from '../components/common/ErrorDialog';
 import dayjs from 'dayjs';
 import Select, { SingleValue } from 'react-select';
+import { BsX } from '@react-icons/all-files/bs/BsX';
 
 const mealTranslations = {
   breakfast: '아침',
@@ -120,15 +121,15 @@ export default function Meals() {
   return (
     <div className='flex flex-col items-center  p-2 w-full md:w-2/5 mx-auto'>
       <h1 className='text-2xl font-semibold mb-4'>{`${dayjs(date).format('M월 D일 ddd요일')} ${mealTranslations[meal.name]} `}</h1>
-      
+
       <div className='flex gap-1'>
         <button className='btn btn-success btn-sm text-white mt-1' onClick={handleAddIngredient}>
           재료 추가
         </button>
         <div>
-        {ingredientList.map((ingredient, index) => (
-          <div key={index} className='flex items-center mb-2 w-full'>
-            <Select
+          {ingredientList.map((ingredient, index) => (
+            <div key={index} className='flex items-center mb-2 w-full'>
+              <Select
                 className='basic-single w-60'
                 classNamePrefix='select'
                 options={ingredientOptions}
@@ -143,17 +144,19 @@ export default function Meals() {
               />
               {index > 0 && (
                 <button className='btn btn-sm btn-circle ml-1 btn-error text-white' onClick={() => handleRemoveIngredient(index)}>
-                  <svg xmlns='http://www.w3.org/2000/svg' className='h-5 w-5' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
-                    <path strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M6 18L18 6M6 6l12 12' />
-                  </svg>
+                  <BsX className='h-5 w-5 font-bold text-lg' />
                 </button>
               )}
-          </div>
-        ))}
+            </div>
+          ))}
         </div>
       </div>
       <div className='w-full flex justify-between items-center mt-10'>
-        <button className='btn' onClick={() => {navigate(-1)}}>
+        <button
+          className='btn'
+          onClick={() => {
+            navigate(-1);
+          }}>
           목록
         </button>
         <button className='btn btn-primary' onClick={handleSubmit}>
