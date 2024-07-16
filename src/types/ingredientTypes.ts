@@ -1,4 +1,4 @@
-export interface Ingredient {
+export interface IngredientProps {
   id: string;
   name: string;
   qty: number;
@@ -8,21 +8,20 @@ export interface Ingredient {
   expiration?: string;
 }
 
-export interface DialogAddIngredientProps {
-  onSubmit: (ingredient: Ingredient) => void;
+export interface IngredientDialogProps {
   onClose: () => void;
   visible: boolean;
-  initialIngredient?: Ingredient | null;
+  initialIngredient?: IngredientProps | null;
 }
 
 export interface IngredientTableProps { 
   query:string;
-  onEdit: (ingredient: Ingredient) => void;
-  onDelete: (ingredient: Ingredient) => void;
+  onEdit: (ingredient: IngredientProps) => void;
+  onDelete: (ingredient: IngredientProps) => void;
 }
 
 export interface IngredientItemProps {
-  ingredient: Ingredient;
-  onEdit: (ingredient: Ingredient) => void;
-  onDelete: (ingredient: Ingredient) => void;
+  ingredient: IngredientProps;
+  onEdit: (ingredient: IngredientProps) => void;
+  onDelete: (ingredient: IngredientProps) => void;
 }

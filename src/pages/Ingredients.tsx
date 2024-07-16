@@ -1,28 +1,22 @@
 import { ChangeEvent, useState } from 'react';
 import useIngredients from '../hooks/useIngredients';
-import DialogAddIngredient from '../components/ingredient/DialogAddIngredient';
-import { Ingredient } from '../types/ingredientTypes';
-import RemoveDialog from '../components/ingredient/RemoveDialog';
+import { IngredientProps } from '../types/ingredientTypes';
+import RemoveDialog from '../components/common/RemoveDialog';
 import IngredientsSearch from '../components/ingredient/IngredientsSearch';
 import IngredientTable from '../components/ingredient/IngredientTable';
 import Button from '../components/ui/Button';
+import IngredientDialog from '../components/ingredient/IngredientDialog';
 
 export default function Ingredients() {
-  const { addIngredient, updateIngredient, deleteIngredient } = useIngredients();
+  const { deleteIngredient } = useIngredients();
 
   const [query, setQuery] = useState('');
   const [visible, setVisible] = useState(false);
   const [removeVisible, setRemoveVisible] = useState(false);
-  const [editingIngredient, setEditingIngredient] = useState<Ingredient | null>(null);
+  const [editingIngredient, setEditingIngredient] = useState<IngredientProps | null>(null);
 
 
-  const handleAddIngredient = (ingredient: Ingredient) => {
-    if (ingredient.id) {
-      updateIngredient.mutate(ingredient);
-    } else {
-      addIngredient.mutate(ingredient);
-    }
-  };
+
 
   const handleDialog = () => setVisible(true);    
 
@@ -31,7 +25,7 @@ export default function Ingredients() {
     setVisible(false);
   };
 
-  const handleEditIngredient = (ingredient: Ingredient) => {
+  const handleEditIngredient = (ingredient: IngredientProps) => {
     setEditingIngredient(ingredient);
     setVisible(true);    
   };
@@ -43,7 +37,7 @@ export default function Ingredients() {
     }
   };
 
-  const handleRemoveDialog = (ingredient: Ingredient) => {
+  const handleRemoveDialog = (ingredient: IngredientProps) => {
     setEditingIngredient(ingredient);
     setRemoveVisible(true);
   };
@@ -59,7 +53,7 @@ export default function Ingredients() {
         <Button text={'추가'} onClick={handleDialog} />
       </div>
       <IngredientTable query={query} onEdit={handleEditIngredient} onDelete={handleRemoveDialog} />
-      <DialogAddIngredient visible={visible} onSubmit={handleAddIngredient} onClose={handleCloseDialog} initialIngredient={editingIngredient} />
+      <IngredientDialog visible={visible} onClose={handleCloseDialog} initialIngredient={editingIngredient} />
       <RemoveDialog removeVisible={removeVisible} onSubmit={handleRemoveIngredient} onClose={handleCloseRemoveDialog} />
     </div>
   );

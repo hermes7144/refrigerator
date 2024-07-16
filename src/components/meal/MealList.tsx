@@ -1,6 +1,6 @@
 import { FC, useState, useCallback } from 'react';
 import { MealSection } from './MealSection';
-import { MealListProps, Meal } from '../../types/mealTypes';
+import { EmptyMealProps, MealListProps, MealProps } from '../../types/mealTypes';
 import useMeals from '../../hooks/useMeals';
 import MealDialog from './MealDialog';
 import { Dayjs } from 'dayjs';
@@ -8,14 +8,14 @@ import { Dayjs } from 'dayjs';
 const MealList: FC<MealListProps> = ({ week, selectedDate, scrollRefs }) => {
   const { mealsQuery: { data: meals } } = useMeals();
   const [visible, setVisible] = useState(false);
-  const [currentMeal, setCurrentMeal] = useState<{ meal: Meal | null, date?: Dayjs }>({ meal: null, date: undefined });
+  const [currentMeal, setCurrentMeal] = useState<{ meal: MealProps | EmptyMealProps | null, date?: Dayjs }>({ meal: null, date: undefined });
 
   const handleCloseDialog = useCallback(() => {
     setVisible(false);
     setCurrentMeal({ meal: null, date: undefined });
   }, []);
 
-  const handleDialog = useCallback((meal: Meal, date?: Dayjs) => {
+  const handleOpenMealDialog  = useCallback((meal: MealProps | EmptyMealProps  , date?: Dayjs) => {
     setCurrentMeal({ meal, date });
     setVisible(true);
   }, []);
@@ -32,12 +32,11 @@ const MealList: FC<MealListProps> = ({ week, selectedDate, scrollRefs }) => {
               weekday={weekday}
               meals={meals?.[formattedDate]}
               scrollRef={(el) => (scrollRefs.current[formattedDate] = el)}
-              onEdit={handleDialog}
-            />
+              onOpenDialog={handleOpenMealDialog}             />
           );
         })}
       </ul>
-      {visible && currentMeal.meal && (
+      {visible && currentMeal.meal && currentMeal.date && (
         <MealDialog
           meal={currentMeal.meal}
           date={currentMeal.date}

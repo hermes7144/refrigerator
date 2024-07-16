@@ -1,40 +1,41 @@
 import React, { useEffect, useRef, useState } from 'react';
-import dayjs from 'dayjs';
 import Select, { SingleValue } from 'react-select';
 import { BsX } from '@react-icons/all-files/bs/BsX';
-import { IngredientProps } from '../../types/ingredientTypes';
-import useMeals from '../../hooks/useMeals';
-import { IMealDialogProps, MealProps } from '../../types/mealTypes';
 import useIngredients from '../../hooks/useIngredients';
+import useRecipes from '../../hooks/useRecipes';
+import { IngredientProps } from '../../types/ingredientTypes';
 import ErrorDialog from '../common/ErrorDialog';
+import { RecipeProps } from '../../types/RecipeTypes';
 
-const mealTranslations = {
-  breakfast: '아침',
-  lunch: '점심',
-  dinner: '저녁',
-};
-
-export default function MealDialog({ meal, date, visible, onClose }: IMealDialogProps) {
+interface RecipeDialogProps {
+  visible:boolean;
+  onClose: () => void;
+  recipe: RecipeProps;
+ }
+ 
+ export default function RecipeDialog({ visible, onClose, recipe }: RecipeDialogProps) {
   const { ingredientsQuery: { data: ingredients } } = useIngredients();
-  const { addMeal, updateMeal } = useMeals();
+  const { addRecipe, updateRecipe } = useRecipes();
   const [ingredientList, setIngredientList] = useState<IngredientProps[]>([{ id: '', name: '', unit: '', qty: 0, category: '' }]);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [name, setName] = useState('');
 
   const modalRef = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
     if (!modalRef.current) return;
-
+    
     if (visible) {
       modalRef.current.showModal();
-      if (meal && 'ingredients' in meal) {
-        const initialIngredients: IngredientProps[] = Object.values(meal .ingredients) as IngredientProps[];
+      if (recipe) {
+        setName(recipe.name);
+        const initialIngredients: IngredientProps[] = Object.values(recipe.ingredients) as IngredientProps[];
         setIngredientList(initialIngredients);
-      } 
+      }
     } else {
       modalRef.current.close();
     }
-  }, [visible, meal]);
+  }, [visible, recipe]);
 
   const handleIngredientChange = (e: SingleValue<{ value: string; label: string }>, index: number) => {
     const newIngredientList = [...ingredientList];
@@ -66,6 +67,7 @@ export default function MealDialog({ meal, date, visible, onClose }: IMealDialog
 
   const handleRemoveIngredient = (index: number) => {
     if (ingredientList.length === 1) return;
+
     const newIngredientList = ingredientList.filter((_, i) => i !== index);
     setIngredientList(newIngredientList);
   };
@@ -98,27 +100,27 @@ export default function MealDialog({ meal, date, visible, onClose }: IMealDialog
       return acc;
     }, [] as IngredientProps[]);
 
-    const mealData: MealProps = {
-      name: meal?.name,
-      date: dayjs(date).format('YYYY-MM-DD'),
+    const recipeData = {
+      name,
       ingredients: mergedIngredients.filter((ingredient) => ingredient.id && ingredient.qty > 0),
-      done: 'ingredients' in meal && meal.done
     };
 
-    if ('ingredients' in meal) {
-      updateMeal.mutate({
-        ...mealData,
-        id: meal.id,
+    if (recipe) {
+      updateRecipe.mutate({
+        ...recipeData,
+        id: recipe.id,
       });
     } else {
-      addMeal.mutate(mealData);
+      addRecipe.mutate(recipeData);
     }
     handleClose();
   };
-  
+
   const handleClose = () => {
+    setName('');
     setIngredientList([{ id: '', name: '', unit: '', qty: 0, category: '' }]);
     onClose();
+
   }
 
   const ingredientOptions = ingredients?.map((ingredient) => ({ value: ingredient.id, label: `${ingredient.name} (${ingredient.unit})` }));
@@ -126,7 +128,18 @@ export default function MealDialog({ meal, date, visible, onClose }: IMealDialog
   return (
     <dialog ref={modalRef} className='modal modal-bottom sm:modal-middle' onCancel={handleClose}>
       <div className='p-4 w-full md:w-1/3 lg:w-1/4 bg-white rounded shadow-md'>
-        <h1 className='text-2xl font-semibold mb-4'>{`${dayjs(date).format('M월 D일 ddd요일')} ${mealTranslations[meal.name]} `}</h1>
+        <label className='form-control w-full py-4'>
+          <div className='label mb-2'>
+            <span className='label-text text-lg font-semibold'>레시피 명</span>
+          </div>
+          <input
+            type='text'
+            placeholder='Type here'
+            className='input input-bordered w-full p-2 text-lg'
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+        </label>
         <div className='flex flex-col gap-2 w-full'>
           <button className='btn btn-success text-white py-2' onClick={handleAddIngredient}>
             재료 추가
@@ -157,8 +170,8 @@ export default function MealDialog({ meal, date, visible, onClose }: IMealDialog
             ))}
           </div>
         </div>
-        <div className='modal-action'>
-          <button className='btn btn-sm' onClick={handleClose}>
+        <div className='w-full flex justify-between items-center mt-4'>
+        <button className='btn btn-sm' onClick={handleClose}>
             취소
           </button>
           <button className='btn btn-sm' onClick={handleSubmit}>
@@ -167,6 +180,6 @@ export default function MealDialog({ meal, date, visible, onClose }: IMealDialog
         </div>
         {errorMessage && <ErrorDialog message={errorMessage} onClose={() => setErrorMessage(null)} />}
       </div>
-    </dialog>
+      </dialog>
   );
 }

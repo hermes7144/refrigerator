@@ -4,9 +4,12 @@ import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
 dayjs.locale('ko'); // global로 한국어 locale 사용
 import 'react-datepicker/dist/react-datepicker.css';
-import { DialogAddIngredientProps, Ingredient } from '../../types/ingredientTypes';
+import { IngredientDialogProps, IngredientProps } from '../../types/ingredientTypes';
+import useIngredients from '../../hooks/useIngredients';
 
-export default function DialogAddIngredient({ visible, onSubmit, onClose, initialIngredient }: DialogAddIngredientProps) {
+export default function IngredientDialog({ visible, onClose, initialIngredient }: IngredientDialogProps) {
+  const { addIngredient, updateIngredient } = useIngredients();
+
   const [ingredient, setIngredient] = useState({ name: '', qty: 0 });
   const [unit, setUnit] = useState<string>('g');
   const [category, setCategory] = useState<string>('');
@@ -80,7 +83,7 @@ export default function DialogAddIngredient({ visible, onSubmit, onClose, initia
       return;
     }
 
-    const newIngredient: Ingredient = {
+    const newIngredient: IngredientProps = {
       id: initialIngredient ? initialIngredient.id : '',
       name: ingredient.name,
       qty: Number(ingredient.qty),
@@ -89,7 +92,12 @@ export default function DialogAddIngredient({ visible, onSubmit, onClose, initia
       expiration: expiration ? dayjs(expiration).format('YYYY-MM-DD') : '',
     };
 
-    onSubmit(newIngredient);
+    if (newIngredient.id) {
+      updateIngredient.mutate(ingredient);
+    } else {
+      addIngredient.mutate(ingredient);
+    }
+
     onClose();
   };
 
