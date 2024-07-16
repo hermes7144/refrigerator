@@ -15,8 +15,7 @@ export const SkeletonMealItem: React.FC<{meal:{name:string}; date:Dayjs}> = ({ m
       <MealImage meal={meal} />
       <h3 className='font-semibold'>{mealTranslations[meal.name as keyof typeof mealTranslations]}</h3>
     </div>
-    <div className="flex flex-col gap-1 pl-6 border-l-2 border-gray-100">
-      <div className="skeleton h-4 w-40"></div>
+    <div className="flex pl-6 border-l-2 border-gray-100">
       <div className="skeleton h-4 w-40"></div>
     </div>
   </Link>

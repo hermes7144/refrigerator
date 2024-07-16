@@ -12,14 +12,22 @@ export default function DialogAddIngredient({ visible, onSubmit, onClose, initia
   const [category, setCategory] = useState<string>('');
   const [expiration, setExpiration] = useState<Date>();
 
+  const [errors, setErrors] = useState<{ name?: string; qty?: string; category?: string }>({});
+
   const modalRef = useRef<HTMLDialogElement>(null);
+
   useEffect(() => {
     if (!modalRef.current) return;
     
-    visible ? modalRef.current.showModal() : modalRef.current.close();
+    if (visible) {
+      modalRef.current.showModal();
+      handleInit();
+    } else {
+      modalRef.current.close();
+    }
   }, [visible]);
 
-  useEffect(() => {
+  useEffect(() => {    
     if (initialIngredient) {
       setIngredient(initialIngredient);
       setUnit(initialIngredient.unit);
@@ -28,11 +36,12 @@ export default function DialogAddIngredient({ visible, onSubmit, onClose, initia
     }
   }, [initialIngredient]);  
 
-  const handleReset =() => {
+  const handleInit =() => {
     setIngredient({ name: '', qty: 0 });
     setUnit('g');
     setCategory('');
     setExpiration(undefined);
+    setErrors({});
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -53,7 +62,28 @@ export default function DialogAddIngredient({ visible, onSubmit, onClose, initia
     setExpiration(date ? date : undefined);
   };
 
+  const validate = () => {
+    const newErrors: { name?: string; qty?: string; category?: string } = {};
+    
+    if (!ingredient.name.trim()) {
+      newErrors.name = '이름을 입력해주세요';
+    }
+    if (!ingredient.qty || isNaN(Number(ingredient.qty))) {
+      newErrors.qty = '유효한 수량을 입력해주세요';
+    }
+    if (!category.trim()) {
+      newErrors.category = '카테고리를 선택해주세요';
+    }
+    
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleSubmit = (): void => {
+    if (!validate()) {
+      return;
+    }
+
     const newIngredient: Ingredient = {
       id: initialIngredient ? initialIngredient.id : '',
       name: ingredient.name,
@@ -64,32 +94,31 @@ export default function DialogAddIngredient({ visible, onSubmit, onClose, initia
     };
 
     onSubmit(newIngredient);
-    handleClose();
-  };
-
-  const handleClose = (): void => {
-    handleReset();
     onClose();
   };
 
   return (
-    <dialog ref={modalRef}  id='my_modal_1' className='modal modal-bottom sm:modal-middle' onCancel={handleClose} >
+    <dialog ref={modalRef} id='my_modal_1' className='modal modal-bottom sm:modal-middle' onCancel={onClose}>
       <div className='modal-box flex flex-col pt-16'>
         <div className='flex flex-col gap-4'>
           <label className={`input input-bordered flex items-center gap-2`}>
             이름
             <input type='text' className='grow' value={ingredient.name || ''} name='name' onChange={handleChange} />
           </label>
+          {errors.name && <p className='text-red-500 text-sm'>{errors.name}</p>}
+          
           <div className='flex gap-1'>
             <label className={`input input-bordered flex items-center gap-2 w-full`}>
               수량
-              <input type='text' className='grow' value={ingredient.qty || ''} name='qty' onChange={handleChange} />
+              <input type='text' className='grow' value={ingredient.qty || '' } name='qty' onChange={handleChange} />
             </label>
             <select className='select select-bordered max-w-[70px] text-l' onChange={handleChangeUnit} value={unit}>
               <option value='g'>g</option>
               <option value='ea'>개</option>
             </select>
           </div>
+          {errors.qty && <p className='text-red-500 text-sm'>{errors.qty}</p>}
+
           <select className='select select-bordered' onChange={handleChangeCategory} value={category}>
             <option value='' disabled>
               카테고리
@@ -102,11 +131,12 @@ export default function DialogAddIngredient({ visible, onSubmit, onClose, initia
             <option value='condiment'>조미료</option>
             <option value='etc'>기타</option>
           </select>
+          {errors.category && <p className='text-red-500 text-sm'>{errors.category}</p>}
           유통기한
           <DatePicker className='w-full h-12 border-gray-200 border-2 rounded-lg pl-2' toggleCalendarOnIconClick selected={expiration} onChange={handleDateChange} dateFormat='yyyy-MM-dd' isClearable />
         </div>
         <div className='modal-action'>
-          <button className='btn btn-sm' onClick={handleClose}>
+          <button className='btn btn-sm' onClick={onClose}>
             취소
           </button>
           <button className='btn btn-sm' onClick={handleSubmit}>
