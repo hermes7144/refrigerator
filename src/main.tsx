@@ -10,7 +10,7 @@ const Index = withSuspense(lazy(() => import('./pages/Index.tsx')));
 const Recipes = withSuspense(withProtectedRoute(lazy(() => import('./pages/Recipes.tsx'))));
 const Ingredients = withSuspense(withProtectedRoute(lazy(() => import('./pages/Ingredients.tsx'))));
 const Meals = withSuspense(withProtectedRoute(lazy(() => import('./pages/Meals.tsx'))));
-const RecipeWork = withSuspense(withProtectedRoute(lazy(() => import('./pages/RecipeWork.tsx'))));
+const NewRecipe = withSuspense(withProtectedRoute(lazy(() => import('./pages/NewRecipe.tsx'))));
 
 const router = createBrowserRouter([
   {
@@ -20,7 +20,7 @@ const router = createBrowserRouter([
     children: [
       { index: true, path: '/', element: <Index />},
       { path: '/recipes', element: <Recipes /> },
-      { path: '/recipes/new', element: <RecipeWork /> },
+      { path: '/recipes/new', element: <NewRecipe /> },
       { path: '/ingredients', element: <Ingredients /> },
       { path: '/meals', element: <Meals /> },
     ],

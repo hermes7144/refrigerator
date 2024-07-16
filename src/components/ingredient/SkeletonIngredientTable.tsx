@@ -1,6 +1,3 @@
-// SkeletonIngredientTable.js
-import React from 'react';
-
 const SkeletonIngredientTable = () => {
   const skeletonRows = Array.from({ length: 15 });
 

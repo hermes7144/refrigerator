@@ -149,6 +149,9 @@ export async function addNewRecipe(uid: string, recipe:Recipe): Promise<void> {
 }
 
 export async function editRecipe(uid: string, recipe:Recipe): Promise<void> {
+  console.log(uid, recipe);
+  
+
   const recipeData = {
     id: recipe.id,
     name: recipe.name,

@@ -1,37 +1,30 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import useIngredients from '../hooks/useIngredients';
-import React, { useState, useEffect } from 'react';
-import useMeals from '../hooks/useMeals';
-import { Meal } from '../types/mealTypes';
+import React, { useEffect, useState } from 'react';
 import { Ingredient } from '../types/ingredientTypes';
 import ErrorDialog from '../components/common/ErrorDialog';
-import dayjs from 'dayjs';
 import Select, { SingleValue } from 'react-select';
+import useRecipes from '../hooks/useRecipes';
 import { BsX } from '@react-icons/all-files/bs/BsX';
 
-const mealTranslations = {
-  breakfast: '아침',
-  lunch: '점심',
-  dinner: '저녁',
-};
-
-export default function Meals() {
+export default function NewRecipe() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { meal, date }: { meal: Meal; date: string } = location.state;
+  const { recipe } = location.state;
   const { ingredientsQuery: { data: ingredients } } = useIngredients();
-  const { addMeal, updateMeal } = useMeals();
+  const { addRecipe, updateRecipe } = useRecipes();
   const [ingredientList, setIngredientList] = useState<Ingredient[]>([]);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [name, setName] = useState('');
 
   useEffect(() => {
-    if (meal.ingredients) {
-      const initialIngredients: Ingredient[] = Object.values(meal.ingredients) as Ingredient[];
+    if (recipe) {
+      const initialIngredients: Ingredient[] = Object.values(recipe.ingredients) as Ingredient[];
       setIngredientList(initialIngredients);
     } else {
       setIngredientList([{ id: '', name: '', unit: '', qty: 0, category: '' }]);
     }
-  }, [meal]);
+  }, [recipe]);
 
   const handleIngredientChange = (e: SingleValue<{ value: string; label: string }>, index: number) => {
     const newIngredientList = [...ingredientList];
@@ -63,6 +56,7 @@ export default function Meals() {
 
   const handleRemoveIngredient = (index: number) => {
     if (ingredientList.length === 1) return;
+
     const newIngredientList = ingredientList.filter((_, i) => i !== index);
     setIngredientList(newIngredientList);
   };
@@ -95,22 +89,20 @@ export default function Meals() {
       return acc;
     }, [] as Ingredient[]);
 
-    const mealData: Meal = {
-      name: meal.name,
-      date: dayjs(date).format('YYYY-MM-DD'),
+    const recipeData = {
+      name,
       ingredients: mergedIngredients.filter((ingredient) => ingredient.id && ingredient.qty > 0),
-      done: meal?.done,
     };
 
-    if (meal.ingredients) {
-      updateMeal.mutate({
-        ...mealData,
-        id: meal.id,
+    if (recipe) {
+      updateRecipe.mutate({
+        ...recipeData,
+        id: recipe.id,
       });
     } else {
-      addMeal.mutate(mealData);
+      addRecipe.mutate(recipeData);
     }
-    navigate('/');
+    navigate(-1);
   };
 
   const ingredientOptions = ingredients?.map((ingredient) => ({ value: ingredient.id, label: `${ingredient.name} (${ingredient.unit})` }));
@@ -118,6 +110,18 @@ export default function Meals() {
   return (
     <div className='flex flex-col pt-0 md:pt-32 items-center bg-gray-100'>
       <div className='p-4 w-full md:w-1/2 lg:w-1/3 bg-white rounded shadow-md'>
+        <label className='form-control w-full py-4'>
+          <div className='label mb-2'>
+            <span className='label-text text-lg font-semibold'>레시피 명</span>
+          </div>
+          <input
+            type='text'
+            placeholder='Type here'
+            className='input input-bordered w-full p-2 text-lg'
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+        </label>
         <div className='flex flex-col gap-2 w-full'>
           <button className='btn btn-success text-white py-2' onClick={handleAddIngredient}>
             재료 추가

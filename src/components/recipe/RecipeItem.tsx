@@ -11,7 +11,6 @@ import { RecipeItemProps } from '../../types/RecipeTypes';
           </div>
           <div>
             <div className='font-bold'>{recipe.name}</div>
-            {/* <div className='text-sm opacity-50'>{ingredient.category}</div> */}
           </div>
         </div>
       </td>
