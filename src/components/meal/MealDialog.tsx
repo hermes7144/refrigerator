@@ -1,13 +1,12 @@
-import { useLocation, useNavigate } from 'react-router-dom';
-import useIngredients from '../hooks/useIngredients';
-import React, { useState, useEffect } from 'react';
-import useMeals from '../hooks/useMeals';
-import { Meal } from '../types/mealTypes';
-import { Ingredient } from '../types/ingredientTypes';
-import ErrorDialog from '../components/common/ErrorDialog';
+import React, { useEffect, useRef, useState } from 'react';
 import dayjs from 'dayjs';
 import Select, { SingleValue } from 'react-select';
 import { BsX } from '@react-icons/all-files/bs/BsX';
+import { Ingredient } from '../../types/ingredientTypes';
+import useMeals from '../../hooks/useMeals';
+import { IMealDialogProps, Meal } from '../../types/mealTypes';
+import useIngredients from '../../hooks/useIngredients';
+import ErrorDialog from '../common/ErrorDialog';
 
 const mealTranslations = {
   breakfast: '아침',
@@ -15,23 +14,29 @@ const mealTranslations = {
   dinner: '저녁',
 };
 
-export default function Meals() {
-  const location = useLocation();
-  const navigate = useNavigate();
-  const { meal, date }: { meal: Meal; date: string } = location.state;
+export default function MealDialog({ meal, date, visible, onClose }: IMealDialogProps) {
   const { ingredientsQuery: { data: ingredients } } = useIngredients();
   const { addMeal, updateMeal } = useMeals();
   const [ingredientList, setIngredientList] = useState<Ingredient[]>([]);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
+  const modalRef = useRef<HTMLDialogElement>(null);
+
   useEffect(() => {
-    if (meal.ingredients) {
-      const initialIngredients: Ingredient[] = Object.values(meal.ingredients) as Ingredient[];
-      setIngredientList(initialIngredients);
+    if (!modalRef.current) return;
+
+    if (visible) {
+      modalRef.current.showModal();
+      if (meal && meal.ingredients) {
+        const initialIngredients: Ingredient[] = Object.values(meal.ingredients) as Ingredient[];
+        setIngredientList(initialIngredients);
+      } else {
+        setIngredientList([{ id: '', name: '', unit: '', qty: 0, category: '' }]);
+      }
     } else {
-      setIngredientList([{ id: '', name: '', unit: '', qty: 0, category: '' }]);
+      modalRef.current.close();
     }
-  }, [meal]);
+  }, [visible, meal]);
 
   const handleIngredientChange = (e: SingleValue<{ value: string; label: string }>, index: number) => {
     const newIngredientList = [...ingredientList];
@@ -110,34 +115,29 @@ export default function Meals() {
     } else {
       addMeal.mutate(mealData);
     }
-    navigate('/');
+    onClose();
   };
 
   const ingredientOptions = ingredients?.map((ingredient) => ({ value: ingredient.id, label: `${ingredient.name} (${ingredient.unit})` }));
 
   return (
-    <div className='flex flex-col pt-0 md:pt-32 items-center bg-gray-100'>
+    <dialog ref={modalRef} className='modal modal-bottom sm:modal-middle' onCancel={onClose}>
       <div className='p-4 w-full md:w-1/2 lg:w-1/3 bg-white rounded shadow-md'>
-      <h1 className='text-2xl font-semibold mb-4'>{`${dayjs(date).format('M월 D일 ddd요일')} ${mealTranslations[meal.name]} `}</h1>
+        <h1 className='text-2xl font-semibold mb-4'>{`${dayjs(date).format('M월 D일 ddd요일')} ${mealTranslations[meal.name]} `}</h1>
         <div className='flex flex-col gap-2 w-full'>
           <button className='btn btn-success text-white py-2' onClick={handleAddIngredient}>
             재료 추가
           </button>
           <div className='w-full max-h-80 overflow-y-auto'>
-          {ingredientList.map((ingredient, index) => (
+            {ingredientList.map((ingredient, index) => (
               <div key={index} className='flex items-center mb-2 w-full'>
                 <Select
-                  className='basic-single flex-grow '
+                  className='basic-single flex-grow'
                   classNamePrefix='select'
                   options={ingredientOptions}
                   value={ingredientOptions?.find((option) => option.value === ingredient.id)}
                   onChange={(selectedOption) => handleIngredientChange(selectedOption, index)}
-
-                  menuPortalTarget={document.body} 
-                  styles={{
-                    // Fixes the overlapping problem of the component
-                    menuPortal: provided => ({ ...provided, zIndex: 9999 })
-                  }}                
+                  menuPosition="fixed"
                 />
                 <input
                   type='text'
@@ -145,26 +145,25 @@ export default function Meals() {
                   onChange={(e) => handleQtyChange(e, index)}
                   value={ingredient.qty ? ingredient.qty.toString() : ''}
                 />
-                {index > 0 && (
+                {ingredientList.length > 1 && (
                   <button className='btn btn-sm btn-circle ml-2 btn-error text-white' onClick={() => handleRemoveIngredient(index)}>
                     <BsX className='h-5 w-5' />
                   </button>
                 )}
-                {index === 0 && <div className='w-10'></div>} {/* 첫 번째 행에 빈 공간 추가 */}
               </div>
             ))}
           </div>
         </div>
-        <div className='w-full flex justify-between items-center mt-4'>
-          <button className='btn' onClick={() => navigate(-1)}>
-            목록
+        <div className='modal-action'>
+          <button className='btn btn-sm' onClick={onClose}>
+            취소
           </button>
-          <button className='btn btn-primary' onClick={handleSubmit}>
+          <button className='btn btn-sm' onClick={handleSubmit}>
             확인
           </button>
         </div>
         {errorMessage && <ErrorDialog message={errorMessage} onClose={() => setErrorMessage(null)} />}
       </div>
-    </div>
+    </dialog>
   );
 }

@@ -11,38 +11,34 @@ export default function DialogAddIngredient({ visible, onSubmit, onClose, initia
   const [unit, setUnit] = useState<string>('g');
   const [category, setCategory] = useState<string>('');
   const [expiration, setExpiration] = useState<Date>();
-
   const [errors, setErrors] = useState<{ name?: string; qty?: string; category?: string }>({});
-
   const modalRef = useRef<HTMLDialogElement>(null);
 
-  useEffect(() => {
+  useEffect(() => {    
     if (!modalRef.current) return;
-    
+
     if (visible) {
       modalRef.current.showModal();
-      handleInit();
+      if (initialIngredient) {
+        setIngredient(initialIngredient);
+        setUnit(initialIngredient.unit);
+        setCategory(initialIngredient.category);
+        setExpiration(initialIngredient.expiration ? new Date(initialIngredient.expiration) : undefined);
+      } else {
+        resetForm();
+      }
     } else {
       modalRef.current.close();
     }
-  }, [visible]);
+  }, [visible, initialIngredient]);  
 
-  useEffect(() => {    
-    if (initialIngredient) {
-      setIngredient(initialIngredient);
-      setUnit(initialIngredient.unit);
-      setCategory(initialIngredient.category);
-      setExpiration(initialIngredient.expiration ? new Date(initialIngredient.expiration) : undefined);
-    }
-  }, [initialIngredient]);  
-
-  const handleInit =() => {
+  const resetForm = () => {
     setIngredient({ name: '', qty: 0 });
     setUnit('g');
     setCategory('');
     setExpiration(undefined);
     setErrors({});
-  }
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -98,7 +94,7 @@ export default function DialogAddIngredient({ visible, onSubmit, onClose, initia
   };
 
   return (
-    <dialog ref={modalRef} id='my_modal_1' className='modal modal-bottom sm:modal-middle' onCancel={onClose}>
+    <dialog ref={modalRef} className='modal modal-bottom sm:modal-middle' onCancel={onClose}>
       <div className='modal-box flex flex-col pt-16'>
         <div className='flex flex-col gap-4'>
           <label className={`input input-bordered flex items-center gap-2`}>
