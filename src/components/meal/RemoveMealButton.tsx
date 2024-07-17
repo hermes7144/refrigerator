@@ -1,10 +1,10 @@
 import useIngredients from '../../hooks/useIngredients';
 import useMeals from '../../hooks/useMeals';
-import { MealProps } from '../../types/mealTypes';
+import { Meal } from '../../types/mealTypes';
 import { BsX } from '@react-icons/all-files/bs/BsX';
 
 export interface RemoveMealButtonProps {
-  meal: MealProps;
+  meal: Meal;
   date: string;
 }
 

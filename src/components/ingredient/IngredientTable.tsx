@@ -1,12 +1,12 @@
 import React, { useEffect, useState, useTransition } from 'react';
 import useIngredients from '../../hooks/useIngredients';
-import { IngredientProps, IngredientTableProps } from '../../types/ingredientTypes';
+import { Ingredient, IngredientTableProps } from '../../types/ingredientTypes';
 import IngredientItem from './IngredientItem';
 import SkeletonIngredientTable from './SkeletonIngredientTable';
 
 export default function IngredientTable({ query, onEdit, onDelete }: IngredientTableProps) {
   const { ingredientsQuery: { data: initIngredients } } = useIngredients();
-  const [filteredIngredients, setFilteredIngredients] = useState<IngredientProps[]>([]);
+  const [filteredIngredients, setFilteredIngredients] = useState<Ingredient[]>([]);
   const [isPending, startTransition] = useTransition();
   const [isInitialLoad, setIsInitialLoad] = useState(true);
 

@@ -2,21 +2,17 @@ import  { Dayjs } from 'dayjs';
 import { Ingredient } from './ingredientTypes';
 
 export interface Meals {
-  breakfast?: MealProps;
-  lunch?: MealProps;
-  dinner?: MealProps;
+  breakfast?: Meal;
+  lunch?: Meal;
+  dinner?: Meal;
 }
 
-export interface MealProps {
+export interface Meal {
   id?: string;
   name: MealType;
   date: string;
   ingredients: Ingredient[];
   done: boolean;
-}
-
-export interface EmptyMealProps {
-  name: MealType;
 }
 
 export interface MealListProps {
@@ -25,7 +21,6 @@ export interface MealListProps {
   meals?: MealsByDate ;
   scrollRefs: React.MutableRefObject<{ [key: string]: HTMLDivElement | null }>;
   isSkeleton?:boolean;
-  onOpenDialog?: () => void;
 }
 
 
@@ -35,34 +30,29 @@ export interface MealSectionProps {
   meals?: Meals;
   scrollRef: (el: HTMLDivElement | null) => void;
   isSkeleton?:boolean;
-  onOpenDialog?: (meal:MealProps | EmptyMealProps, date:Dayjs) => void;
 }
 
 export interface MealsByDate {
   [date: string]: {
-    breakfast?: MealProps;
-    lunch?: MealProps;
-    dinner?: MealProps;
+    breakfast?: Meal;
+    lunch?: Meal;
+    dinner?: Meal;
   };
 }
 
 export interface MealItemProps {
-  meal: MealProps;
+  meal: Meal;
   date: Dayjs;
-  onOpenDialog: (meal:MealProps, date:Dayjs) => void;
-}
-
-export interface EmptyMealItemProps {
-  meal:EmptyMealProps;
-  date: Dayjs;
-  onOpenDialog: (meal: {name: string }, date:Dayjs) => void;
+  visible:boolean;
+  onEdit: () => void;
+  onClose: () => void;
 }
 
 
 export type MealType = 'breakfast' | 'lunch' | 'dinner';
 
 export interface IMealDialogProps {
-  meal:MealProps | EmptyMealProps;
+  meal:Meal;
   date:Dayjs;
   visible:boolean;
   onClose: ()=> void;

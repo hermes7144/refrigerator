@@ -1,14 +1,14 @@
-import { IngredientProps } from './ingredientTypes';
+import { Ingredient } from './ingredientTypes';
 
-export interface RecipeProps {
+export interface Recipe {
   id?: string;
   name: string;
-  ingredients: IngredientProps[];
+  ingredients: Ingredient[];
   image?:string;
 }
 
 export interface RecipeItemProps {
-  recipe:RecipeProps;
-  onEdit: (recipe:RecipeProps) => void;
-  onDelete: (recipe:RecipeProps) => void;
+  recipe:Recipe;
+  onEdit: (recipe:Recipe) => void;
+  onDelete: (recipe:Recipe) => void;
 }

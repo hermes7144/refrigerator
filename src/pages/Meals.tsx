@@ -2,7 +2,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import useIngredients from '../hooks/useIngredients';
 import React, { useState, useEffect } from 'react';
 import useMeals from '../hooks/useMeals';
-import { MealProps } from '../types/mealTypes';
+import { Meal } from '../types/mealTypes';
 import { Ingredient } from '../types/ingredientTypes';
 import ErrorDialog from '../components/common/ErrorDialog';
 import dayjs from 'dayjs';
@@ -18,7 +18,7 @@ const mealTranslations = {
 export default function Meals() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { meal, date }: { meal: MealProps; date: string } = location.state;
+  const { meal, date }: { meal: Meal; date: string } = location.state;
   const { ingredientsQuery: { data: ingredients } } = useIngredients();
   const { addMeal, updateMeal } = useMeals();
   const [ingredientList, setIngredientList] = useState<Ingredient[]>([]);
@@ -95,7 +95,7 @@ export default function Meals() {
       return acc;
     }, [] as Ingredient[]);
 
-    const mealData: MealProps = {
+    const mealData: Meal = {
       name: meal.name,
       date: dayjs(date).format('YYYY-MM-DD'),
       ingredients: mergedIngredients.filter((ingredient) => ingredient.id && ingredient.qty > 0),

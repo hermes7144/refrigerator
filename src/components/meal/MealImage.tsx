@@ -2,10 +2,10 @@ import { ReactComponent as Breakfast } from '../../assets/image/breakfast.svg';
 import { ReactComponent as Lunch } from '../../assets/image/lunch.svg';
 import { ReactComponent as Dinner } from '../../assets/image/dinner.svg';
 
-import { MealProps } from '../../types/mealTypes';
+import { Meal } from '../../types/mealTypes';
 
 interface MealImageProps {
-  meal: MealProps | { name: string; done?: boolean };
+  meal: Meal | { name: string; done?: boolean };
 }
 
 export const MealImage: React.FC<MealImageProps> = ({ meal }) => {

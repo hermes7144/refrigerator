@@ -2,9 +2,9 @@ import React, { useEffect, useRef, useState } from 'react';
 import dayjs from 'dayjs';
 import Select, { SingleValue } from 'react-select';
 import { BsX } from '@react-icons/all-files/bs/BsX';
-import { IngredientProps } from '../../types/ingredientTypes';
+import { Ingredient } from '../../types/ingredientTypes';
 import useMeals from '../../hooks/useMeals';
-import { IMealDialogProps, MealProps } from '../../types/mealTypes';
+import { IMealDialogProps, Meal } from '../../types/mealTypes';
 import useIngredients from '../../hooks/useIngredients';
 import ErrorDialog from '../common/ErrorDialog';
 
@@ -17,7 +17,7 @@ const mealTranslations = {
 export default function MealDialog({ meal, date, visible, onClose }: IMealDialogProps) {
   const { ingredientsQuery: { data: ingredients } } = useIngredients();
   const { addMeal, updateMeal } = useMeals();
-  const [ingredientList, setIngredientList] = useState<IngredientProps[]>([{ id: '', name: '', unit: '', qty: 0, category: '' }]);
+  const [ingredientList, setIngredientList] = useState<Ingredient[]>([]);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const modalRef = useRef<HTMLDialogElement>(null);
@@ -27,10 +27,12 @@ export default function MealDialog({ meal, date, visible, onClose }: IMealDialog
 
     if (visible) {
       modalRef.current.showModal();
-      if (meal && 'ingredients' in meal) {
-        const initialIngredients: IngredientProps[] = Object.values(meal .ingredients) as IngredientProps[];
+      if (meal && meal.ingredients) {
+        const initialIngredients: Ingredient[] = Object.values(meal.ingredients) as Ingredient[];
         setIngredientList(initialIngredients);
-      } 
+      } else {
+        setIngredientList([{ id: '', name: '', unit: '', qty: 0, category: '' }]);
+      }
     } else {
       modalRef.current.close();
     }
@@ -96,16 +98,16 @@ export default function MealDialog({ meal, date, visible, onClose }: IMealDialog
         acc.push({ ...ingredient });
       }
       return acc;
-    }, [] as IngredientProps[]);
+    }, [] as Ingredient[]);
 
-    const mealData: MealProps = {
-      name: meal?.name,
+    const mealData: Meal = {
+      name: meal.name,
       date: dayjs(date).format('YYYY-MM-DD'),
       ingredients: mergedIngredients.filter((ingredient) => ingredient.id && ingredient.qty > 0),
-      done: 'ingredients' in meal && meal.done
+      done: meal?.done,
     };
 
-    if ('ingredients' in meal) {
+    if (meal.ingredients) {
       updateMeal.mutate({
         ...mealData,
         id: meal.id,
@@ -113,19 +115,14 @@ export default function MealDialog({ meal, date, visible, onClose }: IMealDialog
     } else {
       addMeal.mutate(mealData);
     }
-    handleClose();
-  };
-  
-  const handleClose = () => {
-    setIngredientList([{ id: '', name: '', unit: '', qty: 0, category: '' }]);
     onClose();
-  }
+  };
 
   const ingredientOptions = ingredients?.map((ingredient) => ({ value: ingredient.id, label: `${ingredient.name} (${ingredient.unit})` }));
 
   return (
-    <dialog ref={modalRef} className='modal modal-bottom sm:modal-middle' onCancel={handleClose}>
-      <div className='p-4 w-full md:w-1/3 lg:w-1/4 bg-white rounded shadow-md'>
+    <dialog ref={modalRef} className='modal modal-bottom sm:modal-middle' onCancel={onClose}>
+      <div className='p-4 w-full md:w-1/2 lg:w-1/3 bg-white rounded shadow-md'>
         <h1 className='text-2xl font-semibold mb-4'>{`${dayjs(date).format('M월 D일 ddd요일')} ${mealTranslations[meal.name]} `}</h1>
         <div className='flex flex-col gap-2 w-full'>
           <button className='btn btn-success text-white py-2' onClick={handleAddIngredient}>
@@ -158,7 +155,7 @@ export default function MealDialog({ meal, date, visible, onClose }: IMealDialog
           </div>
         </div>
         <div className='modal-action'>
-          <button className='btn btn-sm' onClick={handleClose}>
+          <button className='btn btn-sm' onClick={onClose}>
             취소
           </button>
           <button className='btn btn-sm' onClick={handleSubmit}>
