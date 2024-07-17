@@ -15,7 +15,9 @@ import { RecipeItemProps } from '../../types/RecipeTypes';
         </div>
       </td>
       <td>
-        {Object.values(recipe?.ingredients).map((ingredient) => <p>{ingredient.name + ingredient.qty + ingredient.unit}</p>)}
+        <ul>
+          {Object.values(recipe?.ingredients).map((ingredient) => <li key={recipe.id+ ingredient.id}>{ingredient.name + ingredient.qty + ingredient.unit}</li>)}
+        </ul>
       </td>
       <td className='text-center'>
         <div className='dropdown dropdown-left sm:dropdown-right'>

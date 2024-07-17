@@ -2,17 +2,17 @@ import { useState } from 'react';
 import RemoveDialog from '../components/ingredient/RemoveDialog';
 import useRecipes from '../hooks/useRecipes';
 import { Link, useNavigate } from 'react-router-dom';
-import { Recipe } from '../types/RecipeTypes';
+import { RecipeProps } from '../types/RecipeTypes';
 import Button from '../components/ui/Button';
 import RecipeTable from '../components/recipe/RecipeTable';
 
 export default function Recipes() {
   const { removeRecipe } = useRecipes();
   const [removeVisible, setRemoveVisible] = useState(false);
-  const [editingRecipe, setEditingRecipe] = useState<Recipe | null>(null);
+  const [editingRecipe, setEditingRecipe] = useState<RecipeProps | null>(null);
   const navigate = useNavigate();
 
-  const handleEditIngredient = (recipe: Recipe) => {
+  const handleEditIngredient = (recipe: RecipeProps) => {
     navigate("/recipes/new", { state: { recipe } });
   };
 
@@ -22,7 +22,7 @@ export default function Recipes() {
     setRemoveVisible(false);
   };
 
-  const handleRemoveDialog = (recipe:Recipe) => {
+  const handleRemoveDialog = (recipe:RecipeProps) => {
     setEditingRecipe(recipe);
     setRemoveVisible(true);
   };
@@ -40,7 +40,7 @@ export default function Recipes() {
         </Link>
       </div>
       <RecipeTable onEdit={handleEditIngredient} onDelete={handleRemoveDialog} />
-      <RemoveDialog removeVisible={removeVisible} onSubmit={handleRemoveIngredient} onClose={handleCloseRemoveDialog} />
+      <RemoveDialog visible={removeVisible} onSubmit={handleRemoveIngredient} onClose={handleCloseRemoveDialog} />
     </div>
   );
 }

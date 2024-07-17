@@ -20,6 +20,7 @@ export default function NewRecipe() {
   useEffect(() => {
     if (recipe) {
       const initialIngredients: Ingredient[] = Object.values(recipe.ingredients) as Ingredient[];
+      setName(recipe.name);
       setIngredientList(initialIngredients);
     } else {
       setIngredientList([{ id: '', name: '', unit: '', qty: 0, category: '' }]);

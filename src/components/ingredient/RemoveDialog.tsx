@@ -1,20 +1,20 @@
 import { useEffect, useRef } from 'react';
 
 // DialogAddIngredient.tsx
-type DialogAddIngredientProps = {
-  removeVisible:boolean;
+type RemoveDialogProps = {
+  visible:boolean;
   onSubmit: () => void;
   onClose: () => void;
 };
 
-export default function RemoveDialog({ removeVisible, onSubmit, onClose }: DialogAddIngredientProps) {
+export default function RemoveDialog({ visible, onSubmit, onClose }: RemoveDialogProps) {
   const modalRef = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
     if (!modalRef.current) return;
     
-    removeVisible ? modalRef.current.showModal() : modalRef.current.close();
-  }, [removeVisible]);
+    visible ? modalRef.current.showModal() : modalRef.current.close();
+  }, [visible]);
 
   const handleSubmit = () => {
     onSubmit();

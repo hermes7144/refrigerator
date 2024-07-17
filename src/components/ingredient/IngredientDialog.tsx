@@ -4,16 +4,16 @@ import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
 dayjs.locale('ko'); // global로 한국어 locale 사용
 import 'react-datepicker/dist/react-datepicker.css';
-import { DialogAddIngredientProps, Ingredient } from '../../types/ingredientTypes';
+import { IngredientDialogProps, IngredientProps } from '../../types/ingredientTypes';
+import useIngredients from '../../hooks/useIngredients';
 
-export default function DialogAddIngredient({ visible, onSubmit, onClose, initialIngredient }: DialogAddIngredientProps) {
+export default function IngredientDialog({ visible, onClose, initialIngredient }: IngredientDialogProps) {
+  const { addIngredient, updateIngredient } = useIngredients();
   const [ingredient, setIngredient] = useState({ name: '', qty: 0 });
   const [unit, setUnit] = useState<string>('g');
   const [category, setCategory] = useState<string>('');
   const [expiration, setExpiration] = useState<Date>();
-
   const [errors, setErrors] = useState<{ name?: string; qty?: string; category?: string }>({});
-
   const modalRef = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
@@ -84,7 +84,7 @@ export default function DialogAddIngredient({ visible, onSubmit, onClose, initia
       return;
     }
 
-    const newIngredient: Ingredient = {
+    const newIngredient: IngredientProps = {
       id: initialIngredient ? initialIngredient.id : '',
       name: ingredient.name,
       qty: Number(ingredient.qty),
@@ -93,14 +93,18 @@ export default function DialogAddIngredient({ visible, onSubmit, onClose, initia
       expiration: expiration ? dayjs(expiration).format('YYYY-MM-DD') : '',
     };
 
-    onSubmit(newIngredient);
+    if (newIngredient.id) {
+      updateIngredient.mutate(newIngredient);
+    } else {
+      addIngredient.mutate(newIngredient);
+    }
     onClose();
   };
 
   return (
     <dialog ref={modalRef} id='my_modal_1' className='modal modal-bottom sm:modal-middle' onCancel={onClose}>
       <div className='modal-box flex flex-col pt-16'>
-        <div className='flex flex-col gap-4'>
+        <div className='flex flex-col gap-2'>
           <label className={`input input-bordered flex items-center gap-2`}>
             이름
             <input type='text' className='grow' value={ingredient.name || ''} name='name' onChange={handleChange} />
@@ -132,8 +136,10 @@ export default function DialogAddIngredient({ visible, onSubmit, onClose, initia
             <option value='etc'>기타</option>
           </select>
           {errors.category && <p className='text-red-500 text-sm'>{errors.category}</p>}
-          유통기한
-          <DatePicker className='w-full h-12 border-gray-200 border-2 rounded-lg pl-2' toggleCalendarOnIconClick selected={expiration} onChange={handleDateChange} dateFormat='yyyy-MM-dd' isClearable />
+          <div className="label">
+            <span className="label-text">유통기한</span>
+          </div>      
+            <DatePicker className='w-full h-12 border-gray-200 border-2 rounded-lg pl-2' toggleCalendarOnIconClick selected={expiration} onChange={handleDateChange} dateFormat='yyyy-MM-dd' isClearable />
         </div>
         <div className='modal-action'>
           <button className='btn btn-sm' onClick={onClose}>

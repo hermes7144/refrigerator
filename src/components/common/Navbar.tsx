@@ -14,7 +14,7 @@ export default function Navbar() {
 
   const { user, login, logout } = authContext;
   return (
-    <header className='flex justify-between border-b border-gray-300 p-2 font-semibold bg-white'>
+    <header className='navbar justify-between border-b border-gray-300 font-semibold bg-white fixed top-0 left-0 right-0 z-10'>
       <Link to='/' className='flex items-center text-4xl text-brand'>
         <CgSmartHomeRefrigerator />
         <h1 className='hidden md:block'>Ref</h1>

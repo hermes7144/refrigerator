@@ -110,37 +110,36 @@ export default function Meals() {
     } else {
       addMeal.mutate(mealData);
     }
-    navigate('/');
+    navigate(-1);
   };
 
   const ingredientOptions = ingredients?.map((ingredient) => ({ value: ingredient.id, label: `${ingredient.name} (${ingredient.unit})` }));
 
   return (
     <div className='flex flex-col pt-0 md:pt-32 items-center bg-gray-100' style={{ minHeight: 'calc(100vh - 57px)' }}>
+      <h1></h1>
       <div className='p-4 w-full md:w-1/2 lg:w-1/3 bg-white rounded shadow-md'>
+        <h1 className='text-2xl font-semibold mb-4'>{`${dayjs(date).format('M월 D일 ddd요일')} ${mealTranslations[meal.name]} `}</h1>
         <div className='flex flex-col gap-2 w-full'>
           <button className='btn btn-success text-white py-2' onClick={handleAddIngredient}>
             재료 추가
           </button>
-          <div className='w-full max-h-80 overflow-y-auto'>
+          <div className='w-full h-80 overflow-y-auto p-2'>
           {ingredientList.map((ingredient, index) => (
               <div key={index} className='flex items-center mb-2 w-full'>
                 <Select
-                  className='basic-single flex-grow '
+                  className='basic-single flex-grow'
                   classNamePrefix='select'
                   options={ingredientOptions}
                   value={ingredientOptions?.find((option) => option.value === ingredient.id)}
                   onChange={(selectedOption) => handleIngredientChange(selectedOption, index)}
 
                   menuPortalTarget={document.body} 
-                  styles={{
-                    // Fixes the overlapping problem of the component
-                    menuPortal: provided => ({ ...provided, zIndex: 9999 })
-                  }}                
+                  styles={{ menuPortal: provided => ({ ...provided, zIndex: 9999 }) }}                
                 />
                 <input
                   type='text'
-                  className='input input-bordered w-24 ml-2 p-2'
+                  className='input input-bordered w-24 ml-2 p-2 h-10'
                   onChange={(e) => handleQtyChange(e, index)}
                   value={ingredient.qty ? ingredient.qty.toString() : ''}
                 />

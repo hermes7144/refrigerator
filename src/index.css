@@ -10,9 +10,8 @@ body {
   /* @apply flex flex-col items-center; */
 }
 
-
 #root {
-  @apply min-h-screen;
+  @apply min-h-screen pt-16;
 }
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
@@ -23,3 +22,19 @@ ul {
   padding-left: 0;
 }
 
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}

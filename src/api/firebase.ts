@@ -112,7 +112,6 @@ export async function checkMeal(uid: string, meal: { name: string; date: string;
   await update(mealRef, { done: meal.done });
 }
 
-// Ingredient 수량 업데이트 함수
 export async function updateIngredientQuantity(uid: string, ingredientId: string, quantityChange: number): Promise<void> {
   const ingredientRef = ref(database, `ingredients/${uid}/${ingredientId}/qty`);
 
@@ -133,6 +132,9 @@ export async function getRecipes(uid: string): Promise<Recipe[]> {
 
 export async function addNewRecipe(uid: string, recipe:Recipe): Promise<void> {
   const id = uuid();
+
+  console.log('recipe',recipe);
+  
 
   const recipeData = {
     id,
@@ -162,14 +164,13 @@ export async function editRecipe(uid: string, recipe:Recipe): Promise<void> {
     }, {}),
   };  
 
-  return set(ref(database, `ingredients/${uid}/${recipe.id}`), recipeData);
+  return set(ref(database, `recipes/${uid}/${recipe.id}`), recipeData);
 }
 
 export async function deleteRecipe(uid: string, recipe:Recipe): Promise<void> {
   await remove(ref(database, `recipes/${uid}/${recipe.id}`));
 }
 
-// Ingredient 수량 업데이트 함수
 export async function updateIngredientRecipe(uid: string, ingredientId: string, quantityChange: number): Promise<void> {
   const ingredientRef = ref(database, `recipes/${uid}/${ingredientId}/qty`);
 

@@ -1,10 +1,10 @@
-import { Suspense, useRef, useState } from 'react';
+import { Suspense, useEffect, useRef, useState } from 'react';
 import dayjs, { Dayjs } from 'dayjs';
 import {DateList} from '../components/date/DateList';
 import { MealList } from '../components/meal/MealList';
 import { getWeekDates } from '../utils/utils';
 import { MealListSkeleton } from '../components/meal/MealListSkeleton';
-import { ErrorBoundary  } from 'react-error-boundary';
+import { ErrorBoundary } from 'react-error-boundary';
 import ErrorFallback from '../components/common/ErrorFallback';
 
 export default function Home() {
@@ -20,6 +20,14 @@ export default function Home() {
       target.scrollIntoView({ behavior: 'smooth' });
     }
   };
+
+  useEffect(() => {
+      setSelectedDate(dayjs().format('YYYY-MM-DD'));
+      const target = scrollRefs.current[dayjs().format('YYYY-MM-DD')];
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth' });
+      }
+  },[])
    
   return (
     <div className='flex flex-col items-center px-4'>
@@ -29,7 +37,6 @@ export default function Home() {
           <MealList week={week} scrollRefs={scrollRefs} selectedDate={selectedDate} />
         </Suspense>
       </ErrorBoundary>
-
     </div>
   );
 }
