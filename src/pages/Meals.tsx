@@ -116,7 +116,7 @@ export default function Meals() {
   const ingredientOptions = ingredients?.map((ingredient) => ({ value: ingredient.id, label: `${ingredient.name} (${ingredient.unit})` }));
 
   return (
-    <div className='flex flex-col pt-0 md:pt-32 items-center bg-gray-100'>
+    <div className='flex flex-col pt-0 md:pt-32 items-center bg-gray-100' style={{ minHeight: 'calc(100vh - 57px)' }}>
       <div className='p-4 w-full md:w-1/2 lg:w-1/3 bg-white rounded shadow-md'>
         <div className='flex flex-col gap-2 w-full'>
           <button className='btn btn-success text-white py-2' onClick={handleAddIngredient}>
