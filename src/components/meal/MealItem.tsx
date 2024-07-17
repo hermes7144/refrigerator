@@ -1,11 +1,11 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { MealItemProps } from '../../types/mealTypes';
 import { MealIngredientsList } from './MealIngredientsList';
 import { RemoveMealButton } from './RemoveMealButton';
 import { MealCheckbox } from './MealCheckbox';
 import { MealImage } from './MealImage';
 import { FaRegCopy } from '@react-icons/all-files/fa/FaRegCopy';
-import MealDialog from './MealDialog';
 
 const mealTranslations = {
   breakfast: '아침',
@@ -13,19 +13,20 @@ const mealTranslations = {
   dinner: '저녁',
 };
 
-export const MealItem: React.FC<MealItemProps> = ({ meal, date, onEdit }) => {
+
+export const MealItem: React.FC<MealItemProps> = ({ meal, date }) => {
   const handleButtonClick = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
   };
 
   return (
-    <div className='bg-white shadow-md hover:shadow-lg rounded-lg p-4 transition duration-300 border border-gray-200 hover:cursor-pointer' onClick={() => {onEdit(meal, date)}}>
+    <Link to='/meals' state={{ meal, date }} className='bg-white shadow-md hover:shadow-lg rounded-lg p-4 transition duration-300 border border-gray-200'>
       <div className='flex justify-between items-center mb-1'>
         <div className='flex items-start space-x-1'>
-          <div onClick={handleButtonClick}>
-            <MealCheckbox meal={meal} date={date.format('YYYY-MM-DD')} />
-          </div>
+           <div onClick={handleButtonClick}>
+              <MealCheckbox meal={meal} date={date.format('YYYY-MM-DD')} />
+           </div>
           <MealImage meal={meal} />
           <h3 className='font-semibold tracking-tight'>{mealTranslations[meal.name as keyof typeof mealTranslations]}</h3>
         </div>
@@ -39,6 +40,6 @@ export const MealItem: React.FC<MealItemProps> = ({ meal, date, onEdit }) => {
         </div>
       </div>
       <MealIngredientsList ingredients={meal.ingredients} />
-    </div>
+    </Link>
   );
 };

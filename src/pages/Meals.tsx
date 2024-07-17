@@ -118,7 +118,6 @@ export default function Meals() {
   return (
     <div className='flex flex-col pt-0 md:pt-32 items-center bg-gray-100'>
       <div className='p-4 w-full md:w-1/2 lg:w-1/3 bg-white rounded shadow-md'>
-      <h1 className='text-2xl font-semibold mb-4'>{`${dayjs(date).format('M월 D일 ddd요일')} ${mealTranslations[meal.name]} `}</h1>
         <div className='flex flex-col gap-2 w-full'>
           <button className='btn btn-success text-white py-2' onClick={handleAddIngredient}>
             재료 추가

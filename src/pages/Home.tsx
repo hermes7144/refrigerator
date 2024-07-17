@@ -1,11 +1,11 @@
 import { Suspense, useRef, useState } from 'react';
 import dayjs, { Dayjs } from 'dayjs';
 import {DateList} from '../components/date/DateList';
+import { MealList } from '../components/meal/MealList';
 import { getWeekDates } from '../utils/utils';
 import { MealListSkeleton } from '../components/meal/MealListSkeleton';
 import { ErrorBoundary  } from 'react-error-boundary';
 import ErrorFallback from '../components/common/ErrorFallback';
-import MealList from '../components/meal/MealList';
 
 export default function Home() {
   const week = getWeekDates();
@@ -29,6 +29,7 @@ export default function Home() {
           <MealList week={week} scrollRefs={scrollRefs} selectedDate={selectedDate} />
         </Suspense>
       </ErrorBoundary>
+
     </div>
   );
 }

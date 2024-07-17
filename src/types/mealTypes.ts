@@ -43,17 +43,7 @@ export interface MealsByDate {
 export interface MealItemProps {
   meal: Meal;
   date: Dayjs;
-  visible:boolean;
-  onEdit: () => void;
-  onClose: () => void;
 }
 
 
 export type MealType = 'breakfast' | 'lunch' | 'dinner';
-
-export interface IMealDialogProps {
-  meal:Meal;
-  date:Dayjs;
-  visible:boolean;
-  onClose: ()=> void;
-}
