@@ -11,8 +11,7 @@ const IngredientItem = ({ ingredient, onEdit, onDelete }: IngredientItemProps) =
             <div className='mask mask-squircle w-8 h-8'>{ingredient?.image ? <img src='' alt='Ingredient image' /> : <div className='w-8 h-8 bg-gray-100 rounded-full'></div>}</div>
           </div>
           <div>
-            <div className='font-bold'>{ingredient.name}</div>
-            {/* <div className='text-sm opacity-50'>{ingredient.category}</div> */}
+            <div className={`font-bold ${ingredient.qty === 0 && 'text-gray-400'}`}>{ingredient.name}</div>
           </div>
         </div>
       </td>

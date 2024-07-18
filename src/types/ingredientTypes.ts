@@ -1,17 +1,17 @@
 export interface IngredientProps {
-  id: string;
+  id?: string;
   name: string;
   qty: number;
   unit: string;
   category: string;
   image?: string;
-  expiration?: string;
+  expiration: string | null;
 }
 
 export interface IngredientDialogProps {
   onClose: () => void;
   visible: boolean;
-  initialIngredient?: IngredientProps | null;
+  initialIngredient: IngredientProps | null;
 }
 
 export interface IngredientTableProps { 

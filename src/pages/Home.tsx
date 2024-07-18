@@ -17,17 +17,18 @@ export default function Home() {
     setSelectedDate(formattedDate);
     const target = scrollRefs.current[formattedDate];
     if (target) {
-      target.scrollIntoView({ behavior: 'smooth' });
+      target.scrollIntoView({ behavior: 'smooth', block: 'center' ,inline: 'center' });
     }
   };
 
   useEffect(() => {
-      setSelectedDate(dayjs().format('YYYY-MM-DD'));
-      const target = scrollRefs.current[dayjs().format('YYYY-MM-DD')];
-      if (target) {
-        target.scrollIntoView({ behavior: 'smooth' });
-      }
-  },[])
+    const target = scrollRefs.current[dayjs().format('YYYY-MM-DD')];    
+    
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'center' ,inline: 'center' });
+    }
+    setSelectedDate(dayjs().format('YYYY-MM-DD'));
+  },[]);
    
   return (
     <div className='flex flex-col items-center px-4'>

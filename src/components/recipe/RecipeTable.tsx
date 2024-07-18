@@ -1,8 +1,33 @@
+import { useNavigate } from 'react-router-dom';
 import useRecipes from '../../hooks/useRecipes';
+import { RecipeProps } from '../../types/RecipeTypes';
+import RemoveDialog from '../ingredient/RemoveDialog';
 import RecipeItem from './RecipeItem';
+import { useState } from 'react';
 
- export default function RecipeTable({onEdit, onDelete}) {
-  const { recipesQuery: { data: recipes } } = useRecipes();
+ export default function RecipeTable() {
+  const { recipesQuery: { data: recipes } ,removeRecipe } = useRecipes();
+  const [visible, setVisible] = useState(false);
+  const [editingRecipe, setEditingRecipe] = useState<RecipeProps | null>(null);
+  const navigate = useNavigate();
+
+  const handleEditRecipe = (recipe: RecipeProps) => {
+    navigate("/recipes/new", { state: { recipe } });
+  };
+
+  const handleDelete = () => {
+    removeRecipe.mutate(editingRecipe);
+    setVisible(false);
+  };
+
+  const handleDialog = (recipe:RecipeProps) => {
+    setEditingRecipe(recipe);
+    setVisible(true);
+  };
+
+  const handleCloseDialog = () => {
+    setVisible(false);
+  };
 
   return (
     <div className="flex justify-center">
@@ -19,12 +44,13 @@ import RecipeItem from './RecipeItem';
           <RecipeItem 
             key={recipe.id} 
             recipe={recipe} 
-            onEdit={onEdit} 
-            onDelete={onDelete} 
+            onEdit={handleEditRecipe} 
+            onOpenDialog={handleDialog} 
           />
         ))}
       </tbody>
     </table>
+    <RemoveDialog visible={visible} onDelete={handleDelete} onClose={handleCloseDialog} />
   </div>
   )
 ;

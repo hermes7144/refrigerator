@@ -1,7 +1,7 @@
 import { HiDotsVertical } from "@react-icons/all-files/hi/HiDotsVertical";
 import { RecipeItemProps } from '../../types/RecipeTypes';
 
- const RecipeItem = ({ recipe, onEdit, onDelete }: RecipeItemProps)=> {
+ const RecipeItem = ({ recipe, onEdit, onOpenDialog }: RecipeItemProps)=> {
   return (
     <tr>
       <td>
@@ -29,7 +29,7 @@ import { RecipeItemProps } from '../../types/RecipeTypes';
               <a onClick={() => onEdit(recipe)}>수정</a>
             </li>
             <li>
-              <a onClick={() => onDelete(recipe)}>삭제</a>
+              <a onClick={() => onOpenDialog(recipe)}>삭제</a>
             </li>
           </ul>
         </div>

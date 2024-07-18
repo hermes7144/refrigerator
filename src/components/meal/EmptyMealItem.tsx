@@ -16,6 +16,6 @@ export const EmptyMealItem: React.FC<{meal:{name:string}; date:Dayjs}> = ({ meal
       <MealImage meal={meal} />
       <h3 className='font-semibold'>{mealTranslations[meal.name as keyof typeof mealTranslations]}</h3>
     </div>
-    <div className='pl-6 text-gray-400'>No meals added</div>
+    <div className='pl-6 text-gray-400'>등록된 식사가 없습니다</div>
   </Link>
 );

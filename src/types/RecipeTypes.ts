@@ -10,5 +10,11 @@ export interface RecipeProps {
 export interface RecipeItemProps {
   recipe: RecipeProps;
   onEdit: (recipe: RecipeProps) => void;
-  onDelete: (recipe: RecipeProps) => void;
+  onOpenDialog: (recipe: RecipeProps) => void;
+}
+
+export interface RemoveDialogProps  {
+  visible:boolean;
+  onDelete: () => void;
+  onClose: () => void;
 }

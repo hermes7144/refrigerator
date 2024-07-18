@@ -8,7 +8,7 @@ const MEAL_TYPES: MealType[] = ['breakfast', 'lunch', 'dinner'];
 export const MealSection: FC<MealSectionProps> = ({ date, weekday, meals, scrollRef, isSkeleton }) => {
   
   return (
-    <div ref={scrollRef} className='flex flex-col gap-2 p-4 relative'>
+    <div ref={scrollRef} className='flex flex-col gap-2 p-4'>
       <div className='flex items-center gap-1'>
         {date === weekday.format('YYYY-MM-DD') && (
           <svg xmlns='http://www.w3.org/2000/svg' className='h-4 w-4 text-blue-500' fill='none' viewBox='0 0 24 24' stroke='currentColor'>

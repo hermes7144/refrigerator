@@ -1,29 +1,35 @@
 import React, { useEffect, useState, useTransition } from 'react';
 import useIngredients from '../../hooks/useIngredients';
-import { Ingredient, IngredientTableProps } from '../../types/ingredientTypes';
+import { IngredientProps, IngredientTableProps } from '../../types/ingredientTypes';
 import IngredientItem from './IngredientItem';
 import SkeletonIngredientTable from './SkeletonIngredientTable';
 
 export default function IngredientTable({ query, onEdit, onDelete }: IngredientTableProps) {
   const { ingredientsQuery: { data: initIngredients } } = useIngredients();
-  const [filteredIngredients, setFilteredIngredients] = useState<Ingredient[]>([]);
+  const [filteredIngredients, setFilteredIngredients] = useState<IngredientProps[]>([]);
   const [isPending, startTransition] = useTransition();
   const [isInitialLoad, setIsInitialLoad] = useState(true);
 
+  console.log(initIngredients);
+  
+
   useEffect(() => {
     startTransition(() => {
-      setFilteredIngredients(
-        initIngredients?.filter(ingredient => 
-          ingredient.name.toLowerCase().includes(query.toLowerCase())
-        ) || []
-      );
+
+      const filteredIngredients = initIngredients?.filter(ingredient => 
+        ingredient.name.toLowerCase().includes(query.toLowerCase())
+      ) || [];
+
+      const nonZeroQtyItems = filteredIngredients.filter(item => item.qty !== 0);
+      const zeroQtyItems = filteredIngredients.filter(item => item.qty === 0);
+      
+
+      setFilteredIngredients([...nonZeroQtyItems,...zeroQtyItems]);
       setIsInitialLoad(false);
     });
   }, [initIngredients, query]);
 
-  if (isInitialLoad) {
-    return <SkeletonIngredientTable />;
-  }
+  isInitialLoad && <SkeletonIngredientTable />;
 
   return (
     <div className='flex justify-center'>
