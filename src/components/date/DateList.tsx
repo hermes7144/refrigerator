@@ -8,3 +8,5 @@ export const DateList: FC<DateListProps> = ({ week, selectedDate, onDateClick })
     {week.map((weekday) => <DateItem key={weekday.format('YYYY-MM-DD')} selected={selectedDate} weekday={weekday} handleClick={onDateClick} />  )}
   </ul>
 );
+
+export default DateList;

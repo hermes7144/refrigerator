@@ -10,26 +10,29 @@ export default function IngredientTable({ query, onEdit, onDelete }: IngredientT
   const [isPending, startTransition] = useTransition();
   const [isInitialLoad, setIsInitialLoad] = useState(true);
 
-  console.log(initIngredients);
-  
-
   useEffect(() => {
+    if (!initIngredients) return;
+
+
+
     startTransition(() => {
+      const filterAndSortIngredients = () => {
+        const filtered = initIngredients.filter(ingredient =>
+          ingredient.name.toLowerCase().includes(query.toLowerCase())
+        );
 
-      const filteredIngredients = initIngredients?.filter(ingredient => 
-        ingredient.name.toLowerCase().includes(query.toLowerCase())
-      ) || [];
+        const nonZeroQtyItems = filtered.filter(item => item.qty !== 0);
+        const zeroQtyItems = filtered.filter(item => item.qty === 0);
 
-      const nonZeroQtyItems = filteredIngredients.filter(item => item.qty !== 0);
-      const zeroQtyItems = filteredIngredients.filter(item => item.qty === 0);
-      
+        return [...nonZeroQtyItems, ...zeroQtyItems];
+      };
 
-      setFilteredIngredients([...nonZeroQtyItems,...zeroQtyItems]);
+      setFilteredIngredients(filterAndSortIngredients());
       setIsInitialLoad(false);
     });
   }, [initIngredients, query]);
 
-  isInitialLoad && <SkeletonIngredientTable />;
+  if (isInitialLoad) return <SkeletonIngredientTable />;
 
   return (
     <div className='flex justify-center'>
@@ -44,7 +47,12 @@ export default function IngredientTable({ query, onEdit, onDelete }: IngredientT
         </thead>
         <tbody className={isPending ? 'text-gray-400' : ''}>
           {filteredIngredients.map(ingredient => (
-            <IngredientItem key={ingredient?.id} ingredient={ingredient} onEdit={onEdit} onDelete={onDelete} />
+            <IngredientItem
+              key={ingredient.id}
+              ingredient={ingredient}
+              onEdit={onEdit}
+              onDelete={onDelete}
+            />
           ))}
         </tbody>
       </table>
