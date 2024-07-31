@@ -14,8 +14,9 @@ export interface IngredientDialogProps {
   initialIngredient: IngredientProps | null;
 }
 
-export interface IngredientTableProps { 
-  query:string;
+export interface IngredientTableProps {
+  query: string;
+  isStale: boolean;
   onEdit: (ingredient: IngredientProps) => void;
   onDelete: (ingredient: IngredientProps) => void;
 }

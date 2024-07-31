@@ -1,36 +1,27 @@
-import React, { useEffect, useState, useTransition } from 'react';
+import React, { useEffect, useState, memo } from 'react';
 import useIngredients from '../../hooks/useIngredients';
 import { IngredientProps, IngredientTableProps } from '../../types/ingredientTypes';
 import IngredientItem from './IngredientItem';
 import SkeletonIngredientTable from './SkeletonIngredientTable';
 
-export default function IngredientTable({ query, onEdit, onDelete }: IngredientTableProps) {
-  const { ingredientsQuery: { data: initIngredients } } = useIngredients();
+function IngredientTable({ query, isStale, onEdit, onDelete }: IngredientTableProps) {
+  const {
+    ingredientsQuery: { data: initIngredients },
+  } = useIngredients();
+
   const [filteredIngredients, setFilteredIngredients] = useState<IngredientProps[]>([]);
-  const [isPending, startTransition] = useTransition();
   const [isInitialLoad, setIsInitialLoad] = useState(true);
 
   useEffect(() => {
     if (!initIngredients) return;
 
+    const filterAndSortIngredients = () => {
+      return initIngredients.filter((ingredient) => ingredient.name.toLowerCase().includes(query.toLowerCase()));
+    };
 
-
-    startTransition(() => {
-      const filterAndSortIngredients = () => {
-        const filtered = initIngredients.filter(ingredient =>
-          ingredient.name.toLowerCase().includes(query.toLowerCase())
-        );
-
-        const nonZeroQtyItems = filtered.filter(item => item.qty !== 0);
-        const zeroQtyItems = filtered.filter(item => item.qty === 0);
-
-        return [...nonZeroQtyItems, ...zeroQtyItems];
-      };
-
-      setFilteredIngredients(filterAndSortIngredients());
-      setIsInitialLoad(false);
-    });
-  }, [initIngredients, query]);
+    setFilteredIngredients(filterAndSortIngredients());
+    setIsInitialLoad(false);
+  }, [initIngredients, query, isStale]);
 
   if (isInitialLoad) return <SkeletonIngredientTable />;
 
@@ -45,17 +36,14 @@ export default function IngredientTable({ query, onEdit, onDelete }: IngredientT
             <th className='px-4 py-2 w-1/6'></th>
           </tr>
         </thead>
-        <tbody className={isPending ? 'text-gray-400' : ''}>
-          {filteredIngredients.map(ingredient => (
-            <IngredientItem
-              key={ingredient.id}
-              ingredient={ingredient}
-              onEdit={onEdit}
-              onDelete={onDelete}
-            />
+        <tbody className={isStale ? 'text-gray-400' : ''}>
+          {filteredIngredients?.map((ingredient) => (
+            <IngredientItem key={ingredient.id} ingredient={ingredient} onEdit={onEdit} onDelete={onDelete} />
           ))}
         </tbody>
       </table>
     </div>
   );
 }
+
+export default memo(IngredientTable);

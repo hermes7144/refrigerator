@@ -72,7 +72,7 @@ const IngredientDialog = ({ visible, onClose, initialIngredient }: IngredientDia
           <div className='flex gap-1'>
             <label className='input input-bordered flex items-center gap-2 w-full'>
               수량
-              <input type='text' className='grow' value={ingredient.qty} name='qty' onChange={handleChange} />
+              <input type='number' className='grow' value={ingredient.qty} name='qty' onChange={handleChange} />
             </label>
             <select className='select select-bordered max-w-[70px] text-l' name='unit' onChange={handleChange} value={ingredient.unit}>
               <option value='g'>g</option>

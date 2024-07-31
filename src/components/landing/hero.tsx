@@ -1,4 +1,4 @@
-import VideoThumb from '/public/images/hero-image-01.jpg';
+import VideoThumb from '/images/hero-image-01.jpg';
 import ModalVideo from './modal-video';
 import useAuthContext from '../../context/AuthContext';
 
@@ -41,15 +41,10 @@ export default function Hero() {
             <p className='text-xl text-gray-400 mb-8' data-aos='fade-up' data-aos-delay='200'>
               모든 디바이스에서 사용할 수 있는 편리한 식자재 및 식단 관리 플랫폼을 경험해보세요. 설정 한 번으로 영원히 아름다운 결과를 얻을 수 있습니다.
             </p>
-            <div className='max-w-xs mx-auto sm:max-w-none sm:flex sm:justify-center'>
+            <div className='max-w-xs mx-auto'>
               <div data-aos='fade-up' data-aos-delay='400'>
-                <a className='btn text-white bg-brand hover:bg-brand hover:brightness-95 w-full mb-4 sm:w-auto sm:mb-0' href='#0' onClick={login}>
-                  무료 체험 시작하기
-                </a>
-              </div>
-              <div data-aos='fade-up' data-aos-delay='600'>
-                <a className='btn text-white bg-gray-700 hover:bg-gray-800 w-full sm:w-auto sm:ml-4' href='#0'>
-                  더 알아보기
+                <a className='btn  text-white bg-brand hover:bg-brand hover:brightness-95 w-full mb-4 sm:mb-0' href='#0' onClick={login}>
+                  시작하기
                 </a>
               </div>
             </div>

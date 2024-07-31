@@ -4,17 +4,33 @@ import { CgSmartHomeRefrigerator } from '@react-icons/all-files/cg/CgSmartHomeRe
 import { FaCartArrowDown } from '@react-icons/all-files/fa/FaCartArrowDown';
 import { BiFoodMenu } from '@react-icons/all-files/bi/BiFoodMenu';
 import DisplayUser from './DisplayUser';
+import { useEffect, useState } from 'react';
 
 export default function Navbar() {
+  const [hasBorder, setHasBorder] = useState(false);
+
+  const handleScroll = () => {
+    const scrollY = window.scrollY;
+    setHasBorder(scrollY > 50);
+  };
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    handleScroll();
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   const authContext = useAuthContext();
 
   if (!authContext) {
-    return null; // or some fallback UI
+    return null;
   }
 
   const { user, login, logout } = authContext;
   return (
-    <header className='navbar justify-between border-b border-gray-300 font-semibold bg-white fixed top-0 left-0 right-0 z-10'>
+    <header className={`navbar justify-between font-semibold bg-white fixed top-0 left-0 right-0 z-10 ${hasBorder ? 'border-b border-gray-300' : ''}`}>
       <Link to='/' className='flex items-center space-x-3 text-4xl text-brand'>
         <CgSmartHomeRefrigerator className='text-3xl' />
         <div>
