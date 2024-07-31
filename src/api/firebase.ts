@@ -52,8 +52,6 @@ export async function addNewIngredient(uid: string, ingredient: IngredientProps)
 }
 
 export async function editIngredient(uid: string, ingredient: IngredientProps): Promise<void> {
-  console.log(ingredient);
-
   return set(ref(database, `ingredients/${uid}/${ingredient.id}`), ingredient);
 }
 
@@ -116,6 +114,8 @@ export async function updateIngredientQuantity(uid: string, ingredientId: string
   const ingredientRef = ref(database, `ingredients/${uid}/${ingredientId}/qty`);
 
   await runTransaction(ingredientRef, (currentQty) => {
+    console.log(currentQty, quantityChange);
+
     return (currentQty || 0) + quantityChange;
   });
 }

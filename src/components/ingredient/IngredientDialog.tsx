@@ -5,11 +5,10 @@ import { IngredientDialogProps, IngredientProps } from '../../types/ingredientTy
 import useIngredients from '../../hooks/useIngredients';
 import { formatDate } from '../../utils/utils';
 
-
 const initializeIngredient = (initialIngredient: IngredientProps | null) => ({
   id: initialIngredient?.id || '',
   name: initialIngredient?.name || '',
-  qty: initialIngredient?.qty || 0,
+  qty: initialIngredient?.qty,
   unit: initialIngredient?.unit || 'g',
   category: initialIngredient?.category || '',
   expiration: initialIngredient?.expiration ? formatDate(new Date(initialIngredient.expiration)) : '',
@@ -33,11 +32,17 @@ const IngredientDialog = ({ visible, onClose, initialIngredient }: IngredientDia
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setIngredient(prev => ({ ...prev, [name]: value }));
+
+    // Convert qty to number if the name is 'qty'
+    if (name === 'qty') {
+      setIngredient((prev) => ({ ...prev, [name]: Number(value) }));
+    } else {
+      setIngredient((prev) => ({ ...prev, [name]: value }));
+    }
   };
 
   const handleDateChange = (date: Date | null) => {
-    setIngredient(prev => ({ ...prev, expiration: date ? formatDate(date) : '' }));
+    setIngredient((prev) => ({ ...prev, expiration: date ? formatDate(date) : '' }));
   };
 
   const validate = () => {
@@ -82,7 +87,9 @@ const IngredientDialog = ({ visible, onClose, initialIngredient }: IngredientDia
           {errors.qty && <p className='text-red-500 text-sm'>{errors.qty}</p>}
 
           <select className='select select-bordered' name='category' onChange={handleChange} value={ingredient.category}>
-            <option value='' disabled>카테고리</option>
+            <option value='' disabled>
+              카테고리
+            </option>
             <option value='grain'>곡물</option>
             <option value='meat'>고기</option>
             <option value='seafood'>해산물</option>
@@ -106,8 +113,12 @@ const IngredientDialog = ({ visible, onClose, initialIngredient }: IngredientDia
           {errors.expiration && <p className='text-red-500 text-sm'>{errors.expiration}</p>}
         </div>
         <div className='modal-action'>
-          <button className='btn btn-sm' onClick={onClose}>취소</button>
-          <button className='btn btn-sm' onClick={handleSubmit}>확인</button>
+          <button className='btn btn-sm' onClick={onClose}>
+            취소
+          </button>
+          <button className='btn btn-sm' onClick={handleSubmit}>
+            확인
+          </button>
         </div>
       </div>
     </dialog>

@@ -1,7 +1,7 @@
 export interface IngredientProps {
   id?: string;
   name: string;
-  qty: number;
+  qty?: number;
   unit: string;
   category: string;
   image?: string;
