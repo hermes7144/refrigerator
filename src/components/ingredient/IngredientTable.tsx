@@ -1,6 +1,6 @@
-import React, { useEffect, useState, memo } from 'react';
+import React, { useEffect, useState, memo, useMemo } from 'react';
 import useIngredients from '../../hooks/useIngredients';
-import { IngredientProps, IngredientTableProps } from '../../types/ingredientTypes';
+import { IngredientTableProps } from '../../types/ingredientTypes';
 import IngredientItem from './IngredientItem';
 import SkeletonIngredientTable from './SkeletonIngredientTable';
 
@@ -9,40 +9,48 @@ function IngredientTable({ query, isStale, onEdit, onDelete }: IngredientTablePr
     ingredientsQuery: { data: initIngredients },
   } = useIngredients();
 
-  const [filteredIngredients, setFilteredIngredients] = useState<IngredientProps[]>([]);
   const [isInitialLoad, setIsInitialLoad] = useState(true);
 
   useEffect(() => {
-    if (!initIngredients) return;
+    if (initIngredients) setIsInitialLoad(false);
+  }, [initIngredients]);
 
-    const filterAndSortIngredients = () => {
-      return initIngredients.filter((ingredient) => ingredient.name.toLowerCase().includes(query.toLowerCase()));
-    };
+  const filteredIngredients = useMemo(() => {
+    if (!initIngredients) return [];
 
-    setFilteredIngredients(filterAndSortIngredients());
-    setIsInitialLoad(false);
-  }, [initIngredients, query, isStale]);
+    const lowerQuery = query.toLowerCase();
+
+    return initIngredients.filter((ingredient) => ingredient.name.toLowerCase().includes(lowerQuery));
+  }, [initIngredients, query]);
+
+  const nonZeroQtyItems = useMemo(() => filteredIngredients.filter((item) => item.qty !== 0), [filteredIngredients]);
+  const zeroQtyItems = useMemo(() => filteredIngredients.filter((item) => item.qty === 0), [filteredIngredients]);
 
   if (isInitialLoad) return <SkeletonIngredientTable />;
 
   return (
-    <div className='flex justify-center'>
-      <table className='table-auto w-full'>
-        <thead>
-          <tr className='bg-gray-200'>
-            <th className='px-4 py-2 w-1/2 text-center'>Ingredient</th>
-            <th className='px-4 py-2 w-1/6 text-center'>Qty</th>
-            <th className='px-4 py-2 w-2/6 text-center'>Expiration</th>
-            <th className='px-4 py-2 w-1/6'></th>
-          </tr>
-        </thead>
-        <tbody className={isStale ? 'text-gray-400' : ''}>
-          {filteredIngredients?.map((ingredient) => (
-            <IngredientItem key={ingredient.id} ingredient={ingredient} onEdit={onEdit} onDelete={onDelete} />
-          ))}
-        </tbody>
-      </table>
-    </div>
+    <>
+      <div className='flex justify-center'>
+        <table className='table-auto w-full'>
+          <thead>
+            <tr className='bg-gray-200'>
+              <th className='px-4 py-2 w-1/2 text-center'>Ingredient</th>
+              <th className='px-4 py-2 w-1/6 text-center'>Qty</th>
+              <th className='px-4 py-2 w-2/6 text-center'>Expiration</th>
+              <th className='px-4 py-2 w-1/6'></th>
+            </tr>
+          </thead>
+          <tbody className={isStale ? 'text-gray-400' : ''}>
+            {nonZeroQtyItems?.map((ingredient) => (
+              <IngredientItem key={ingredient.id} ingredient={ingredient} onEdit={onEdit} onDelete={onDelete} />
+            ))}
+            {zeroQtyItems?.map((ingredient) => (
+              <IngredientItem key={ingredient.id} ingredient={ingredient} onEdit={onEdit} onDelete={onDelete} />
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </>
   );
 }
 

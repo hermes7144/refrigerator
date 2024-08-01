@@ -1,5 +1,5 @@
 const SkeletonIngredientTable = () => {
-  const skeletonRows = Array.from({ length: 15 });
+  const skeletonRows = Array.from({ length: 20 });
 
   return (
     <div className='flex justify-center'>
