@@ -39,17 +39,16 @@ export default function Hero() {
               식자재 및 식단 관리 플랫폼
             </h1>
             <p className='text-xl text-gray-400 mb-8' data-aos='fade-up' data-aos-delay='200'>
-              모든 디바이스에서 사용할 수 있는 편리한 식자재 및 식단 관리 플랫폼을 경험해보세요. 설정 한 번으로 영원히 아름다운 결과를 얻을 수 있습니다.
+              모든 디바이스에서 사용할 수 있는 편리한 식자재 및 식단 관리 플랫폼을 경험해보세요. 관리를 통해서만 자유를 얻을 수 있습니다.
             </p>
             <div className='max-w-xs mx-auto'>
               <div data-aos='fade-up' data-aos-delay='400'>
-                <a className='btn  text-white bg-brand hover:bg-brand hover:brightness-95 w-full mb-4 sm:mb-0' href='#0' onClick={login}>
+                <a className='btn  text-white bg-brand hover:bg-brand hover:brightness-95 w-full mb-4 sm:mb-0' onClick={login}>
                   시작하기
                 </a>
               </div>
             </div>
           </div>
-          <ModalVideo thumb={VideoThumb} thumbWidth={1024} thumbHeight={576} thumbAlt='Modal video thumbnail' video='./videos/video.mp4' videoWidth={1920} videoHeight={1080} />
         </div>
       </div>
     </section>
