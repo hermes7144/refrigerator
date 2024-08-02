@@ -8,7 +8,7 @@ import { formatDate } from '../../utils/utils';
 const initializeIngredient = (initialIngredient: IngredientProps | null) => ({
   id: initialIngredient?.id || '',
   name: initialIngredient?.name || '',
-  qty: initialIngredient?.qty,
+  qty: initialIngredient?.qty || null,
   unit: initialIngredient?.unit || 'g',
   category: initialIngredient?.category || '',
   expiration: initialIngredient?.expiration ? formatDate(new Date(initialIngredient.expiration)) : '',
@@ -48,7 +48,7 @@ const IngredientDialog = ({ visible, onClose, initialIngredient }: IngredientDia
   const validate = () => {
     const newErrors: { [key: string]: string } = {};
     if (!ingredient.name.trim()) newErrors.name = '이름을 입력해주세요';
-    if (!ingredient.qty || isNaN(Number(ingredient.qty))) newErrors.qty = '유효한 수량을 입력해주세요';
+    if (isNaN(Number(ingredient.qty))) newErrors.qty = '유효한 수량을 입력해주세요';
     if (!ingredient.category.trim()) newErrors.category = '카테고리를 선택해주세요';
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -77,7 +77,7 @@ const IngredientDialog = ({ visible, onClose, initialIngredient }: IngredientDia
           <div className='flex gap-1'>
             <label className='input input-bordered flex items-center gap-2 w-full'>
               수량
-              <input type='number' className='grow' value={ingredient.qty} name='qty' onChange={handleChange} />
+              <input type='number' className='grow' value={ingredient.qty ?? ''} name='qty' onChange={handleChange} />
             </label>
             <select className='select select-bordered max-w-[70px] text-l' name='unit' onChange={handleChange} value={ingredient.unit}>
               <option value='g'>g</option>

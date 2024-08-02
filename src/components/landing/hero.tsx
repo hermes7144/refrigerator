@@ -1,5 +1,3 @@
-import VideoThumb from '/images/hero-image-01.jpg';
-import ModalVideo from './modal-video';
 import useAuthContext from '../../context/AuthContext';
 
 export default function Hero() {
