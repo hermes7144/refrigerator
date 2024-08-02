@@ -13,7 +13,7 @@ MealManager는 식재료와 레시피를 효율적으로 관리할 수 있는 �
 
 1. **리포지토리 클론**:
     ```bash
-    git clone https://github.com/yourusername/mealmanager.git
+    git clone https://github.com/hermes7144/refrigerator.git
     ```
 
 2. **프로젝트 디렉토리로 이동**:
@@ -28,7 +28,7 @@ MealManager는 식재료와 레시피를 효율적으로 관리할 수 있는 �
 
 4. **개발 서버 시작**:
     ```bash
-    npm start
+    npm run dev
     ```
 
 5. 브라우저에서 [http://localhost:3000](http://localhost:3000)을 열어 앱을 확인하세요.
@@ -43,4 +43,4 @@ MealManager는 식재료와 레시피를 효율적으로 관리할 수 있는 �
 
 ## 연락처
 
-질문이나 피드백은 your-email@example.com으로 문의하거나, 이 리포지토리에 이슈를 열어주세요.
+질문이나 피드백은 kichancho@gmail.com으로 문의하거나, 이 리포지토리에 이슈를 열어주세요.
