@@ -1,4 +1,5 @@
 # MealManager
+![스크린샷 2024-08-01 125435](https://github.com/user-attachments/assets/41fefbaa-ca9d-4cb5-9b68-7137c275a081)
 
 MealManager는 식재료와 레시피를 효율적으로 관리할 수 있는 애플리케이션입니다. 이 앱은 재료 추가, 레시피 저장, 식사 계획 및 쇼핑 리스트 생성을 지원하여 주방 관리와 식사 준비를 더욱 간편하게 만들어줍니다.
 
