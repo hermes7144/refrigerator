@@ -39,7 +39,7 @@ export default function Navbar() {
         </div>
       </Link>
       <nav className='flex items-center gap-4'>
-        {user && (
+        {/* {user && (
           <>
             <Link to='/recipes' className='text-2xl'>
               <BiFoodMenu />
@@ -49,7 +49,7 @@ export default function Navbar() {
             </Link>
             <DisplayUser />
           </>
-        )}
+        )} */}
 
         {!user && <button onClick={login}>Login</button>}
         {user && <button onClick={logout}>Logout</button>}

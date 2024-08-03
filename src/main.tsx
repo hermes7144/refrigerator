@@ -4,6 +4,7 @@ import App from './App.tsx';
 import './index.css';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { withSuspense, withProtectedRoute } from './utils/withHOC.tsx';
+import Shopping from './pages/Shopping.tsx';
 
 const NotFound = withSuspense(lazy(() => import('./pages/NotFound.tsx')));
 const Index = withSuspense(lazy(() => import('./pages/Index.tsx')));
@@ -18,11 +19,12 @@ const router = createBrowserRouter([
     element: <App />,
     errorElement: <NotFound />,
     children: [
-      { index: true, path: '/', element: <Index />},
+      { index: true, path: '/', element: <Index /> },
+      { path: '/meals', element: <Meals /> },
       { path: '/recipes', element: <Recipes /> },
       { path: '/recipes/new', element: <NewRecipe /> },
       { path: '/ingredients', element: <Ingredients /> },
-      { path: '/meals', element: <Meals /> },
+      { path: '/shopping', element: <Shopping /> },
     ],
   },
 ]);
