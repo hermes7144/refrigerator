@@ -3,11 +3,15 @@ import { IoHomeOutline } from '@react-icons/all-files/io5/IoHomeOutline';
 import { BiFoodMenu } from '@react-icons/all-files/bi/BiFoodMenu';
 import { CgSmartHomeRefrigerator } from '@react-icons/all-files/cg/CgSmartHomeRefrigerator';
 import { FiShoppingCart } from '@react-icons/all-files/fi/FiShoppingCart';
+import useAuthContext from '../../context/AuthContext';
 
 export default function BottomNavigation() {
   const location = useLocation();
+  const { uid } = useAuthContext() ?? {};
 
-  console.log(location.pathname);
+  if (!uid) {
+    return;
+  }
 
   return (
     <div className='btm-nav'>
