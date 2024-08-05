@@ -1,9 +1,6 @@
 import { Link } from 'react-router-dom';
 import useAuthContext from '../../context/AuthContext';
 import { CgSmartHomeRefrigerator } from '@react-icons/all-files/cg/CgSmartHomeRefrigerator';
-import { FaCartArrowDown } from '@react-icons/all-files/fa/FaCartArrowDown';
-import { BiFoodMenu } from '@react-icons/all-files/bi/BiFoodMenu';
-import DisplayUser from './DisplayUser';
 import { useEffect, useState } from 'react';
 
 export default function Navbar() {
@@ -24,6 +21,8 @@ export default function Navbar() {
 
   const authContext = useAuthContext();
 
+  console.log(authContext);
+
   if (!authContext) {
     return null;
   }
@@ -39,18 +38,6 @@ export default function Navbar() {
         </div>
       </Link>
       <nav className='flex items-center gap-4'>
-        {/* {user && (
-          <>
-            <Link to='/recipes' className='text-2xl'>
-              <BiFoodMenu />
-            </Link>
-            <Link to='/ingredients' className='text-2xl'>
-              <FaCartArrowDown />
-            </Link>
-            <DisplayUser />
-          </>
-        )} */}
-
         {!user && <button onClick={login}>Login</button>}
         {user && <button onClick={logout}>Logout</button>}
       </nav>

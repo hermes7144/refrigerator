@@ -3,7 +3,7 @@ import useIngredients from '../hooks/useIngredients';
 import React, { useState, useEffect } from 'react';
 import useMeals from '../hooks/useMeals';
 import { Meal } from '../types/mealTypes';
-import { Ingredient } from '../types/ingredientTypes';
+import { IngredientProps } from '../types/ingredientTypes';
 import ErrorDialog from '../components/common/ErrorDialog';
 import dayjs from 'dayjs';
 import Select, { SingleValue } from 'react-select';
@@ -19,14 +19,16 @@ export default function Meals() {
   const location = useLocation();
   const navigate = useNavigate();
   const { meal, date }: { meal: Meal; date: string } = location.state;
-  const { ingredientsQuery: { data: ingredients } } = useIngredients();
+  const {
+    ingredientsQuery: { data: ingredients },
+  } = useIngredients();
   const { addMeal, updateMeal } = useMeals();
-  const [ingredientList, setIngredientList] = useState<Ingredient[]>([]);
+  const [ingredientList, setIngredientList] = useState<IngredientProps[]>([]);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
     if (meal.ingredients) {
-      const initialIngredients: Ingredient[] = Object.values(meal.ingredients) as Ingredient[];
+      const initialIngredients: IngredientProps[] = Object.values(meal.ingredients) as IngredientProps[];
       setIngredientList(initialIngredients);
     } else {
       setIngredientList([{ id: '', name: '', unit: '', qty: 0, category: '' }]);
@@ -93,7 +95,7 @@ export default function Meals() {
         acc.push({ ...ingredient });
       }
       return acc;
-    }, [] as Ingredient[]);
+    }, [] as IngredientProps[]);
 
     const mealData: Meal = {
       name: meal.name,
@@ -125,7 +127,7 @@ export default function Meals() {
             재료 추가
           </button>
           <div className='w-full h-80 overflow-y-auto p-2'>
-          {ingredientList.map((ingredient, index) => (
+            {ingredientList.map((ingredient, index) => (
               <div key={index} className='flex items-center mb-2 w-full'>
                 <Select
                   className='basic-single flex-grow'
@@ -133,16 +135,10 @@ export default function Meals() {
                   options={ingredientOptions}
                   value={ingredientOptions?.find((option) => option.value === ingredient.id)}
                   onChange={(selectedOption) => handleIngredientChange(selectedOption, index)}
-
-                  menuPortalTarget={document.body} 
-                  styles={{ menuPortal: provided => ({ ...provided, zIndex: 9999 }) }}                
+                  menuPortalTarget={document.body}
+                  styles={{ menuPortal: (provided) => ({ ...provided, zIndex: 9999 }) }}
                 />
-                <input
-                  type='text'
-                  className='input input-bordered w-24 ml-2 p-2 h-10'
-                  onChange={(e) => handleQtyChange(e, index)}
-                  value={ingredient.qty ? ingredient.qty.toString() : ''}
-                />
+                <input type='text' className='input input-bordered w-24 ml-2 p-2 h-10' onChange={(e) => handleQtyChange(e, index)} value={ingredient.qty ? ingredient.qty.toString() : ''} />
                 {index > 0 && (
                   <button className='btn btn-sm btn-circle ml-2 btn-error text-white' onClick={() => handleRemoveIngredient(index)}>
                     <BsX className='h-5 w-5' />
