@@ -1,7 +1,7 @@
-import { HiDotsVertical } from "@react-icons/all-files/hi/HiDotsVertical";
+import { HiDotsVertical } from '@react-icons/all-files/hi/HiDotsVertical';
 import { RecipeItemProps } from '../../types/RecipeTypes';
 
- const RecipeItem = ({ recipe, onEdit, onOpenDialog }: RecipeItemProps)=> {
+const RecipeItem = ({ recipe, onEdit, onOpenDialog }: RecipeItemProps) => {
   return (
     <tr>
       <td>
@@ -16,7 +16,9 @@ import { RecipeItemProps } from '../../types/RecipeTypes';
       </td>
       <td>
         <ul>
-          {Object.values(recipe?.ingredients).map((ingredient) => <li key={recipe.id+ ingredient.id}>{ingredient.name + ingredient.qty + ingredient.unit}</li>)}
+          {Object.values(recipe?.ingredients).map((ingredient) => (
+            <li key={recipe.id + ingredient.id}>{ingredient.name + ingredient.qty + ingredient.unit}</li>
+          ))}
         </ul>
       </td>
       <td className='text-center'>

@@ -1,5 +1,5 @@
 import React from 'react';
 
 export default function Shopping() {
-  return <></>;
+  return <>To be update...</>;
 }

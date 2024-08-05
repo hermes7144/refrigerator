@@ -7,6 +7,7 @@ import Side from './components/common/Side';
 import ToggleWrapper from './components/common/ToggleWrapper';
 import { SidebarProvider } from './context/SidebarContextProvider';
 import useIsMobile from './hooks/useIsMobile';
+import BottomNavigation from './components/common/BottomNavigation';
 const MINUTE = 1000 * 60;
 
 function App() {
@@ -26,7 +27,10 @@ function App() {
       <AuthProvider>
         <Navbar />
         {isMobile ? (
-          <Outlet />
+          <>
+            <Outlet />
+            <BottomNavigation />
+          </>
         ) : (
           <div className='flex h-full'>
             <SidebarProvider>
@@ -35,9 +39,9 @@ function App() {
                 <Outlet />
               </ToggleWrapper>
             </SidebarProvider>
+            <ScrollToTopButton />
           </div>
         )}
-        <ScrollToTopButton />
       </AuthProvider>
     </QueryClientProvider>
   );
