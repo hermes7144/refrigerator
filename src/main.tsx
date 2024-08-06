@@ -4,7 +4,6 @@ import App from './App.tsx';
 import './index.css';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { withSuspense, withProtectedRoute } from './utils/withHOC.tsx';
-import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
 const NotFound = withSuspense(lazy(() => import('./pages/NotFound.tsx')));
 const Index = withSuspense(lazy(() => import('./pages/Index.tsx')));
