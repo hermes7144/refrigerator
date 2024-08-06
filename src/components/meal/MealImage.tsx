@@ -26,5 +26,5 @@ export const MealImage: React.FC<MealImageProps> = ({ meal }) => {
 
   const IconComponent = getIconComponent(name);
 
-  return <IconComponent className={done ? ' filter brightness-75' : ''} />;
+  return <IconComponent className={done ? 'brightness-75' : ''} />;
 };

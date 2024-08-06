@@ -1,6 +1,7 @@
 import useSidebarContext from '../../context/SidebarContext';
+import { providerProps } from '../../types/commonTypes';
 
-export default function ToggleWrapper({ children }) {
+export default function ToggleWrapper({ children }: providerProps) {
   const { broken, setToggled } = useSidebarContext();
 
   return (
