@@ -21,13 +21,11 @@ export default function Navbar() {
 
   const authContext = useAuthContext();
 
-  console.log(authContext);
-
   if (!authContext) {
     return null;
   }
+  const { user, isAuthLoading, login, logout } = authContext;
 
-  const { user, login, logout } = authContext;
   return (
     <header className={`navbar justify-between font-semibold bg-white fixed top-0 left-0 right-0 z-10 ${hasBorder ? 'border-b border-gray-300' : ''}`}>
       <Link to='/' className='flex items-center space-x-3 text-4xl text-brand'>
@@ -37,10 +35,7 @@ export default function Navbar() {
           <h1 className='block md:hidden tracking-tight text-xl font-semibold'>MM</h1>
         </div>
       </Link>
-      <nav className='flex items-center gap-4'>
-        {!user && <button onClick={login}>Login</button>}
-        {user && <button onClick={logout}>Logout</button>}
-      </nav>
+      <nav className='flex items-center gap-4'>{isAuthLoading ? '' : user ? <button onClick={logout}>Logout</button> : <button onClick={login}>Login</button>}</nav>
     </header>
   );
 }
