@@ -18,7 +18,7 @@ export default function Side() {
   }
 
   return (
-    <aside className='fixed top-18 left-0 h-full bg-[#f7f8f9] z-10'>
+    <aside className='fixed top-18 left-0 h-full bg-[#f7f8f9] z-20'>
       <Sidebar toggled={toggled} onBackdropClick={() => setToggled(false)} onBreakPoint={setBroken} breakPoint='lg' backgroundColor='white' transitionDuration={300}>
         <Menu
           menuItemStyles={{
