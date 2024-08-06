@@ -14,7 +14,7 @@ const NavButton: React.FC<NavButtonProps> = ({ to, icon: Icon, label }) => {
   return (
     <button className={`text-brand ${location.pathname === to ? 'active' : ''}`}>
       <Link to={to} className='flex flex-col items-center gap-1'>
-        <Icon className='w-7 h-7' />
+        <Icon className='w-5 h-5' />
         <label className='text-xs font-semibold tracking-tight'>{label}</label>
       </Link>
     </button>
