@@ -17,7 +17,7 @@ export default function BottomNavigation() {
       <NavButton to='/' icon={IoHomeOutline} label='식사계획' />
       <NavButton to='/ingredients' icon={CgSmartHomeRefrigerator} label='재료 관리' />
       <NavButton to='/recipes' icon={BiFoodMenu} label='레시피 관리' />
-      <NavButton to='/shopping' icon={FiShoppingCart} label='쇼핑 목록' />
+      <NavButton to='/shoppings' icon={FiShoppingCart} label='쇼핑 목록' />
     </div>
   );
 }

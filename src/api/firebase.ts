@@ -175,3 +175,59 @@ export async function updateIngredientRecipe(uid: string, ingredientId: string, 
     return (currentQty || 0) + quantityChange;
   });
 }
+
+export async function getShopping(uid: string) {
+  const snapshot = await get(ref(database, `shoppings/${uid}`));
+
+  if (snapshot.exists()) {
+    return Object.values(snapshot.val());
+  } else {
+    return [];
+  }
+}
+
+// export async function addNewRecipe(uid: string, recipe: RecipeProps): Promise<void> {
+//   const id = uuid();
+
+//   console.log('recipe', recipe);
+
+//   const recipeData = {
+//     id,
+//     name: recipe.name,
+//     createdDate: serverTimestamp(),
+//     ingredients: recipe.ingredients.reduce((acc: Record<string, IngredientProps>, ingredient: IngredientProps) => {
+//       acc[ingredient.id] = ingredient;
+//       return acc;
+//     }, {}),
+//   };
+
+//   await set(ref(database, `recipes/${uid}/${id}`), recipeData);
+// }
+
+// export async function editRecipe(uid: string, recipe: RecipeProps): Promise<void> {
+//   console.log(uid, recipe);
+
+//   const recipeData = {
+//     id: recipe.id,
+//     name: recipe.name,
+//     createdDate: serverTimestamp(),
+//     ingredients: recipe.ingredients.reduce((acc: Record<string, IngredientProps>, ingredient) => {
+//       acc[ingredient.id] = ingredient;
+//       return acc;
+//     }, {}),
+//   };
+
+//   return set(ref(database, `recipes/${uid}/${recipe.id}`), recipeData);
+// }
+
+// export async function deleteRecipe(uid: string, recipe: RecipeProps): Promise<void> {
+//   await remove(ref(database, `recipes/${uid}/${recipe.id}`));
+// }
+
+// export async function updateIngredientRecipe(uid: string, ingredientId: string, quantityChange: number): Promise<void> {
+//   const ingredientRef = ref(database, `recipes/${uid}/${ingredientId}/qty`);
+
+//   await runTransaction(ingredientRef, (currentQty) => {
+//     return (currentQty || 0) + quantityChange;
+//   });
+// }

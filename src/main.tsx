@@ -11,7 +11,8 @@ const Recipes = withSuspense(withProtectedRoute(lazy(() => import('./pages/Recip
 const Ingredients = withSuspense(withProtectedRoute(lazy(() => import('./pages/Ingredients.tsx'))));
 const Meals = withSuspense(withProtectedRoute(lazy(() => import('./pages/Meals.tsx'))));
 const NewRecipe = withSuspense(withProtectedRoute(lazy(() => import('./pages/NewRecipe.tsx'))));
-const Shopping = withSuspense(withProtectedRoute(lazy(() => import('./pages/Shopping.tsx'))));
+const Shoppings = withSuspense(withProtectedRoute(lazy(() => import('./pages/Shoppings.tsx'))));
+const RegisterShopping = withSuspense(withProtectedRoute(lazy(() => import('./pages/RegisterShopping.tsx'))));
 
 const router = createBrowserRouter([
   {
@@ -24,7 +25,8 @@ const router = createBrowserRouter([
       { path: '/recipes', element: <Recipes /> },
       { path: '/recipes/new', element: <NewRecipe /> },
       { path: '/ingredients', element: <Ingredients /> },
-      { path: '/shopping', element: <Shopping /> },
+      { path: '/shoppings', element: <Shoppings /> },
+      { path: '/shoppings/new', element: <RegisterShopping /> },
     ],
   },
 ]);
