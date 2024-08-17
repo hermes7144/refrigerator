@@ -1,7 +1,7 @@
-import { HiDotsVertical } from '@react-icons/all-files/hi/HiDotsVertical';
 import { RecipeItemProps } from '../../types/RecipeTypes';
+import { DisplayDate } from '../ingredient/DisplayDate';
 
-const ShoppingItem = ({ shopping, onEdit, onOpenDialog }: RecipeItemProps) => {
+const ShoppingItem = ({ shopping, onEdit }: RecipeItemProps) => {
   return (
     <tr>
       <td>
@@ -15,19 +15,13 @@ const ShoppingItem = ({ shopping, onEdit, onOpenDialog }: RecipeItemProps) => {
         </div>
       </td>
       <td className='text-center'>
-        <div className='dropdown dropdown-left sm:dropdown-right'>
-          <button tabIndex={0} role='button' className='btn btn-ghost rounded-full'>
-            <HiDotsVertical />
-          </button>
-          <ul tabIndex={0} className='p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-20'>
-            <li>
-              <a onClick={() => onEdit(shopping)}>수정</a>
-            </li>
-            <li>
-              <a onClick={() => onOpenDialog(shopping)}>삭제</a>
-            </li>
-          </ul>
-        </div>
+        {shopping.qty}
+        {shopping.unit}
+      </td>
+      <td className='text-center'>{shopping.expiration ? <DisplayDate date={shopping.expiration} /> : ''}</td>
+
+      <td className='flex items-center justify-center h-full'>
+        <input type='checkbox' className='w-5 h-5' />
       </td>
     </tr>
   );

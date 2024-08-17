@@ -11,7 +11,9 @@ export default function NewRecipe() {
   const location = useLocation();
   const navigate = useNavigate();
   const { recipe } = location.state;
-  const { ingredientsQuery: { data: ingredients } } = useIngredients();
+  const {
+    ingredientsQuery: { data: ingredients },
+  } = useIngredients();
   const { addRecipe, updateRecipe } = useRecipes();
   const [ingredientList, setIngredientList] = useState<Ingredient[]>([]);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -115,20 +117,14 @@ export default function NewRecipe() {
           <div className='label mb-2'>
             <span className='label-text text-lg font-semibold'>레시피 명</span>
           </div>
-          <input
-            type='text'
-            placeholder='Type here'
-            className='input input-bordered w-full p-2 text-lg'
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
+          <input type='text' placeholder='Type here' className='input input-bordered w-full p-2 text-lg' value={name} onChange={(e) => setName(e.target.value)} />
         </label>
         <div className='flex flex-col gap-2 w-full'>
           <button className='btn btn-success text-white py-2' onClick={handleAddIngredient}>
             재료 추가
           </button>
           <div className='w-full max-h-80 overflow-y-auto'>
-          {ingredientList.map((ingredient, index) => (
+            {ingredientList.map((ingredient, index) => (
               <div key={index} className='flex items-center mb-2 w-full'>
                 <Select
                   className='basic-single flex-grow '
@@ -136,19 +132,13 @@ export default function NewRecipe() {
                   options={ingredientOptions}
                   value={ingredientOptions?.find((option) => option.value === ingredient.id)}
                   onChange={(selectedOption) => handleIngredientChange(selectedOption, index)}
-
-                  menuPortalTarget={document.body} 
+                  menuPortalTarget={document.body}
                   styles={{
                     // Fixes the overlapping problem of the component
-                    menuPortal: provided => ({ ...provided, zIndex: 9999 })
-                  }}                
+                    menuPortal: (provided) => ({ ...provided, zIndex: 9999 }),
+                  }}
                 />
-                <input
-                  type='text'
-                  className='input input-bordered w-24 ml-2 p-2'
-                  onChange={(e) => handleQtyChange(e, index)}
-                  value={ingredient.qty ? ingredient.qty.toString() : ''}
-                />
+                <input type='text' className='input input-bordered w-24 ml-2 p-2' onChange={(e) => handleQtyChange(e, index)} value={ingredient.qty ? ingredient.qty.toString() : ''} />
                 {index > 0 && (
                   <button className='btn btn-sm btn-circle ml-2 btn-error text-white' onClick={() => handleRemoveIngredient(index)}>
                     <BsX className='h-5 w-5' />

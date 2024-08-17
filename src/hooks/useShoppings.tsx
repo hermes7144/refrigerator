@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import useAuthContext from '../context/AuthContext';
-import { getShopping } from '../api/firebase';
-import { RecipeProps } from '../types/RecipeTypes';
+import { getShoppings, addNewShopping, editShopping, removeShopping } from '../api/firebase';
+import { ShoppingProps } from '../types/ShoppingTypes';
 
 export default function useShoppings() {
   const { uid } = useAuthContext() ?? {};
@@ -11,23 +11,27 @@ export default function useShoppings() {
   }
 
   const queryClient = useQueryClient();
-  const shoppingsQuery = useQuery({ queryKey: ['shopping', uid], queryFn: () => getShopping(uid) });
+  const shoppingsQuery = useQuery({ queryKey: ['shoppings', uid], queryFn: () => getShoppings(uid) });
 
-  // const addRecipe = useMutation({
-  //   mutationFn: (recipe: RecipeProps) => addNewRecipe(uid, recipe),
-  //   onSuccess: () => queryClient.invalidateQueries({ queryKey: ['shopping', uid] }),
+  const addShopping = useMutation({
+    mutationFn: (shopping: ShoppingProps) => addNewShopping(uid, shopping),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['shoppings', uid] }),
+  });
+
+  const updateShopping = useMutation({
+    mutationFn: (shopping: ShoppingProps) => editShopping(uid, shopping),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['shoppings', uid] }),
+  });
+
+  const deleteShopping = useMutation({
+    mutationFn: (shopping: ShoppingProps) => removeShopping(uid, shopping),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['shoppings', uid] }),
+  });
+
+  // const updateShoppingQty = useMutation({
+  //   mutationFn: ({ ShoppingId, quantityChange }: { ShoppingId: string; quantityChange: number }) => updateShoppingQuantity(uid, ShoppingId, quantityChange),
+  //   onSuccess: () => queryClient.invalidateQueries({ queryKey: ['Shoppings', uid] }),
   // });
 
-  // const updateRecipe = useMutation({
-  //   mutationFn: (recipe: RecipeProps) => editRecipe(uid, recipe),
-  //   onSuccess: () => queryClient.invalidateQueries({ queryKey: ['shopping', uid] }),
-  // });
-
-  // const removeRecipe = useMutation({
-  //   mutationFn: (recipe: RecipeProps) => deleteRecipe(uid, recipe),
-  //   onSuccess: () => queryClient.invalidateQueries({ queryKey: ['shopping', uid] }),
-  // });
-
-  return { shoppingsQuery };
-  // return { recipesQuery, addRecipe, updateRecipe, removeRecipe };
+  return { shoppingsQuery, addShopping, updateShopping, deleteShopping };
 }

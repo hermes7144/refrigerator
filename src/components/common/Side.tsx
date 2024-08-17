@@ -38,7 +38,7 @@ export default function Side() {
           <MenuItem component={<Link to='/recipes' />} active={location.pathname === '/recipes'} icon={<BiFoodMenu />}>
             Recipes
           </MenuItem>
-          <MenuItem component={<Link to='/shopping' />} active={location.pathname === '/shopping'} icon={<FiShoppingCart />}>
+          <MenuItem component={<Link to='/shoppings' />} active={location.pathname === '/shoppings'} icon={<FiShoppingCart />}>
             Shopping
           </MenuItem>
         </Menu>
