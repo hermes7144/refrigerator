@@ -20,11 +20,14 @@ export default function Home() {
     }
   }, []);
 
-  const handleDateClick = useCallback((date: Dayjs) => {
-    const formattedDate = formatDate(date);
-    setSelectedDate(formattedDate);
-    scrollToDate(formattedDate);
-  }, [scrollToDate]);
+  const handleDateClick = useCallback(
+    (date: Dayjs) => {
+      const formattedDate = formatDate(date);
+      setSelectedDate(formattedDate);
+      scrollToDate(formattedDate);
+    },
+    [scrollToDate]
+  );
 
   useEffect(() => {
     scrollToDate(today);

@@ -19,7 +19,7 @@ const defaultItem: ShoppingItem = { id: '', name: '', unit: 'g', qty: 0, categor
 export default function RegisterShopping() {
   const { addShopping } = useShoppings();
   const navigate = useNavigate();
-  const [shoppingList, setShoppingList] = useState<ShoppingItem[]>(Array(5).fill(defaultItem));
+  const [shoppingList, setShoppingList] = useState<ShoppingItem[]>(Array(1).fill(defaultItem));
 
   const handleAddIngredient = () => {
     setShoppingList([...shoppingList, defaultItem]);
@@ -41,11 +41,10 @@ export default function RegisterShopping() {
 
   return (
     <div className='flex flex-col pt-8 md:pt-20 items-center'>
-      <div className='w-full md:w-2/3 lg:w-1/2 bg-white rounded-lg shadow-lg p-6'>
-        <h2 className='text-xl font-semibold mb-4'>Add Shopping Items</h2>
-        <button className='btn btn-success text-white py-2 px-4 mb-4 rounded-lg hover:bg-green-600 transition duration-200' onClick={handleAddIngredient}>
+      <div className='w-full md:w-2/3 lg:w-1/2 bg-white p-6'>
+        {/* <button className='btn btn-success text-white py-2 px-4 mb-4 rounded-lg hover:bg-green-600 transition duration-200' onClick={handleAddIngredient}>
           Add Item
-        </button>
+        </button> */}
         <div className='w-full max-h-80 overflow-y-auto'>
           {shoppingList.map((item, index) => (
             <ShoppingItemForm key={index} item={item} index={index} onChange={handleChange} />
@@ -114,13 +113,16 @@ function ShoppingItemForm({ item, index, onChange }: ShoppingItemFormProps) {
         <option value='condiment'>조미료</option>
         <option value='etc'>기타</option>
       </select>
-      <DatePicker
-        className='w-full  h-12 border-gray-300 border rounded-lg pl-2'
-        selected={item.expiration ? new Date(item.expiration) : null}
-        onChange={handleChange}
-        dateFormat='yyyy-MM-dd'
-        isClearable
-      />
+      <div className='w-full flex'>
+        <DatePicker
+          className='flex-1 h-12 border-gray-300 border rounded-lg pl-2'
+          selected={item.expiration ? new Date(item.expiration) : null}
+          onChange={handleChange}
+          dateFormat='yyyy-MM-dd'
+          isClearable
+          placeholderText='날짜'
+        />
+      </div>
     </div>
   );
 }

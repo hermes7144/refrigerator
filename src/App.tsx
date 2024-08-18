@@ -4,7 +4,6 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AuthProvider } from './context/AuthContextProvider';
 import ScrollToTopButton from './components/common/ScrollToTopButton';
 import Side from './components/common/Side';
-import ToggleWrapper from './components/common/ToggleWrapper';
 import { SidebarProvider } from './context/SidebarContextProvider';
 import useIsMobile from './hooks/useIsMobile';
 import BottomNavigation from './components/common/BottomNavigation';
@@ -25,23 +24,24 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-        <Navbar />
-        {isMobile ? (
-          <>
-            <Outlet />
-            <BottomNavigation />
-          </>
-        ) : (
-          <div className='flex h-full'>
-            <SidebarProvider>
+        <SidebarProvider>
+          <Navbar isMobile={isMobile} />
+
+          {isMobile ? (
+            <>
+              <Outlet />
+              <BottomNavigation />
+            </>
+          ) : (
+            <div className='flex h-full'>
               <Side />
-              <ToggleWrapper>
+              <div className='flex-1 p-4'>
                 <Outlet />
-              </ToggleWrapper>
-            </SidebarProvider>
-            <ScrollToTopButton />
-          </div>
-        )}
+              </div>
+              <ScrollToTopButton />
+            </div>
+          )}
+        </SidebarProvider>
       </AuthProvider>
     </QueryClientProvider>
   );

@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import useAuthContext from '../context/AuthContext';
-import { getShoppings, addNewShopping, editShopping, removeShopping } from '../api/firebase';
+import { getShoppings, addNewShopping, editShopping, removeShopping, editIngredient } from '../api/firebase';
 import { ShoppingProps } from '../types/ShoppingTypes';
 
 export default function useShoppings() {
@@ -28,10 +28,21 @@ export default function useShoppings() {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['shoppings', uid] }),
   });
 
-  // const updateShoppingQty = useMutation({
-  //   mutationFn: ({ ShoppingId, quantityChange }: { ShoppingId: string; quantityChange: number }) => updateShoppingQuantity(uid, ShoppingId, quantityChange),
-  //   onSuccess: () => queryClient.invalidateQueries({ queryKey: ['Shoppings', uid] }),
-  // });
+  // New mutation for bulk updating shopping items (moving to cart or deleting)
+  const bulkUpdateShoppings = useMutation({
+    mutationFn: async ({ action, selectedItems }) => {
+      const promises = selectedItems.map(async (shopping) => {
+        if (action === 'delete') {
+          await removeShopping(uid, shopping);
+        } else if (action === 'moveToCart') {
+          await removeShopping(uid, shopping);
+          await editIngredient(uid, { ...shopping });
+        }
+      });
+      return Promise.all(promises);
+    },
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['shoppings', uid] }),
+  });
 
-  return { shoppingsQuery, addShopping, updateShopping, deleteShopping };
+  return { shoppingsQuery, addShopping, updateShopping, deleteShopping, bulkUpdateShoppings };
 }

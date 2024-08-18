@@ -30,16 +30,16 @@ export default function Side() {
             },
           }}>
           <MenuItem component={<Link to='/' />} active={location.pathname === '/'} icon={<IoHomeOutline />}>
-            Home
+            홈
           </MenuItem>
           <MenuItem component={<Link to='/ingredients' />} active={location.pathname === '/ingredients'} icon={<CgSmartHomeRefrigerator />}>
-            Ingredients
+            재료
           </MenuItem>
           <MenuItem component={<Link to='/recipes' />} active={location.pathname === '/recipes'} icon={<BiFoodMenu />}>
-            Recipes
+            레시피
           </MenuItem>
           <MenuItem component={<Link to='/shoppings' />} active={location.pathname === '/shoppings'} icon={<FiShoppingCart />}>
-            Shopping
+            쇼핑 목록
           </MenuItem>
         </Menu>
       </Sidebar>
