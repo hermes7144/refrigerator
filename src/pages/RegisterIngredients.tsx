@@ -1,18 +1,11 @@
-import { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import useShoppings from '../hooks/useShoppings';
+import React, { useState } from 'react';
 import CommonItemForm from '../components/common/CommonForm';
+import { IngredientProps } from '../types/ingredientTypes';
+import useIngredients from '../hooks/useIngredients';
+import { useLocation, useNavigate } from 'react-router-dom';
+// import { formatDate } from '../utils/utils';
 
-interface ShoppingItem {
-  id: string;
-  name: string;
-  unit: string;
-  qty: number;
-  category: string;
-  expiration: string;
-}
-
-const defaultItem: ShoppingItem = {
+const defaultItem = {
   id: '',
   name: '',
   unit: 'g',
@@ -21,35 +14,35 @@ const defaultItem: ShoppingItem = {
   expiration: '',
 };
 
-export default function RegisterShopping() {
+export default function RegisterIngredients() {
   const location = useLocation();
-  const { shopping = defaultItem } = location.state || {};
+  const { ingredient = defaultItem } = location.state || {};
 
-  const { addShopping, updateShopping } = useShoppings();
   const navigate = useNavigate();
-  const [shoppingItem, setShoppingItem] = useState<ShoppingItem>(shopping);
+
+  const { addIngredient, updateIngredient } = useIngredients();
+  const [ingredientItem, setIngredientItem] = useState<IngredientProps>(ingredient);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
-  const handleChange = (field: keyof ShoppingItem, value: string | number) => {
-    setShoppingItem((prev) => ({ ...prev, [field]: value }));
+  const handleChange = (field, value: string | number) => {
+    setIngredientItem((prev) => ({ ...prev, [field]: value }));
   };
 
   const validate = () => {
     const newErrors: { [key: string]: string } = {};
-    if (!shoppingItem.name.trim()) newErrors.name = '이름을 입력해주세요';
-    if (isNaN(Number(shoppingItem.qty)) || shoppingItem.qty <= 0) newErrors.qty = '유효한 수량을 입력해주세요';
-    if (!shoppingItem.category.trim()) newErrors.category = '카테고리를 선택해주세요';
+    if (!ingredientItem.name.trim()) newErrors.name = '이름을 입력해주세요';
+    if (isNaN(Number(ingredientItem.qty))) newErrors.qty = '유효한 수량을 입력해주세요';
+    if (!ingredientItem.category.trim()) newErrors.category = '카테고리를 선택해주세요';
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = () => {
     if (!validate()) return;
-
-    if (shopping.id) {
-      updateShopping.mutate(shoppingItem);
+    if (ingredientItem.id) {
+      updateIngredient.mutate(ingredientItem);
     } else {
-      addShopping.mutate(shoppingItem);
+      addIngredient.mutate(ingredientItem);
     }
     navigate(-1);
   };
@@ -59,7 +52,7 @@ export default function RegisterShopping() {
       <div className='w-full md:w-2/3 lg:w-1/2 bg-white p-8 rounded-lg shadow-lg'>
         <h2 className='text-2xl font-bold mb-6 text-center'>쇼핑 목록 등록</h2>
         <div className='w-full max-h-[600px] overflow-y-auto'>
-          <CommonItemForm formData={shoppingItem} onChange={handleChange} errors={errors} />
+          <CommonItemForm formData={ingredientItem} onChange={handleChange} errors={errors} />
         </div>
         <div className='w-full flex justify-between items-center mt-8'>
           <button className='btn btn-secondary py-2 px-6 rounded-lg hover:bg-gray-700 transition duration-200' onClick={() => navigate(-1)}>

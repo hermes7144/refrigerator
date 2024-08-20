@@ -32,8 +32,8 @@ export default function Navbar() {
   return (
     <header className={`navbar justify-between font-semibold bg-white fixed top-0 left-0 right-0 z-10 ${hasBorder ? 'border-b border-gray-300' : ''}`}>
       {broken && (
-        <button className='w-10 h-10' onClick={() => setToggled(true)}>
-          <IoIosMenu />
+        <button onClick={() => setToggled(true)}>
+          <IoIosMenu className='h-6 w-6' />
         </button>
       )}
 

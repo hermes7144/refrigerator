@@ -4,7 +4,7 @@ export interface RecipeProps {
   id?: string;
   name: string;
   ingredients: IngredientProps[];
-  image?:string;
+  image?: string;
 }
 
 export interface RecipeItemProps {
@@ -13,8 +13,9 @@ export interface RecipeItemProps {
   onOpenDialog: (recipe: RecipeProps) => void;
 }
 
-export interface RemoveDialogProps  {
-  visible:boolean;
+export interface RemoveDialogProps {
+  text: string;
+  visible: boolean;
   onDelete: () => void;
   onClose: () => void;
 }

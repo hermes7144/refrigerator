@@ -5,6 +5,7 @@ import RemoveDialog from '../components/ingredient/RemoveDialog';
 import IngredientsSearch from '../components/ingredient/IngredientsSearch';
 import IngredientTable from '../components/ingredient/IngredientTable';
 import IngredientDialog from '../components/ingredient/IngredientDialog';
+import { Link } from 'react-router-dom';
 
 export default function Ingredients() {
   const { deleteIngredient } = useIngredients();
@@ -15,7 +16,6 @@ export default function Ingredients() {
   const [currentIngredient, setCurrentIngredient] = useState<IngredientProps | null>(null);
   const isStale = query !== deferredQuery;
 
-  const handleOpenDialog = () => setDialogVisible(true);
   const handleCloseDialog = () => {
     setCurrentIngredient(null);
     setDialogVisible(false);
@@ -48,9 +48,9 @@ export default function Ingredients() {
       </div>
       <div className='flex justify-between mb-4'>
         <IngredientsSearch query={query} onChange={handleSearchChange} />
-        <button className='btn bg-brand text-white' onClick={handleOpenDialog}>
-          추가
-        </button>
+        <Link to='new'>
+          <button className='btn bg-brand text-white'>추가</button>
+        </Link>
       </div>
       <IngredientTable query={query} isStale={isStale} onEdit={handleEditIngredient} onDelete={handleOpenRemoveDialog} />
       <IngredientDialog visible={dialogVisible} onClose={handleCloseDialog} initialIngredient={currentIngredient} />

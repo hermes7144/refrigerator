@@ -25,7 +25,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <SidebarProvider>
-          <Navbar isMobile={isMobile} />
+          <Navbar />
 
           {isMobile ? (
             <>

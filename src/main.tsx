@@ -9,6 +9,7 @@ const NotFound = withSuspense(lazy(() => import('./pages/NotFound.tsx')));
 const Index = withSuspense(lazy(() => import('./pages/Index.tsx')));
 const Recipes = withSuspense(withProtectedRoute(lazy(() => import('./pages/Recipes.tsx'))));
 const Ingredients = withSuspense(withProtectedRoute(lazy(() => import('./pages/Ingredients.tsx'))));
+const RegisterIngredients = withSuspense(withProtectedRoute(lazy(() => import('./pages/RegisterIngredients.tsx'))));
 const Meals = withSuspense(withProtectedRoute(lazy(() => import('./pages/Meals.tsx'))));
 const NewRecipe = withSuspense(withProtectedRoute(lazy(() => import('./pages/NewRecipe.tsx'))));
 const Shoppings = withSuspense(withProtectedRoute(lazy(() => import('./pages/Shoppings.tsx'))));
@@ -25,6 +26,7 @@ const router = createBrowserRouter([
       { path: '/recipes', element: <Recipes /> },
       { path: '/recipes/new', element: <NewRecipe /> },
       { path: '/ingredients', element: <Ingredients /> },
+      { path: '/ingredients/new', element: <RegisterIngredients /> },
       { path: '/shoppings', element: <Shoppings /> },
       { path: '/shoppings/new', element: <RegisterShopping /> },
     ],

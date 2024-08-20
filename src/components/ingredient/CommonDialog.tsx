@@ -23,7 +23,7 @@ export default function CommonDialog({ text, visible, onDelete, onClose }: Remov
           </button>
         </div>
       </div>
-      <form method='dialog' className='modal-backdrop'>
+      <form method='dialog' className='modal-backdrop' onClick={onClose}>
         <button>close</button>
       </form>
     </dialog>
