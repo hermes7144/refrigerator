@@ -32,11 +32,13 @@ export default function useShoppings() {
   const bulkUpdateShoppings = useMutation({
     mutationFn: async ({ action, selectedItems }) => {
       const promises = selectedItems.map(async (shopping) => {
+        console.log(selectedItems);
+
         if (action === 'delete') {
           await removeShopping(uid, shopping);
         } else if (action === 'moveToCart') {
           await removeShopping(uid, shopping);
-          await editIngredient(uid, { ...shopping });
+          await editIngredient(uid, shopping);
         }
       });
       return Promise.all(promises);

@@ -16,6 +16,6 @@ export interface RecipeItemProps {
 export interface RemoveDialogProps {
   text: string;
   visible: boolean;
-  onDelete: () => void;
+  onSubmit: () => void;
   onClose: () => void;
 }

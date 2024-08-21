@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { RemoveDialogProps } from '../../types/RecipeTypes';
 
-export default function CommonDialog({ text, visible, onDelete, onClose }: RemoveDialogProps) {
+export default function CommonDialog({ text, visible, onSubmit, onClose }: RemoveDialogProps) {
   const modalRef = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
@@ -18,7 +18,7 @@ export default function CommonDialog({ text, visible, onDelete, onClose }: Remov
           <button className='btn btn-sm' onClick={onClose}>
             취소
           </button>
-          <button className='btn btn-sm' onClick={onDelete}>
+          <button className='btn btn-sm' onClick={onSubmit}>
             확인
           </button>
         </div>

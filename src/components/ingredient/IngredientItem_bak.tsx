@@ -1,8 +1,7 @@
 import { IngredientItemProps } from '../../types/ingredientTypes';
 import { DisplayDate } from './DisplayDate';
-import { HiDotsVertical } from "@react-icons/all-files/hi/HiDotsVertical";
 
-const IngredientItem = ({ ingredient, onEdit, onDelete }: IngredientItemProps) => {
+const IngredientItem = ({ ingredient }: IngredientItemProps) => {
   return (
     <tr className='h-12'>
       <td>
@@ -20,21 +19,6 @@ const IngredientItem = ({ ingredient, onEdit, onDelete }: IngredientItemProps) =
         {ingredient.unit}
       </td>
       <td className='text-center'>{ingredient.expiration ? <DisplayDate date={ingredient.expiration} /> : ''}</td>
-      <td className='text-center'>
-        <div className='dropdown dropdown-left sm:dropdown-right'>
-          <button tabIndex={0} role='button' className='btn btn-circle btn-ghost btn-sm'>
-            <HiDotsVertical />
-          </button>
-          <ul tabIndex={0} className='p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-20'>
-            <li>
-              <a onClick={() => onEdit(ingredient)}>수정</a>
-            </li>
-            <li>
-              <a onClick={() => onDelete(ingredient)}>삭제</a>
-            </li>
-          </ul>
-        </div>
-      </td>
     </tr>
   );
 };

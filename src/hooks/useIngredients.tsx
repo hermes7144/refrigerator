@@ -33,5 +33,17 @@ export default function useIngredients() {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['ingredients', uid] }),
   });
 
-  return { ingredientsQuery, addIngredient, updateIngredient, deleteIngredient, updateIngredientQty };
+  const deleteIngredients = useMutation({
+    mutationFn: async ({ action, selectedItems }) => {
+      const promises = selectedItems.map(async (ingredient) => {
+        if (action === 'delete') {
+          await removeIngredient(uid, ingredient);
+        }
+      });
+      return Promise.all(promises);
+    },
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['ingredients', uid] }),
+  });
+
+  return { ingredientsQuery, addIngredient, updateIngredient, deleteIngredient, updateIngredientQty, deleteIngredients };
 }

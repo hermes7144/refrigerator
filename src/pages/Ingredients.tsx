@@ -1,44 +1,22 @@
 import { ChangeEvent, useDeferredValue, useState } from 'react';
-import useIngredients from '../hooks/useIngredients';
-import { IngredientProps } from '../types/ingredientTypes';
-import RemoveDialog from '../components/ingredient/RemoveDialog';
 import IngredientsSearch from '../components/ingredient/IngredientsSearch';
-import IngredientTable from '../components/ingredient/IngredientTable';
-import IngredientDialog from '../components/ingredient/IngredientDialog';
 import { Link } from 'react-router-dom';
+import useSelection from '../hooks/useSelection';
+import useIngredients from '../hooks/useIngredients';
+import IngredientTable from '../components/shopping/IngredientTable';
+import CommonDialog from '../components/ingredient/CommonDialog';
+import useShoppingDialog from '../hooks/useShoppingDialog';
 
 export default function Ingredients() {
-  const { deleteIngredient } = useIngredients();
   const [query, setQuery] = useState('');
   const deferredQuery = useDeferredValue(query);
-  const [dialogVisible, setDialogVisible] = useState(false);
-  const [removeDialogVisible, setRemoveDialogVisible] = useState(false);
-  const [currentIngredient, setCurrentIngredient] = useState<IngredientProps | null>(null);
   const isStale = query !== deferredQuery;
 
-  const handleCloseDialog = () => {
-    setCurrentIngredient(null);
-    setDialogVisible(false);
-  };
+  const { selectedItems, toggleSelection } = useSelection(); // 선택된 항목을 관리
+  const { ingredientsQuery, deleteIngredients } = useIngredients();
+  const { dialogVisible, dialogAction, handleOpenDialog, handleCloseDialog, handleSubmit } = useShoppingDialog(selectedItems, deleteIngredients);
+  const { data: ingreidents } = ingredientsQuery || {};
 
-  const handleEditIngredient = (ingredient: IngredientProps) => {
-    setCurrentIngredient(ingredient);
-    setDialogVisible(true);
-  };
-
-  const handleRemoveIngredient = (): void => {
-    if (currentIngredient) {
-      deleteIngredient.mutate(currentIngredient);
-      setRemoveDialogVisible(false);
-    }
-  };
-
-  const handleOpenRemoveDialog = (ingredient: IngredientProps) => {
-    setCurrentIngredient(ingredient);
-    setRemoveDialogVisible(true);
-  };
-
-  const handleCloseRemoveDialog = () => setRemoveDialogVisible(false);
   const handleSearchChange = ({ target }: ChangeEvent<HTMLInputElement>) => setQuery(target.value);
 
   return (
@@ -51,10 +29,12 @@ export default function Ingredients() {
         <Link to='new'>
           <button className='btn bg-brand text-white'>추가</button>
         </Link>
+        <button className='btn btn-outline btn-error' onClick={() => handleOpenDialog('delete')}>
+          삭제
+        </button>
       </div>
-      <IngredientTable query={query} isStale={isStale} onEdit={handleEditIngredient} onDelete={handleOpenRemoveDialog} />
-      <IngredientDialog visible={dialogVisible} onClose={handleCloseDialog} initialIngredient={currentIngredient} />
-      <RemoveDialog visible={removeDialogVisible} onDelete={handleRemoveIngredient} onClose={handleCloseRemoveDialog} />
+      <IngredientTable query={query} isStale={isStale} items={ingreidents} selectedItems={selectedItems} toggleSelection={toggleSelection} />
+      <CommonDialog text={dialogAction === 'moveToCart' ? '재료로 이동' : '삭제'} visible={dialogVisible} onSubmit={handleSubmit} onClose={handleCloseDialog} />
     </div>
   );
 }

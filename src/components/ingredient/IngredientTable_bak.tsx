@@ -1,10 +1,10 @@
 import React, { useEffect, useState, memo, useMemo } from 'react';
 import useIngredients from '../../hooks/useIngredients';
 import { IngredientTableProps } from '../../types/ingredientTypes';
-import IngredientItem from './IngredientItem';
+import IngredientItem from './IngredientItem_bak';
 import SkeletonIngredientTable from './SkeletonIngredientTable';
 
-function IngredientTable({ query, isStale, onEdit, onDelete }: IngredientTableProps) {
+function IngredientTable({ query, isStale }: IngredientTableProps) {
   const {
     ingredientsQuery: { data: initIngredients },
   } = useIngredients();
@@ -42,10 +42,10 @@ function IngredientTable({ query, isStale, onEdit, onDelete }: IngredientTablePr
           </thead>
           <tbody className={isStale ? 'text-gray-400' : ''}>
             {nonZeroQtyItems?.map((ingredient) => (
-              <IngredientItem key={ingredient.id} ingredient={ingredient} onEdit={onEdit} onDelete={onDelete} />
+              <IngredientItem key={ingredient.id} ingredient={ingredient} />
             ))}
             {zeroQtyItems?.map((ingredient) => (
-              <IngredientItem key={ingredient.id} ingredient={ingredient} onEdit={onEdit} onDelete={onDelete} />
+              <IngredientItem key={ingredient.id} ingredient={ingredient} />
             ))}
           </tbody>
         </table>

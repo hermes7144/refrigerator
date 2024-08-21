@@ -1,11 +1,16 @@
 export interface IngredientProps {
-  id?: string;
+  id: string;
   name: string;
-  qty?: number | null;
   unit: string;
+  qty: number;
   category: string;
-  image?: string;
-  expiration: string | null;
+  expiration: string;
+}
+
+export interface IngredientTableProps {
+  items: IngredientProps[];
+  selectedItems: IngredientProps[];
+  toggleSelection: (item: IngredientProps) => void;
 }
 
 export interface IngredientDialogProps {
@@ -14,12 +19,12 @@ export interface IngredientDialogProps {
   initialIngredient: IngredientProps | null;
 }
 
-export interface IngredientTableProps {
-  query: string;
-  isStale: boolean;
-  onEdit: (ingredient: IngredientProps) => void;
-  onDelete: (ingredient: IngredientProps) => void;
-}
+// export interface IngredientTableProps {
+//   query: string;
+//   isStale: boolean;
+//   onEdit: (ingredient: IngredientProps) => void;
+//   onDelete: (ingredient: IngredientProps) => void;
+// }
 
 export interface IngredientItemProps {
   ingredient: IngredientProps;

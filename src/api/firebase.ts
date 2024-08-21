@@ -183,7 +183,7 @@ export async function getShoppings(uid: string) {
   }
 }
 
-export async function addNewShopping(uid: string, shopping: ShoppingProps): Promise<void> {
+export async function addNewShopping(uid: string, shopping: IngredientProps): Promise<void> {
   const id = uuid();
 
   const shoppingData = {
@@ -195,7 +195,7 @@ export async function addNewShopping(uid: string, shopping: ShoppingProps): Prom
   await set(ref(database, `shoppings/${uid}/${id}`), shoppingData);
 }
 
-export async function editShopping(uid: string, shopping: ShoppingProps): Promise<void> {
+export async function editShopping(uid: string, shopping: IngredientProps): Promise<void> {
   const shoppingData = {
     ...shopping,
     modifiedDate: serverTimestamp(),
@@ -204,6 +204,6 @@ export async function editShopping(uid: string, shopping: ShoppingProps): Promis
   return set(ref(database, `shoppings/${uid}/${shopping.id}`), shoppingData);
 }
 
-export async function removeShopping(uid: string, shopping: ShoppingProps): Promise<void> {
+export async function removeShopping(uid: string, shopping: IngredientProps): Promise<void> {
   await remove(ref(database, `shoppings/${uid}/${shopping.id}`));
 }

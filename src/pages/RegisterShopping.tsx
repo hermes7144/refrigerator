@@ -2,17 +2,9 @@ import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import useShoppings from '../hooks/useShoppings';
 import CommonItemForm from '../components/common/CommonForm';
+import { IngredientProps } from '../types/ingredientTypes';
 
-interface ShoppingItem {
-  id: string;
-  name: string;
-  unit: string;
-  qty: number;
-  category: string;
-  expiration: string;
-}
-
-const defaultItem: ShoppingItem = {
+const defaultItem: IngredientProps = {
   id: '',
   name: '',
   unit: 'g',
@@ -23,14 +15,14 @@ const defaultItem: ShoppingItem = {
 
 export default function RegisterShopping() {
   const location = useLocation();
-  const { shopping = defaultItem } = location.state || {};
+  const { item = defaultItem } = location.state || {};
+  const navigate = useNavigate();
 
   const { addShopping, updateShopping } = useShoppings();
-  const navigate = useNavigate();
-  const [shoppingItem, setShoppingItem] = useState<ShoppingItem>(shopping);
+  const [shoppingItem, setShoppingItem] = useState<IngredientProps>(item);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
-  const handleChange = (field: keyof ShoppingItem, value: string | number) => {
+  const handleChange = (field: keyof IngredientProps, value: string | number) => {
     setShoppingItem((prev) => ({ ...prev, [field]: value }));
   };
 
@@ -46,7 +38,7 @@ export default function RegisterShopping() {
   const handleSubmit = () => {
     if (!validate()) return;
 
-    if (shopping.id) {
+    if (item.id) {
       updateShopping.mutate(shoppingItem);
     } else {
       addShopping.mutate(shoppingItem);

@@ -5,7 +5,7 @@ import useIngredients from '../hooks/useIngredients';
 import { useLocation, useNavigate } from 'react-router-dom';
 // import { formatDate } from '../utils/utils';
 
-const defaultItem = {
+const defaultItem: IngredientProps = {
   id: '',
   name: '',
   unit: 'g',
@@ -24,7 +24,7 @@ export default function RegisterIngredients() {
   const [ingredientItem, setIngredientItem] = useState<IngredientProps>(ingredient);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
-  const handleChange = (field, value: string | number) => {
+  const handleChange = (field: keyof IngredientProps, value: string | number) => {
     setIngredientItem((prev) => ({ ...prev, [field]: value }));
   };
 
