@@ -23,11 +23,6 @@ export default function useIngredients() {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['ingredients', uid] }),
   });
 
-  const deleteIngredient = useMutation({
-    mutationFn: (ingredient: IngredientProps) => removeIngredient(uid, ingredient),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['ingredients', uid] }),
-  });
-
   const updateIngredientQty = useMutation({
     mutationFn: ({ ingredientId, quantityChange }: { ingredientId: string; quantityChange: number }) => updateIngredientQuantity(uid, ingredientId, quantityChange),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['ingredients', uid] }),
@@ -45,5 +40,5 @@ export default function useIngredients() {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['ingredients', uid] }),
   });
 
-  return { ingredientsQuery, addIngredient, updateIngredient, deleteIngredient, updateIngredientQty, deleteIngredients };
+  return { ingredientsQuery, addIngredient, updateIngredient, updateIngredientQty, deleteIngredients };
 }

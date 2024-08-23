@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import useAuthContext from '../context/AuthContext';
 import { getShoppings, addNewShopping, editShopping, removeShopping, editIngredient } from '../api/firebase';
-import { ShoppingProps } from '../types/ShoppingTypes';
+import { IngredientProps } from '../types/ingredientTypes';
 
 export default function useShoppings() {
   const { uid } = useAuthContext() ?? {};
@@ -14,17 +14,17 @@ export default function useShoppings() {
   const shoppingsQuery = useQuery({ queryKey: ['shoppings', uid], queryFn: () => getShoppings(uid) });
 
   const addShopping = useMutation({
-    mutationFn: (shopping: ShoppingProps) => addNewShopping(uid, shopping),
+    mutationFn: (shopping: IngredientProps) => addNewShopping(uid, shopping),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['shoppings', uid] }),
   });
 
   const updateShopping = useMutation({
-    mutationFn: (shopping: ShoppingProps) => editShopping(uid, shopping),
+    mutationFn: (shopping: IngredientProps) => editShopping(uid, shopping),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['shoppings', uid] }),
   });
 
   const deleteShopping = useMutation({
-    mutationFn: (shopping: ShoppingProps) => removeShopping(uid, shopping),
+    mutationFn: (shopping: IngredientProps) => removeShopping(uid, shopping),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['shoppings', uid] }),
   });
 

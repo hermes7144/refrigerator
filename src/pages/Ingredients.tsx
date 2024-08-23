@@ -3,9 +3,9 @@ import IngredientsSearch from '../components/ingredient/IngredientsSearch';
 import { Link } from 'react-router-dom';
 import useSelection from '../hooks/useSelection';
 import useIngredients from '../hooks/useIngredients';
-import IngredientTable from '../components/shopping/IngredientTable';
+import IngredientTable from '../components/ingredient/IngredientTable';
 import CommonDialog from '../components/ingredient/CommonDialog';
-import useShoppingDialog from '../hooks/useShoppingDialog';
+import useConfirmationDialog from '../hooks/useConfirmationDialog';
 
 export default function Ingredients() {
   const [query, setQuery] = useState('');
@@ -14,7 +14,7 @@ export default function Ingredients() {
 
   const { selectedItems, toggleSelection } = useSelection(); // 선택된 항목을 관리
   const { ingredientsQuery, deleteIngredients } = useIngredients();
-  const { dialogVisible, dialogAction, handleOpenDialog, handleCloseDialog, handleSubmit } = useShoppingDialog(selectedItems, deleteIngredients);
+  const { isVisible, action, openDialog, closeDialog, submitAction } = useConfirmationDialog(selectedItems, deleteIngredients);
   const { data: ingreidents } = ingredientsQuery || {};
 
   const handleSearchChange = ({ target }: ChangeEvent<HTMLInputElement>) => setQuery(target.value);
@@ -29,12 +29,12 @@ export default function Ingredients() {
         <Link to='new'>
           <button className='btn bg-brand text-white'>추가</button>
         </Link>
-        <button className='btn btn-outline btn-error' onClick={() => handleOpenDialog('delete')}>
+        <button className='btn btn-outline btn-error' onClick={() => openDialog('delete')}>
           삭제
         </button>
       </div>
       <IngredientTable query={query} isStale={isStale} items={ingreidents} selectedItems={selectedItems} toggleSelection={toggleSelection} />
-      <CommonDialog text={dialogAction === 'moveToCart' ? '재료로 이동' : '삭제'} visible={dialogVisible} onSubmit={handleSubmit} onClose={handleCloseDialog} />
+      <CommonDialog text={action === 'moveToCart' ? '재료로 이동' : '삭제'} isVisible={isVisible} onSubmit={submitAction} onClose={closeDialog} />
     </div>
   );
 }

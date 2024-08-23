@@ -2,7 +2,7 @@ import React, { useEffect, useState, useMemo, memo } from 'react';
 import useIngredients from '../../hooks/useIngredients';
 import SkeletonIngredientTable from './SkeletonIngredientTable';
 import useSelection from '../../hooks/useSelection'; // useSelection을 가져옵니다.
-import IngredientTable from '../shopping/IngredientTable';
+import IngredientTable from './IngredientTable';
 
 function ShoppingTable({ query, isStale }: { query: string; isStale: boolean }) {
   const {

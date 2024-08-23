@@ -11,15 +11,15 @@ export interface RemoveMealButtonProps {
 export const RemoveMealButton: React.FC<RemoveMealButtonProps> = ({ meal, date }) => {
   const { removeMeal } = useMeals();
   const { updateIngredientQty } = useIngredients();
-  
-  const handleClick =() => {
+
+  const handleClick = () => {
     if (meal.done) {
-      Object.entries(meal.ingredients).forEach(([ingredientId, ingredient]) => {      
-        updateIngredientQty.mutate({ ingredientId, quantityChange :ingredient.qty});
+      Object.entries(meal.ingredients).forEach(([ingredientId, ingredient]) => {
+        updateIngredientQty.mutate({ ingredientId, quantityChange: ingredient.qty });
       });
     }
     removeMeal.mutate({ name: meal.name, date });
-  }
+  };
 
   return (
     <button className='btn btn-circle btn-ghost btn-sm' onClick={handleClick}>

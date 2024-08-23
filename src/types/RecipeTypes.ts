@@ -13,9 +13,9 @@ export interface RecipeItemProps {
   onOpenDialog: (recipe: RecipeProps) => void;
 }
 
-export interface RemoveDialogProps {
+export interface CommonDialogProps {
   text: string;
-  visible: boolean;
+  isVisible: boolean;
   onSubmit: () => void;
   onClose: () => void;
 }

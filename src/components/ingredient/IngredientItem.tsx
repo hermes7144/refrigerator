@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
-import { DisplayDate } from '../ingredient/DisplayDate';
+import { DisplayDate } from './DisplayDate';
 
-const CommonItem = ({ item, onSelect, isSelected }) => {
+const IngredientItem = ({ item, onSelect, isSelected }) => {
   return (
     <tr className='hover:bg-gray-100 transition-colors duration-200 '>
       <td className='py-4 px-6 text-gray-800 hover:text-blue-600 transition-colors duration-200'>
@@ -37,4 +37,4 @@ const CommonItem = ({ item, onSelect, isSelected }) => {
   );
 };
 
-export default CommonItem;
+export default IngredientItem;

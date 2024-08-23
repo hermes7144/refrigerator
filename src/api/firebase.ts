@@ -5,7 +5,6 @@ import { v4 as uuid } from 'uuid';
 import { getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithPopup, signOut, User } from 'firebase/auth';
 import { get, getDatabase, ref, remove, runTransaction, serverTimestamp, set, update } from 'firebase/database';
 import { Meal, MealsByDate } from '../types/mealTypes';
-import { ShoppingProps } from '../types/ShoppingTypes';
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
