@@ -26,7 +26,7 @@ export default function Shoppings() {
       </div>
       <div className='flex justify-between mb-4 gap-2'>
         <div className='flex gap-1'>
-          <SearchInput query={query} onChange={handleSearchChange} />
+          {/* <SearchInput query={query} onChange={handleSearchChange} /> */}
           <Link to='/shoppings/new' className='btn btn-outline btn-primary'>
             추가
           </Link>
