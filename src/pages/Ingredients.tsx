@@ -1,11 +1,11 @@
 import { ChangeEvent, useDeferredValue, useState } from 'react';
-import IngredientsSearch from '../components/ingredient/IngredientsSearch';
 import { Link } from 'react-router-dom';
 import useSelection from '../hooks/useSelection';
 import useIngredients from '../hooks/useIngredients';
 import IngredientTable from '../components/ingredient/IngredientTable';
 import CommonDialog from '../components/ingredient/CommonDialog';
 import useConfirmationDialog from '../hooks/useConfirmationDialog';
+import SearchInput from '../components/common/SearchInput';
 
 export default function Ingredients() {
   const [query, setQuery] = useState('');
@@ -25,13 +25,15 @@ export default function Ingredients() {
         <h1>재료 목록</h1>
       </div>
       <div className='flex justify-between mb-4'>
-        <IngredientsSearch query={query} onChange={handleSearchChange} />
-        <Link to='new'>
-          <button className='btn bg-brand text-white'>추가</button>
-        </Link>
-        <button className='btn btn-outline btn-error' onClick={() => openDialog('delete')}>
-          삭제
-        </button>
+        <SearchInput query={query} onChange={handleSearchChange} />
+        <div className='flex gap-2'>
+          <Link to='new'>
+            <button className='btn bg-brand text-white'>추가</button>
+          </Link>
+          <button className='btn btn-outline btn-error' onClick={() => openDialog('delete')}>
+            삭제
+          </button>
+        </div>
       </div>
       <IngredientTable query={query} isStale={isStale} items={ingreidents} selectedItems={selectedItems} toggleSelection={toggleSelection} />
       <CommonDialog text={action === 'moveToCart' ? '재료로 이동' : '삭제'} isVisible={isVisible} onSubmit={submitAction} onClose={closeDialog} />

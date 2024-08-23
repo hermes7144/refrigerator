@@ -15,7 +15,9 @@ export default function IngredientTable({ query, isStale, items, selectedItems, 
 
     const lowerQuery = query.toLowerCase();
 
-    return items.filter((item) => item.name.toLowerCase().includes(lowerQuery));
+    console.log(items);
+
+    return items.filter((item) => item?.name.toLowerCase().includes(lowerQuery));
   }, [items, query]);
 
   const nonZeroQtyItems = useMemo(() => filteredIngredients.filter((item) => item.qty !== 0), [filteredIngredients]);

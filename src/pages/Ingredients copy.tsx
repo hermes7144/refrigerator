@@ -2,7 +2,7 @@ import { ChangeEvent, useDeferredValue, useState } from 'react';
 import useIngredients from '../hooks/useIngredients';
 import { IngredientProps } from '../types/ingredientTypes';
 import RemoveDialog from '../components/ingredient/RemoveDialog';
-import IngredientsSearch from '../components/ingredient/IngredientsSearch';
+import IngredientsSearch from '../components/ingredient/SearchInput';
 import IngredientTable from '../components/ingredient/IngredientTable';
 import IngredientDialog from '../components/ingredient/IngredientDialog';
 import { Link } from 'react-router-dom';

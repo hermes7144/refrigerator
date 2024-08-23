@@ -3,7 +3,7 @@ import CommonDialog from '../components/ingredient/CommonDialog';
 import useShoppings from '../hooks/useShoppings';
 import IngredientTable from '../components/ingredient/IngredientTable';
 import { ChangeEvent, useDeferredValue, useState } from 'react';
-import IngredientsSearch from '../components/ingredient/IngredientsSearch';
+import SearchInput from '../components/common/SearchInput';
 import useSelection from '../hooks/useSelection';
 import useConfirmationDialog from '../hooks/useConfirmationDialog';
 
@@ -26,7 +26,7 @@ export default function Shoppings() {
       </div>
       <div className='flex justify-between mb-4'>
         <div className='flex gap-1'>
-          <IngredientsSearch query={query} onChange={handleSearchChange} />
+          <SearchInput query={query} onChange={handleSearchChange} />
           <Link to='/shoppings/new' className='btn btn-outline btn-primary'>
             추가
           </Link>

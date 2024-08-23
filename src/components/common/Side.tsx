@@ -17,6 +17,10 @@ export default function Side() {
     return;
   }
 
+  const handleMenuItemClick = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll to top smoothly
+  };
+
   return (
     <aside className='fixed top-18 left-0 h-full bg-[#f7f8f9] z-20'>
       <Sidebar toggled={toggled} onBackdropClick={() => setToggled(false)} onBreakPoint={setBroken} breakPoint='lg' backgroundColor='white' transitionDuration={300}>
@@ -32,13 +36,13 @@ export default function Side() {
           <MenuItem component={<Link to='/' />} active={location.pathname === '/'} icon={<IoHomeOutline />}>
             홈
           </MenuItem>
-          <MenuItem component={<Link to='/ingredients' />} active={location.pathname === '/ingredients'} icon={<CgSmartHomeRefrigerator />}>
+          <MenuItem component={<Link to='/ingredients' />} active={location.pathname === '/ingredients'} icon={<CgSmartHomeRefrigerator />} onClick={handleMenuItemClick}>
             재료
           </MenuItem>
-          <MenuItem component={<Link to='/recipes' />} active={location.pathname === '/recipes'} icon={<BiFoodMenu />}>
+          <MenuItem component={<Link to='/recipes' />} active={location.pathname === '/recipes'} icon={<BiFoodMenu />} onClick={handleMenuItemClick}>
             레시피
           </MenuItem>
-          <MenuItem component={<Link to='/shoppings' />} active={location.pathname === '/shoppings'} icon={<FiShoppingCart />}>
+          <MenuItem component={<Link to='/shoppings' />} active={location.pathname === '/shoppings'} icon={<FiShoppingCart />} onClick={handleMenuItemClick}>
             쇼핑 목록
           </MenuItem>
         </Menu>
