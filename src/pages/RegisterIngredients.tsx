@@ -50,7 +50,7 @@ export default function RegisterIngredients() {
   return (
     <div className='flex flex-col items-center'>
       <div className='w-full md:w-2/3 lg:w-1/2 bg-white p-8 rounded-lg shadow-lg'>
-        <h2 className='text-2xl font-bold mb-6 text-center'>쇼핑 목록 등록</h2>
+        <h2 className='text-2xl font-bold mb-6 text-center'>재료 등록</h2>
         <div className='w-full max-h-[600px] overflow-y-auto'>
           <CommonItemForm formData={ingredientItem} onChange={handleChange} errors={errors} />
         </div>
@@ -59,7 +59,7 @@ export default function RegisterIngredients() {
             뒤로가기
           </button>
           <button className='btn btn-primary py-2 px-6 rounded-lg hover:bg-blue-700 transition duration-200' onClick={handleSubmit}>
-            등록하기
+            저장하기
           </button>
         </div>
       </div>

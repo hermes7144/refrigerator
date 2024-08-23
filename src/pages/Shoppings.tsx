@@ -3,14 +3,13 @@ import CommonDialog from '../components/ingredient/CommonDialog';
 import useShoppings from '../hooks/useShoppings';
 import IngredientTable from '../components/ingredient/IngredientTable';
 import { ChangeEvent, useDeferredValue, useState } from 'react';
-import SearchInput from '../components/common/SearchInput';
 import useSelection from '../hooks/useSelection';
 import useConfirmationDialog from '../hooks/useConfirmationDialog';
 
 export default function Shoppings() {
-  const { selectedItems, toggleSelection } = useSelection(); // 선택된 항목을 관리
+  const { selectedItems, setSelectedItems, toggleSelection } = useSelection(); // 선택된 항목을 관리
   const { shoppingsQuery, bulkUpdateShoppings } = useShoppings();
-  const { isVisible, action, openDialog, closeDialog, submitAction } = useConfirmationDialog(selectedItems, bulkUpdateShoppings);
+  const { isVisible, action, openDialog, closeDialog, submitAction } = useConfirmationDialog(selectedItems, setSelectedItems, bulkUpdateShoppings);
   const { data: shoppings } = shoppingsQuery || {};
 
   const [query, setQuery] = useState('');
@@ -32,10 +31,10 @@ export default function Shoppings() {
           </Link>
         </div>
         <div className='flex gap-2'>
-          <button className='btn btn-outline btn-success' onClick={() => openDialog('moveToCart')}>
-            장바구니
+          <button className='btn btn-outline btn-success' disabled={!selectedItems.length} onClick={() => openDialog('moveToCart')}>
+            담기
           </button>
-          <button className='btn btn-outline btn-error' onClick={() => openDialog('delete')}>
+          <button className='btn btn-outline btn-error' disabled={!selectedItems.length} onClick={() => openDialog('delete')}>
             삭제
           </button>
         </div>

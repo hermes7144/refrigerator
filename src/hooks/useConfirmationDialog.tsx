@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import { IngredientProps } from '../types/ingredientTypes';
 
-export default function useConfirmationDialog(selectedItems, performAction) {
+export default function useConfirmationDialog(selectedItems, setSelectedItems, performAction) {
   const [isVisible, setIsVisible] = useState(false);
   const [action, setAction] = useState<string | null>(null);
 
@@ -21,6 +20,8 @@ export default function useConfirmationDialog(selectedItems, performAction) {
     if (!action) return;
 
     performAction.mutate({ action, selectedItems });
+
+    setSelectedItems([]);
     closeDialog();
   };
 

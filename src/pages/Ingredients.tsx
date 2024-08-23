@@ -12,9 +12,9 @@ export default function Ingredients() {
   const deferredQuery = useDeferredValue(query);
   const isStale = query !== deferredQuery;
 
-  const { selectedItems, toggleSelection } = useSelection(); // 선택된 항목을 관리
+  const { selectedItems, setSelectedItems, toggleSelection } = useSelection(); // 선택된 항목을 관리
   const { ingredientsQuery, deleteIngredients } = useIngredients();
-  const { isVisible, action, openDialog, closeDialog, submitAction } = useConfirmationDialog(selectedItems, deleteIngredients);
+  const { isVisible, action, openDialog, closeDialog, submitAction } = useConfirmationDialog(selectedItems, setSelectedItems, deleteIngredients);
   const { data: ingreidents } = ingredientsQuery || {};
 
   const handleSearchChange = ({ target }: ChangeEvent<HTMLInputElement>) => setQuery(target.value);

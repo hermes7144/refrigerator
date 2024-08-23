@@ -5,6 +5,7 @@ import IngredientItem from './IngredientItem';
 
 export default function IngredientTable({ query, isStale, items, selectedItems, toggleSelection }: IngredientTableProps) {
   const [isInitialLoad, setIsInitialLoad] = useState(true);
+  console.log(selectedItems);
 
   useEffect(() => {
     if (items) setIsInitialLoad(false);
@@ -14,9 +15,6 @@ export default function IngredientTable({ query, isStale, items, selectedItems, 
     if (!items) return [];
 
     const lowerQuery = query.toLowerCase();
-
-    console.log(items);
-
     return items.filter((item) => item?.name.toLowerCase().includes(lowerQuery));
   }, [items, query]);
 

@@ -58,7 +58,7 @@ export default function RegisterShopping() {
             뒤로가기
           </button>
           <button className='btn btn-primary py-2 px-6 rounded-lg hover:bg-blue-700 transition duration-200' onClick={handleSubmit}>
-            등록하기
+            저장하기
           </button>
         </div>
       </div>
