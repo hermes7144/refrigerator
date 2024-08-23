@@ -24,7 +24,7 @@ export default function Shoppings() {
       <div className='flex justify-center text-2xl font-bold mb-4'>
         <h1>쇼핑 목록</h1>
       </div>
-      <div className='flex justify-between mb-4'>
+      <div className='flex justify-between mb-4 gap-2'>
         <div className='flex gap-1'>
           <SearchInput query={query} onChange={handleSearchChange} />
           <Link to='/shoppings/new' className='btn btn-outline btn-primary'>
