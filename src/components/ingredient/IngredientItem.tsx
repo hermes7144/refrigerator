@@ -5,7 +5,7 @@ const IngredientItem = ({ item, onSelect, isSelected }) => {
   return (
     <tr className='hover:bg-gray-100 transition-colors duration-200 '>
       <td className='py-4 px-6 text-gray-800 hover:text-blue-600 transition-colors duration-200'>
-        <Link to={`/shoppings/new`} state={{ item }} className='w-full h-full flex'>
+        <Link to='new' state={{ item }} className='w-full h-full flex'>
           <div className='flex items-center gap-4'>
             <div className='avatar hidden sm:block'>
               <div className='mask mask-squircle w-10 h-10'>

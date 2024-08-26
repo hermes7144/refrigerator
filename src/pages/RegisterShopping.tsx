@@ -54,10 +54,10 @@ export default function RegisterShopping() {
           <CommonItemForm formData={shoppingItem} onChange={handleChange} errors={errors} />
         </div>
         <div className='w-full flex justify-between items-center mt-8'>
-          <button className='btn btn-secondary py-2 px-6 rounded-lg hover:bg-gray-700 transition duration-200' onClick={() => navigate(-1)}>
+          <button className='btn btn-outline btn-secondary py-2 px-6 rounded-lg hover:bg-gray-700 transition duration-200' onClick={() => navigate(-1)}>
             뒤로가기
           </button>
-          <button className='btn btn-primary py-2 px-6 rounded-lg hover:bg-blue-700 transition duration-200' onClick={handleSubmit}>
+          <button className='btn btn-outline btn-primary py-2 px-6 rounded-lg hover:bg-blue-700 transition duration-200' onClick={handleSubmit}>
             저장하기
           </button>
         </div>

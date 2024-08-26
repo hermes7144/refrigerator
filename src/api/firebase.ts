@@ -172,7 +172,7 @@ export async function updateIngredientRecipe(uid: string, ingredientId: string, 
   });
 }
 
-export async function getShoppings(uid: string) {
+export async function getShoppings(uid: string): Promise<IngredientProps[]> {
   const snapshot = await get(ref(database, `shoppings/${uid}`));
 
   if (snapshot.exists()) {

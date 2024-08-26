@@ -3,7 +3,6 @@ import CommonItemForm from '../components/common/CommonForm';
 import { IngredientProps } from '../types/ingredientTypes';
 import useIngredients from '../hooks/useIngredients';
 import { useLocation, useNavigate } from 'react-router-dom';
-// import { formatDate } from '../utils/utils';
 
 const defaultItem: IngredientProps = {
   id: '',
@@ -55,10 +54,10 @@ export default function RegisterIngredients() {
           <CommonItemForm formData={ingredientItem} onChange={handleChange} errors={errors} />
         </div>
         <div className='w-full flex justify-between items-center mt-8'>
-          <button className='btn btn-secondary py-2 px-6 rounded-lg hover:bg-gray-700 transition duration-200' onClick={() => navigate(-1)}>
+          <button className='btn btn-outline btn-secondary py-2 px-6 rounded-lg hover:bg-gray-700 transition duration-200' onClick={() => navigate(-1)}>
             뒤로가기
           </button>
-          <button className='btn btn-primary py-2 px-6 rounded-lg hover:bg-blue-700 transition duration-200' onClick={handleSubmit}>
+          <button className='btn btn-outline btn-primary py-2 px-6 rounded-lg hover:bg-blue-700 transition duration-200' onClick={handleSubmit}>
             저장하기
           </button>
         </div>

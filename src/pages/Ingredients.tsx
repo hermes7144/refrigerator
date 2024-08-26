@@ -28,9 +28,9 @@ export default function Ingredients() {
         <SearchInput query={query} onChange={handleSearchChange} />
         <div className='flex gap-2'>
           <Link to='new'>
-            <button className='btn bg-brand text-white'>추가</button>
+            <button className='btn btn-outline btn-info'>추가</button>
           </Link>
-          <button className='btn btn-outline btn-error' onClick={() => openDialog('delete')}>
+          <button className='btn btn-outline btn-error' disabled={!selectedItems.length} onClick={() => openDialog('delete')}>
             삭제
           </button>
         </div>
