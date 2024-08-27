@@ -5,6 +5,7 @@ export interface IngredientProps {
   qty: number;
   category: string;
   expiration: string;
+  image?: string;
 }
 
 export interface IngredientTableProps {
@@ -17,4 +18,10 @@ export interface IngredientTableProps {
 export interface RemoveIngredientsParams {
   action: string;
   selectedItems: IngredientProps[];
+}
+
+export interface IngredientItemProps {
+  item: IngredientProps;
+  onSelect: (id: string) => void;
+  isSelected: boolean;
 }

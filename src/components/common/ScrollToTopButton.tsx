@@ -1,39 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import { FaArrowUp } from '@react-icons/all-files/fa/FaArrowUp';
+import { FaPlus } from '@react-icons/all-files/fa/FaPlus';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const ScrollToTopButton = () => {
-  const [isVisible, setIsVisible] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
 
-  const toggleVisibility = () => {
-    if (window.scrollY > 300) {
-      setIsVisible(true);
-    } else {
-      setIsVisible(false);
-    }
+  const handleNavigate = () => {
+    navigate(`${location.pathname}/new`);
   };
-
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
-  };
-
-  useEffect(() => {
-    window.addEventListener('scroll', toggleVisibility);
-    return () => {
-      window.removeEventListener('scroll', toggleVisibility);
-    };
-  }, []);
+  const visiblePaths = ['/ingredients', '/recipes', '/shoppings'];
+  const shouldShowButton = visiblePaths.includes(location.pathname);
 
   return (
-    <div className="fixed bottom-5 right-5 z-50">
-      {isVisible && (
-        <button
-          onClick={scrollToTop}
-          className="bg-blue-500 text-white p-3 rounded-full shadow-lg hover:bg-blue-700 transition duration-300"
-        >
-          <FaArrowUp />
+    <div className='fixed bottom-5 right-5 z-50'>
+      {shouldShowButton && (
+        <button onClick={handleNavigate} className='bg-blue-500 text-white p-3 rounded-full shadow-lg hover:bg-blue-700 transition duration-300'>
+          <FaPlus className='w-6 h-6' />
         </button>
       )}
     </div>
