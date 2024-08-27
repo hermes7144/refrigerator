@@ -1,7 +1,7 @@
 import { FaPlus } from '@react-icons/all-files/fa/FaPlus';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-const ScrollToTopButton = () => {
+const AddNewButton = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -22,4 +22,4 @@ const ScrollToTopButton = () => {
   );
 };
 
-export default ScrollToTopButton;
+export default AddNewButton;

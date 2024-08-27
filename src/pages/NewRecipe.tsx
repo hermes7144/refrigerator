@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import useIngredients from '../hooks/useIngredients';
 import React, { useEffect, useState } from 'react';
-import { Ingredient } from '../types/ingredientTypes';
+import { IngredientProps } from '../types/ingredientTypes';
 import ErrorDialog from '../components/common/ErrorDialog';
 import Select, { SingleValue } from 'react-select';
 import useRecipes from '../hooks/useRecipes';
@@ -10,22 +10,22 @@ import { BsX } from '@react-icons/all-files/bs/BsX';
 export default function NewRecipe() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { recipe } = location.state;
+  const { recipe = { name: '', ingredients: [] } } = location.state || {};
   const {
     ingredientsQuery: { data: ingredients },
   } = useIngredients();
   const { addRecipe, updateRecipe } = useRecipes();
-  const [ingredientList, setIngredientList] = useState<Ingredient[]>([]);
+  const [ingredientList, setIngredientList] = useState<IngredientProps[]>([]);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [name, setName] = useState('');
 
   useEffect(() => {
     if (recipe) {
-      const initialIngredients: Ingredient[] = Object.values(recipe.ingredients) as Ingredient[];
+      const initialIngredients: IngredientProps[] = Object.values(recipe.ingredients) as IngredientProps[];
       setName(recipe.name);
       setIngredientList(initialIngredients);
     } else {
-      setIngredientList([{ id: '', name: '', unit: '', qty: 0, category: '' }]);
+      setIngredientList([{ id: '', name: '', unit: '', qty: 0, category: '', expiration: '' }]);
     }
   }, [recipe]);
 
@@ -54,7 +54,7 @@ export default function NewRecipe() {
   };
 
   const handleAddIngredient = () => {
-    setIngredientList([...ingredientList, { id: '', name: '', unit: '', qty: 0, category: '' }]);
+    setIngredientList([...ingredientList, { id: '', name: '', unit: '', qty: 0, category: '', expiration: '' }]);
   };
 
   const handleRemoveIngredient = (index: number) => {
@@ -90,7 +90,7 @@ export default function NewRecipe() {
         acc.push({ ...ingredient });
       }
       return acc;
-    }, [] as Ingredient[]);
+    }, [] as IngredientProps[]);
 
     const recipeData = {
       name,
