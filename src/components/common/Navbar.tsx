@@ -27,7 +27,7 @@ export default function Navbar() {
   if (!authContext) {
     return null;
   }
-  const { user, isAuthLoading, login, logout } = authContext;
+  const { user, isAuthLoading, login, logout, demo } = authContext;
 
   return (
     <header className={`navbar justify-between font-semibold bg-white fixed top-0 left-0 right-0 z-10 ${hasBorder ? 'border-b border-gray-300' : ''}`}>
@@ -41,7 +41,10 @@ export default function Navbar() {
         <CgSmartHomeRefrigerator className='text-3xl' />
         <h1 className='tracking-tight leading-snug text-lg font-semibold'>MealManager</h1>
       </Link>
-      <nav className='flex items-center gap-4'>{isAuthLoading ? '' : user ? <button onClick={logout}>Logout</button> : <button onClick={login}>Login</button>}</nav>
+      <nav className='flex items-center gap-4'>
+        {isAuthLoading ? '' : user ? '' : <button onClick={() => demo()}>DEMO</button>}
+        {isAuthLoading ? '' : user ? <button onClick={logout}>Logout</button> : <button onClick={login}>Login</button>}
+      </nav>
     </header>
   );
 }
