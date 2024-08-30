@@ -24,12 +24,12 @@ export default function Ingredients() {
       <div className='flex justify-center text-2xl font-bold'>
         <h1>재료 목록</h1>
       </div>
-      <div className='flex justify-between mb-4'>
+      <div className='flex justify-between mb-4 gap-1'>
         <SearchInput query={query} onChange={handleSearchChange} />
         <div className='flex gap-2'>
-          <Link to='new'>
+          {/* <Link to='new'>
             <button className='btn btn-outline btn-info'>추가</button>
-          </Link>
+          </Link> */}
           <button className='btn btn-outline btn-error' disabled={!selectedItems.length} onClick={() => openDialog('delete')}>
             삭제
           </button>

@@ -26,9 +26,9 @@ export default function Shoppings() {
       <div className='flex justify-between mb-4 gap-2'>
         <div className='flex gap-1'>
           {/* <SearchInput query={query} onChange={handleSearchChange} /> */}
-          <Link to='/shoppings/new' className='btn btn-outline btn-primary'>
+          {/* <Link to='/shoppings/new' className='btn btn-outline btn-primary'>
             추가
-          </Link>
+          </Link> */}
         </div>
         <div className='flex gap-2'>
           <button className='btn btn-outline btn-success' disabled={!selectedItems.length} onClick={() => openDialog('moveToCart')}>

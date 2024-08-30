@@ -21,7 +21,8 @@ const IngredientItem = ({ item, onSelect, isSelected }: IngredientItemProps) => 
       </td>
       <td className='py-4 px-6 text-center'>
         <span className='text-gray-700 font-medium'>
-          {item.qty} {item.unit}
+          {item.qty}
+          {item.unit}
         </span>
       </td>
       <td className='py-4 px-6 text-center hidden md:table-cell'>

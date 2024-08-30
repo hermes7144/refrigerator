@@ -31,6 +31,7 @@ function App() {
             <>
               <Outlet />
               <BottomNavigation />
+              <ScrollToTopButton />
             </>
           ) : (
             <div className='flex h-full'>

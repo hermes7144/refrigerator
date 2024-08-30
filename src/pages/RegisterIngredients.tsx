@@ -47,8 +47,8 @@ export default function RegisterIngredients() {
   };
 
   return (
-    <div className='flex flex-col items-center'>
-      <div className='w-full md:w-2/3 lg:w-1/2 bg-white p-8 rounded-lg shadow-lg'>
+    <div className='flex flex-col items-center '>
+      <div className='w-full md:w-2/3 lg:w-1/2 bg-white p-8'>
         <h2 className='text-2xl font-bold mb-6 text-center'>재료 등록</h2>
         <div className='w-full max-h-[600px] overflow-y-auto'>
           <CommonItemForm formData={ingredientItem} onChange={handleChange} errors={errors} />
