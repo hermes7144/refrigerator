@@ -118,9 +118,9 @@ export default function Meals() {
   const ingredientOptions = ingredients?.map((ingredient) => ({ value: ingredient.id, label: `${ingredient.name} (${ingredient.unit})` }));
 
   return (
-    <div className='flex flex-col pt-0 md:pt-32 items-center bg-gray-100' style={{ minHeight: 'calc(100vh - 57px)' }}>
+    <div className='flex flex-col items-center' style={{ minHeight: 'calc(100vh - 57px)' }}>
       <h1></h1>
-      <div className='p-4 w-full md:w-1/2 lg:w-1/3 bg-white rounded shadow-md'>
+      <div className='p-4 w-full md:w-1/2 lg:w-1/3'>
         <h1 className='text-2xl font-semibold mb-4'>{`${dayjs(date).format('M월 D일 ddd요일')} ${mealTranslations[meal.name]} `}</h1>
         <div className='flex flex-col gap-2 w-full'>
           <button className='btn btn-success text-white py-2' onClick={handleAddIngredient}>
@@ -149,10 +149,7 @@ export default function Meals() {
             ))}
           </div>
         </div>
-        <div className='w-full flex justify-between items-center mt-4'>
-          <button className='btn' onClick={() => navigate(-1)}>
-            목록
-          </button>
+        <div className='w-full flex justify-end mt-8'>
           <button className='btn btn-primary' onClick={handleSubmit}>
             확인
           </button>

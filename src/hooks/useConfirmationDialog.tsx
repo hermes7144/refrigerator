@@ -19,6 +19,8 @@ export default function useConfirmationDialog(selectedItems, setSelectedItems, p
   const submitAction = async () => {
     if (!action) return;
 
+    console.log('performAction', performAction);
+
     performAction.mutate({ action, selectedItems });
 
     setSelectedItems([]);

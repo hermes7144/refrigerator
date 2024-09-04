@@ -23,10 +23,17 @@ export default function useRecipes() {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['recipes', uid] }),
   });
 
-  const removeRecipe = useMutation({
-    mutationFn: (recipe: RecipeProps) => deleteRecipe(uid, recipe),
+  const removeRecipes = useMutation({
+    mutationFn: async ({ action, selectedItems }) => {
+      const promises = selectedItems.map(async (recipe) => {
+        if (action === 'delete') {
+          await deleteRecipe(uid, recipe);
+        }
+      });
+      return Promise.all(promises);
+    },
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['recipes', uid] }),
   });
 
-  return { recipesQuery, addRecipe, updateRecipe, removeRecipe };
+  return { recipesQuery, addRecipe, updateRecipe, removeRecipes };
 }

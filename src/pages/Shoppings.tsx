@@ -18,6 +18,8 @@ export default function Shoppings() {
 
   const handleSearchChange = ({ target }: ChangeEvent<HTMLInputElement>) => setQuery(target.value);
 
+  const isDisabled = !selectedItems.length;
+
   return (
     <div className='container mx-auto px-4 py-8 w-full md:w-3/5'>
       <div className='flex justify-center text-2xl font-bold mb-4'>
@@ -31,10 +33,10 @@ export default function Shoppings() {
           </Link> */}
         </div>
         <div className='flex gap-2'>
-          <button className='btn btn-outline btn-success' disabled={!selectedItems.length} onClick={() => openDialog('moveToCart')}>
+          <button className={`btn btn-outline btn-success ${isDisabled ? 'opacity-50 pointer-events-none' : ''}`} onClick={() => openDialog('moveToCart')}>
             담기
           </button>
-          <button className='btn btn-outline btn-error' disabled={!selectedItems.length} onClick={() => openDialog('delete')}>
+          <button className={`btn btn-outline btn-error ${isDisabled ? 'opacity-50 pointer-events-none' : ''}`} onClick={() => openDialog('delete')}>
             삭제
           </button>
         </div>

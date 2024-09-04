@@ -9,8 +9,9 @@ import { BsX } from '@react-icons/all-files/bs/BsX';
 
 export default function NewRecipe() {
   const location = useLocation();
+  const recipe = location.state?.item;
   const navigate = useNavigate();
-  const { recipe = { name: '', ingredients: [] } } = location.state || {};
+
   const {
     ingredientsQuery: { data: ingredients },
   } = useIngredients();
@@ -24,10 +25,8 @@ export default function NewRecipe() {
       const initialIngredients: IngredientProps[] = Object.values(recipe.ingredients) as IngredientProps[];
       setName(recipe.name);
       setIngredientList(initialIngredients);
-    } else {
-      setIngredientList([{ id: '', name: '', unit: '', qty: 0, category: '', expiration: '' }]);
     }
-  }, [recipe]);
+  }, []);
 
   const handleIngredientChange = (e: SingleValue<{ value: string; label: string }>, index: number) => {
     const newIngredientList = [...ingredientList];
@@ -111,8 +110,8 @@ export default function NewRecipe() {
   const ingredientOptions = ingredients?.map((ingredient) => ({ value: ingredient.id, label: `${ingredient.name} (${ingredient.unit})` }));
 
   return (
-    <div className='flex flex-col pt-0 md:pt-32 items-center bg-gray-100' style={{ minHeight: 'calc(100vh - 57px)' }}>
-      <div className='p-4 w-full md:w-1/2 lg:w-1/3 bg-white rounded shadow-md'>
+    <div className='flex flex-col items-center'>
+      <div className='p-4 w-full md:w-1/2 lg:w-1/3 '>
         <label className='form-control w-full py-4'>
           <div className='label mb-2'>
             <span className='label-text text-lg font-semibold'>레시피 명</span>
@@ -149,10 +148,7 @@ export default function NewRecipe() {
             ))}
           </div>
         </div>
-        <div className='w-full flex justify-between items-center mt-4'>
-          <button className='btn' onClick={() => navigate(-1)}>
-            목록
-          </button>
+        <div className='w-full flex justify-end mt-8'>
           <button className='btn btn-primary' onClick={handleSubmit}>
             확인
           </button>

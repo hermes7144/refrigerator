@@ -1,5 +1,4 @@
 import { ChangeEvent, useDeferredValue, useState } from 'react';
-import { Link } from 'react-router-dom';
 import useSelection from '../hooks/useSelection';
 import useIngredients from '../hooks/useIngredients';
 import IngredientTable from '../components/ingredient/IngredientTable';
@@ -19,6 +18,8 @@ export default function Ingredients() {
 
   const handleSearchChange = ({ target }: ChangeEvent<HTMLInputElement>) => setQuery(target.value);
 
+  const isDisabled = !selectedItems.length;
+
   return (
     <div className='container mx-auto px-4 py-8 w-full md:w-3/5'>
       <div className='flex justify-center text-2xl font-bold'>
@@ -30,7 +31,7 @@ export default function Ingredients() {
           {/* <Link to='new'>
             <button className='btn btn-outline btn-info'>추가</button>
           </Link> */}
-          <button className='btn btn-outline btn-error' disabled={!selectedItems.length} onClick={() => openDialog('delete')}>
+          <button className={`btn btn-outline btn-error ${isDisabled ? 'opacity-50 pointer-events-none' : ''}`} onClick={() => openDialog('delete')}>
             삭제
           </button>
         </div>

@@ -50,6 +50,8 @@ export function AuthProvider({ children }: providerProps) {
       qty: 10,
       unit: '개',
       id: '',
+      expiration: '',
+      category: 'vegitable',
     });
 
     await addNewIngredient(uid, {
@@ -57,6 +59,8 @@ export function AuthProvider({ children }: providerProps) {
       qty: 200,
       unit: '그램',
       id: '',
+      expiration: '',
+      category: 'vegitable',
     });
 
     await addNewIngredient(uid, {
@@ -64,6 +68,8 @@ export function AuthProvider({ children }: providerProps) {
       qty: 1,
       unit: '컵',
       id: '',
+      expiration: '',
+      category: 'vegitable',
     });
 
     // 저장된 재료를 가져와서 새로운 식사 데이터 생성

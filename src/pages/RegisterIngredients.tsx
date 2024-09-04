@@ -15,7 +15,7 @@ const defaultItem: IngredientProps = {
 
 export default function RegisterIngredients() {
   const location = useLocation();
-  const { ingredient = defaultItem } = location.state || {};
+  const ingredient = location.state?.item || defaultItem;
 
   const navigate = useNavigate();
 
@@ -53,12 +53,9 @@ export default function RegisterIngredients() {
         <div className='w-full max-h-[600px] overflow-y-auto'>
           <CommonItemForm formData={ingredientItem} onChange={handleChange} errors={errors} />
         </div>
-        <div className='w-full flex justify-between items-center mt-8'>
-          <button className='btn btn-outline btn-secondary py-2 px-6 rounded-lg hover:bg-gray-700 transition duration-200' onClick={() => navigate(-1)}>
-            뒤로가기
-          </button>
+        <div className='w-full flex justify-end mt-8'>
           <button className='btn btn-outline btn-primary py-2 px-6 rounded-lg hover:bg-blue-700 transition duration-200' onClick={handleSubmit}>
-            저장하기
+            저장
           </button>
         </div>
       </div>
