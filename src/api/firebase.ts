@@ -41,6 +41,16 @@ export async function getIngredients(uid: string): Promise<IngredientProps[]> {
   }
 }
 
+export async function getIngredient(uid: string, ingredient: IngredientProps): Promise<IngredientProps | null> {
+  const snapshot = await get(ref(database, `ingredients/${uid}/${ingredient.id}`));
+
+  if (snapshot.exists()) {
+    return snapshot.val();
+  } else {
+    return null;
+  }
+}
+
 export async function addNewIngredient(uid: string, ingredient: IngredientProps): Promise<void> {
   const id = uuid();
 

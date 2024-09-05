@@ -3,13 +3,14 @@ import RecipeTable from '../components/recipe/RecipeTable';
 import useConfirmationDialog from '../hooks/useConfirmationDialog';
 import useRecipes from '../hooks/useRecipes';
 import useSelection from '../hooks/useSelection';
+import { RecipeProps } from '../types/RecipeTypes';
 
 export default function Recipes() {
-  const { selectedItems, setSelectedItems, toggleSelection } = useSelection(); // 선택된 항목을 관리
+  const { selectedItems, setSelectedItems, toggleSelection } = useSelection<RecipeProps>(); // 선택된 항목을 관리
   const { recipesQuery, removeRecipes } = useRecipes();
   const { data: shoppings } = recipesQuery;
 
-  const { isVisible, action, openDialog, closeDialog, submitAction } = useConfirmationDialog(selectedItems, setSelectedItems, removeRecipes);
+  const { isVisible, openDialog, closeDialog, submitAction } = useConfirmationDialog<RecipeProps>(selectedItems, setSelectedItems, removeRecipes);
 
   const isDisabled = !selectedItems.length;
 
@@ -25,7 +26,7 @@ export default function Recipes() {
       </div>
       <RecipeTable items={shoppings} selectedItems={selectedItems} toggleSelection={toggleSelection} />
 
-      <CommonDialog text={action === 'moveToCart' ? '재료로 이동' : '삭제'} isVisible={isVisible} onSubmit={submitAction} onClose={closeDialog} />
+      <CommonDialog text={'삭제'} isVisible={isVisible} onSubmit={submitAction} onClose={closeDialog} />
     </div>
   );
 }

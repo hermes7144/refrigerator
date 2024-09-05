@@ -115,7 +115,7 @@ export default function Meals() {
     navigate(-1);
   };
 
-  const ingredientOptions = ingredients?.map((ingredient) => ({ value: ingredient.id, label: `${ingredient.name} (${ingredient.unit})` }));
+  const ingredientOptions = ingredients?.map((ingredient) => ({ value: ingredient.id, label: `${ingredient.name} (${ingredient.qty + ingredient.unit})` }));
 
   return (
     <div className='flex flex-col items-center' style={{ minHeight: 'calc(100vh - 57px)' }}>

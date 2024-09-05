@@ -24,7 +24,7 @@ export default function useRecipes() {
   });
 
   const removeRecipes = useMutation({
-    mutationFn: async ({ action, selectedItems }) => {
+    mutationFn: async ({ action, selectedItems }: { action: string; selectedItems: RecipeProps[] }) => {
       const promises = selectedItems.map(async (recipe) => {
         if (action === 'delete') {
           await deleteRecipe(uid, recipe);

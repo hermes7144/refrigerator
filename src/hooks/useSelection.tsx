@@ -1,9 +1,10 @@
 import { useState } from 'react';
+type WithId = { id: string | number }; // id 속성을 가진 타입 정의
 
-export default function useSelection(initialItems = []) {
-  const [selectedItems, setSelectedItems] = useState(initialItems);
+export default function useSelection<T extends WithId>(initialItems = []) {
+  const [selectedItems, setSelectedItems] = useState<T[]>(initialItems);
 
-  const toggleSelection = (item) => {
+  const toggleSelection = (item: T) => {
     const isAlreadySelected = selectedItems.some((selectedItem) => selectedItem.id === item.id);
 
     const updatedSelection = isAlreadySelected ? selectedItems.filter((selectedItem) => selectedItem.id !== item.id) : [...selectedItems, item];

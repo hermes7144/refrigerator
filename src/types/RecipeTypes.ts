@@ -1,7 +1,7 @@
 import { IngredientProps } from './ingredientTypes';
 
 export interface RecipeProps {
-  id?: string;
+  id: string;
   name: string;
   ingredients: IngredientProps[];
   image?: string;

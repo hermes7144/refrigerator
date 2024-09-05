@@ -5,7 +5,6 @@ import IngredientItem from './IngredientItem';
 
 export default function IngredientTable({ query, isStale, items, selectedItems, toggleSelection }: IngredientTableProps) {
   const [isInitialLoad, setIsInitialLoad] = useState(true);
-  console.log(selectedItems);
 
   useEffect(() => {
     if (items) setIsInitialLoad(false);

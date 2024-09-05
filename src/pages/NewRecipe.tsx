@@ -143,7 +143,7 @@ export default function NewRecipe() {
                     <BsX className='h-5 w-5' />
                   </button>
                 )}
-                {index === 0 && <div className='w-10'></div>} {/* 첫 번째 행에 빈 공간 추가 */}
+                {index === 0 && <div className='w-10'></div>}
               </div>
             ))}
           </div>

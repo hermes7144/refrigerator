@@ -1,35 +1,40 @@
 import { useState } from 'react';
 
-export default function useConfirmationDialog(selectedItems, setSelectedItems, performAction) {
-  const [isVisible, setIsVisible] = useState(false);
-  const [action, setAction] = useState<string | null>(null);
+export default function useConfirmationDialog<T>(
+  selectedItems: T[],
+  setSelectedItems: (items: []) => void,
+  performAction: { mutate: (params: { action: string; selectedItems: T[] }) => void }
+): {
+  isVisible: boolean;
+  action: string;
+  openDialog: (action: string) => void;
+  closeDialog: () => void;
+  submitAction: () => Promise<void>;
+} {
+  const [dialogState, setDialogState] = useState({
+    isVisible: false,
+    action: '',
+  });
 
   const openDialog = (newAction: string) => {
-    if (selectedItems.length === 0) return;
-
-    setAction(newAction);
-    setIsVisible(true);
+    if (selectedItems.length === 0 || newAction === '') return;
+    setDialogState({ isVisible: true, action: newAction });
   };
 
   const closeDialog = () => {
-    setIsVisible(false);
-    setAction(null);
+    setDialogState({ isVisible: false, action: '' });
   };
 
   const submitAction = async () => {
-    if (!action) return;
+    if (!dialogState.action) return;
 
-    console.log('performAction', performAction);
-
-    performAction.mutate({ action, selectedItems });
-
+    await performAction.mutate({ action: dialogState.action, selectedItems });
     setSelectedItems([]);
     closeDialog();
   };
 
   return {
-    isVisible,
-    action,
+    ...dialogState,
     openDialog,
     closeDialog,
     submitAction,

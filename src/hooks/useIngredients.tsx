@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import useAuthContext from '../context/AuthContext';
-import { addNewIngredient, editIngredient, getIngredients, removeIngredient, updateIngredientQuantity } from '../api/firebase';
+import { addNewIngredient, editIngredient, editShopping, getIngredients, removeIngredient, updateIngredientQuantity } from '../api/firebase';
 import { IngredientProps } from '../types/ingredientTypes';
 
 export default function useIngredients() {
@@ -29,15 +29,21 @@ export default function useIngredients() {
   });
 
   const deleteIngredients = useMutation({
-    mutationFn: async ({ action, selectedItems }) => {
+    mutationFn: async ({ action, selectedItems }: { action: string; selectedItems: IngredientProps[] }) => {
       const promises = selectedItems.map(async (ingredient) => {
         if (action === 'delete') {
           await removeIngredient(uid, ingredient);
+        } else if (action === 'move') {
+          // await removeIngredient(uid, ingredient);
+          await editShopping(uid, { ...ingredient, qty: 0, expiration: '' });
         }
       });
       return Promise.all(promises);
     },
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['ingredients', uid] }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['ingredients', uid] });
+      queryClient.invalidateQueries({ queryKey: ['shoppings', uid] });
+    },
   });
 
   return { ingredientsQuery, addIngredient, updateIngredient, updateIngredientQty, deleteIngredients };
