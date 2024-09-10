@@ -2,6 +2,7 @@ import { Menu, MenuItem, Sidebar } from 'react-pro-sidebar';
 import { Link, useLocation } from 'react-router-dom';
 import useAuthContext from '../../context/AuthContext';
 import useSidebarContext from '../../context/SidebarContext';
+import { IoHomeSharp } from '@react-icons/all-files/io5/IoHomeSharp';
 import { IoHomeOutline } from '@react-icons/all-files/io5/IoHomeOutline';
 import { BiFoodMenu } from '@react-icons/all-files/bi/BiFoodMenu';
 import { CgSmartHomeRefrigerator } from '@react-icons/all-files/cg/CgSmartHomeRefrigerator';
@@ -28,15 +29,17 @@ export default function Side() {
           menuItemStyles={{
             button: {
               [`&.ps-active`]: {
-                backgroundColor: '#13395e',
-                color: '#b6c8d9',
+                // backgroundColor: '#13395e',
+                color: '#016bc3',
+                fontWeight:'900'
               },
             },
           }}>
-          <MenuItem component={<Link to='/' />} active={location.pathname === '/'} icon={<IoHomeOutline />}>
+          <MenuItem component={<Link to='/' />} active={location.pathname === '/'} icon={location.pathname === '/' ? <IoHomeSharp /> : <IoHomeOutline />}>
             홈
           </MenuItem>
-          <MenuItem component={<Link to='/ingredients' />} active={location.pathname === '/ingredients'} icon={<CgSmartHomeRefrigerator />} onClick={handleMenuItemClick}>
+          <MenuItem component={<Link to='/ingredients' />} active={location.pathname === '/ingredients'} 
+          icon={ location.pathname === '/ingredients' ? <CgSmartHomeRefrigerator />:<CgSmartHomeRefrigerator />} onClick={handleMenuItemClick}>
             재료
           </MenuItem>
           <MenuItem component={<Link to='/recipes' />} active={location.pathname === '/recipes'} icon={<BiFoodMenu />} onClick={handleMenuItemClick}>

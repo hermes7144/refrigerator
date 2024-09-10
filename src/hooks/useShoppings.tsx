@@ -28,7 +28,6 @@ export default function useShoppings() {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['shoppings', uid] }),
   });
 
-  // New mutation for bulk updating shopping items (moving to cart or deleting)
   const bulkUpdateShoppings = useMutation({
     mutationFn: async ({ action, selectedItems }: { action: string; selectedItems: IngredientProps[] }) => {
       const promises = selectedItems.map(async (shopping) => {
