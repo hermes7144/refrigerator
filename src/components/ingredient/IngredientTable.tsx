@@ -23,9 +23,9 @@ export default function IngredientTable({ query, isStale, items, selectedItems, 
   if (isInitialLoad) return <SkeletonIngredientTable />;
 
   return (
-    <div className='flex justify-center'>
+    <div className='flex justify-center max-h-[650px] md:max-h-[770px] overflow-auto'>
       <table className='table-auto w-full'>
-        <thead>
+        <thead className='sticky top-0'>
           <tr className='bg-gray-200'>
             <th className='px-4 py-2 text-center w-1/2'>이름</th>
             <th className='px-4 py-2 text-center w-1/5'>수량</th>

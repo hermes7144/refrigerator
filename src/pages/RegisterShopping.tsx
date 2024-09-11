@@ -53,8 +53,11 @@ export default function RegisterShopping() {
         <div className='w-full max-h-[600px] overflow-y-auto'>
           <CommonItemForm formData={shoppingItem} onChange={handleChange} errors={errors} />
         </div>
-        <div className='w-full flex justify-end mt-8'>
-          <button className='btn btn-outline btn-primary py-2 px-6 rounded-lg hover:bg-blue-700 transition duration-200' onClick={handleSubmit}>
+        <div className='w-full flex justify-end mt-4 gap-3'>
+          <button className='btn btn-outline btn-secondary' onClick={() => navigate(-1)}>
+            취소
+          </button>
+          <button className='btn btn-outline btn-primary' onClick={handleSubmit}>
             저장
           </button>
         </div>

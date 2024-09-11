@@ -8,9 +8,11 @@ import { ErrorBoundary } from 'react-error-boundary';
 import ErrorFallback from '../components/common/ErrorFallback';
 
 export default function Home() {
-  const week = getWeekDates();
   const today = formatDate();
   const [selectedDate, setSelectedDate] = useState(today);
+  const [weeks, setWeeks] = useState(0);
+
+  const week = getWeekDates(weeks);
   const scrollRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
 
   const scrollToDate = useCallback((date: string) => {
@@ -29,6 +31,10 @@ export default function Home() {
     [scrollToDate]
   );
 
+  const handleWeekClick = (weekShift: number) => {    
+    setWeeks((prev) => prev + weekShift);
+  };
+
   useEffect(() => {
     scrollToDate(today);
     setSelectedDate(today);
@@ -36,7 +42,7 @@ export default function Home() {
 
   return (
     <div className='flex flex-col items-center px-4'>
-      <DateList week={week} selectedDate={selectedDate} onDateClick={handleDateClick} />
+      <DateList week={week} selectedDate={selectedDate} onDateClick={handleDateClick} onWeek={handleWeekClick} />
       <ErrorBoundary FallbackComponent={ErrorFallback}>
         <Suspense fallback={<MealListSkeleton week={week} scrollRefs={scrollRefs} selectedDate={selectedDate} />}>
           <MealList week={week} scrollRefs={scrollRefs} selectedDate={selectedDate} />

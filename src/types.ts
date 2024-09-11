@@ -4,6 +4,7 @@ export interface DateListProps {
   week: Dayjs[];
   selectedDate: string;
   onDateClick: (date: Dayjs) => void;
+  onWeek:(shift:number) => void;
 }
 
 export interface DateItemProps {

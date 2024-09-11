@@ -25,7 +25,6 @@ export default function Recipes() {
         </button>
       </div>
       <RecipeTable items={shoppings} selectedItems={selectedItems} toggleSelection={toggleSelection} />
-
       <CommonDialog text={'삭제'} isVisible={isVisible} onSubmit={submitAction} onClose={closeDialog} />
     </div>
   );

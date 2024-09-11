@@ -23,10 +23,8 @@ export default function Ingredients() {
 
   return (
     <div className='container mx-auto px-4 py-8 w-full md:w-3/5'>
-      {/* 상단 영역을 fixed로 설정 */}
-      <div className='fixed top-[64px] left-0 right-0 bg-white z-10 p-4 w-full md:w-3/5 mx-auto'>
-        {/* 네비바 높이를 고려한 top 설정 */}
-        <div className='flex justify-center text-2xl font-bold'>
+      <div className='fixed top-[64px] left-0 right-0 bg-white z-10 px-4 pt-4 w-full md:w-3/5 mx-auto'>
+        <div className='flex justify-center text-2xl font-bold mb-4'>
           <h1>재료 목록</h1>
         </div>
         <div className='flex justify-between mb-4 gap-1'>
@@ -43,8 +41,7 @@ export default function Ingredients() {
       </div>
 
       {/* 테이블과 나머지 콘텐츠 */}
-      <div className='mt-[160px]'>
-        {' '}
+      <div className='mt-24'>
         {/* 상단 고정 요소 아래에 여유 공간 확보 */}
         <IngredientTable query={query} isStale={isStale} items={ingredients} selectedItems={selectedItems} toggleSelection={toggleSelection} />
         <CommonDialog text={action === 'move' ? '쇼핑 목록으로 이동' : '삭제'} isVisible={isVisible} onSubmit={submitAction} onClose={closeDialog} />

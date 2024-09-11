@@ -12,8 +12,8 @@ export const isValidDate = (date: Date | null): boolean => {
   return date !== null && dayjs(date).isValid();
 };
 
-export function getWeekDates(): Dayjs[] {
-  const startOfWeek = dayjs().startOf('isoWeek'); // 월요일부터 시작
+export function getWeekDates(weekShift: number): Dayjs[] {
+  const startOfWeek = dayjs().add(weekShift, 'week').startOf('isoWeek'); // 월요일부터 시작
   const weekDates = Array.from({ length: 7 }, (_, i) => startOfWeek.add(i, 'day'));
   return weekDates;
 }

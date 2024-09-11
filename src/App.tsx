@@ -6,7 +6,7 @@ import Side from './components/common/Side';
 import { SidebarProvider } from './context/SidebarContextProvider';
 import useIsMobile from './hooks/useIsMobile';
 import BottomNavigation from './components/common/BottomNavigation';
-import ScrollToTopButton from './components/common/ScrollToTopButton';
+import AddNewButton from './components/common/AddNewButton';
 const MINUTE = 1000 * 60;
 
 function App() {
@@ -31,7 +31,7 @@ function App() {
             <>
               <Outlet />
               <BottomNavigation />
-              <ScrollToTopButton />
+              <AddNewButton />
             </>
           ) : (
             <div className='flex h-full'>
@@ -39,7 +39,7 @@ function App() {
               <div className='flex-1 p-4'>
                 <Outlet />
               </div>
-              <ScrollToTopButton />
+              <AddNewButton />
             </div>
           )}
         </SidebarProvider>

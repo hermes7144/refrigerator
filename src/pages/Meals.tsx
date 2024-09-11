@@ -149,9 +149,12 @@ export default function Meals() {
             ))}
           </div>
         </div>
-        <div className='w-full flex justify-end mt-8'>
-          <button className='btn btn-primary' onClick={handleSubmit}>
-            확인
+        <div className='w-full flex justify-end mt-4 gap-2'>
+          <button className='btn btn-outline btn-secondary' onClick={() => navigate(-1)}>
+            취소
+          </button>
+          <button className='btn btn-outline btn-primary ' onClick={handleSubmit}>
+            저장
           </button>
         </div>
         {errorMessage && <ErrorDialog message={errorMessage} onClose={() => setErrorMessage(null)} />}
