@@ -10,9 +10,9 @@ import ErrorFallback from '../components/common/ErrorFallback';
 export default function Home() {
   const today = formatDate();
   const [selectedDate, setSelectedDate] = useState(today);
-  const [weeks, setWeeks] = useState(0);
+  const [shift, setShift] = useState(0); // Updated here
 
-  const week = getWeekDates(weeks);
+  const week = getWeekDates(shift);
   const scrollRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
 
   const scrollToDate = useCallback((date: string) => {
@@ -32,7 +32,7 @@ export default function Home() {
   );
 
   const handleWeekClick = (weekShift: number) => {    
-    setWeeks((prev) => prev + weekShift);
+    setShift((prev) => prev + weekShift);
   };
 
   useEffect(() => {
