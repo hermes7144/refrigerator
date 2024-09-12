@@ -22,17 +22,18 @@ export const DateList: FC<DateListProps> = ({ week, selectedDate, onDateClick, o
 
     // Determine if it was a left or right swipe
     if (swipeDistance > 50) {
-      setSwipeDirection('left');
+      setSwipeDirection('right');
+      window.scrollTo(0,0);
       onWeek(1); // Navigate to next week
     } else if (swipeDistance < -50) {
-      setSwipeDirection('right');
+      setSwipeDirection('left');
       onWeek(-1); // Navigate to previous week
+      window.scrollTo(0,0);
     }
 
-    // Reset the swipe direction after a delay
     setTimeout(() => {
       setSwipeDirection(null);
-    }, 300); // Match this duration with the CSS transition duration
+    }, 300);
   };
 
 
