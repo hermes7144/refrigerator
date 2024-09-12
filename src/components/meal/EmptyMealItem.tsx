@@ -11,7 +11,7 @@ const mealTranslations = {
 
 
 export const EmptyMealItem: React.FC<{meal:{name:string}; date:Dayjs}> = ({ meal, date }) => (
-  <Link  to='/meals' state={{ meal, date }} className='flex flex-col w-full px-4 py-2 border border-gray-200 rounded-lg shadow-md hover:shadow-xl transition duration-300'>
+  <Link to='/meals' state={{ meal, date }} className='flex flex-col w-full px-4 py-2 bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-xl transition duration-300'>
     <div className='flex space-x-1'>
       <MealImage meal={meal} />
       <h3 className='font-semibold'>{mealTranslations[meal.name as keyof typeof mealTranslations]}</h3>

@@ -10,17 +10,14 @@ export const MealList: FC<MealListProps> = ({ week, selectedDate, scrollRefs }) 
 
   return (
     <ul className='flex flex-col w-full md:w-[500px] gap-4 pb-60 mt-20'>
-      {week.map((weekday) => {
-        return (
+      {week.map((date) => 
           <MealSection
-            key={weekday.format('MMDD')}
-            date={selectedDate}
-            weekday={weekday}
-            meals={meals?.[weekday.format('YYYY-MM-DD')]}
-            scrollRef={(el) => (scrollRefs.current[weekday.format('YYYY-MM-DD')] = el)}
-          />
-        );
-      })}
+            key={date.format('MMDD')}
+            date={date}
+            meals={meals?.[date.format('YYYY-MM-DD')]}
+            scrollRef={(el) => (scrollRefs.current[date.format('YYYY-MM-DD')] = el)}
+            selected={selectedDate === date.format('YYYY-MM-DD')} // 선택된 날짜와 비교
+          />)}
     </ul>
   );
 };

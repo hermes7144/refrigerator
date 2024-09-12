@@ -118,7 +118,7 @@ export default function Meals() {
   const ingredientOptions = ingredients?.map((ingredient) => ({ value: ingredient.id, label: `${ingredient.name} (${ingredient.qty + ingredient.unit})` }));
 
   return (
-    <div className='flex flex-col items-center' style={{ minHeight: 'calc(100vh - 57px)' }}>
+    <div className='flex flex-col items-center' style={{ minHeight: 'calc(100vh - 100px)' }}>
       <h1></h1>
       <div className='p-4 w-full md:w-1/2 lg:w-1/3'>
         <h1 className='text-2xl font-semibold mb-4'>{`${dayjs(date).format('M월 D일 ddd요일')} ${mealTranslations[meal.name]} `}</h1>

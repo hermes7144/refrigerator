@@ -23,7 +23,7 @@ export default function IngredientTable({ query, isStale, items, selectedItems, 
   if (isInitialLoad) return <SkeletonIngredientTable />;
 
   return (
-    <div className='flex justify-center max-h-[650px] md:max-h-[770px] overflow-auto'>
+    <div className='flex justify-center max-h-[600px] md:max-h-[770px] overflow-auto'>
       <table className='table-auto w-full'>
         <thead className='sticky top-0'>
           <tr className='bg-gray-200'>

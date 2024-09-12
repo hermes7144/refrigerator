@@ -24,11 +24,11 @@ export interface MealListProps {
 }
 
 export interface MealSectionProps {
-  date: string;
-  weekday: Dayjs;
+  date: Dayjs;
   meals?: Meals;
   scrollRef: (el: HTMLDivElement | null) => void;
   isSkeleton?: boolean;
+  selected:boolean;
 }
 
 export interface MealsByDate {
