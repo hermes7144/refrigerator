@@ -1,12 +1,10 @@
 import { FC } from 'react';
-import { MealItem } from './MealItem';
 import { MealSectionProps, MealType } from '../../types/mealTypes';
-import { EmptyMealItem } from './EmptyMealItem';
 import { SkeletonMealItem } from './SkeletonMealItem';
 import dayjs from 'dayjs';
 
 const MEAL_TYPES: MealType[] = ['breakfast', 'lunch', 'dinner'];
-export const MealSection: FC<MealSectionProps> = ({ date, meals, scrollRef, isSkeleton ,selected}) => {
+export const MealSectionSkeleton: FC<MealSectionProps> = ({ date, scrollRef ,selected}) => {
   
   return (
     <div ref={scrollRef} className='flex flex-col gap-2 p-4'>
@@ -16,15 +14,9 @@ export const MealSection: FC<MealSectionProps> = ({ date, meals, scrollRef, isSk
             <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={5} d='M9 5l7 7-7 7' />
           </svg>
         )}
-        <h2 className='text-lg font-semibold'>{`${dayjs(date).format('M/D ddd요일')}`}</h2>
-        </div>
-      {MEAL_TYPES.map(mealType => { 
-        if (isSkeleton) return <SkeletonMealItem key={mealType} meal={{name:mealType}} date={date} />
-
-        const meal = meals?.[mealType];
-        return meal ? <MealItem key={mealType} meal={meal} date={date}  />: <EmptyMealItem key={mealType} meal={{name:mealType}} date={date} />
-        ;
-      })}
+        <h2 className='text-lg font-semibold'>{`${dayjs(date).format('MM/DD ddd요일')}`}</h2>
+      </div>
+      {MEAL_TYPES.map(mealType => <SkeletonMealItem key={mealType} meal={{name:mealType}} date={date} />)}
     </div>
   );
 };
