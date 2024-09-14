@@ -3,7 +3,7 @@ import useIngredients from '../hooks/useIngredients';
 import React, { useState, useEffect } from 'react';
 import useMeals from '../hooks/useMeals';
 import { Meal } from '../types/mealTypes';
-import { IngredientProps } from '../types/ingredientTypes';
+import { MealIngredientProps } from '../types/ingredientTypes';
 import ErrorDialog from '../components/common/ErrorDialog';
 import dayjs from 'dayjs';
 import Select, { SingleValue } from 'react-select';
@@ -19,19 +19,21 @@ export default function Meals() {
   const location = useLocation();
   const navigate = useNavigate();
   const { meal, date }: { meal: Meal; date: string } = location.state;
+
+  
   const {
     ingredientsQuery: { data: ingredients },
   } = useIngredients();
   const { addMeal, updateMeal } = useMeals();
-  const [ingredientList, setIngredientList] = useState<IngredientProps[]>([]);
+  const [ingredientList, setIngredientList] = useState<MealIngredientProps[]>([]);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
     if (meal.ingredients) {
-      const initialIngredients: IngredientProps[] = Object.values(meal.ingredients) as IngredientProps[];
+      const initialIngredients: MealIngredientProps[] = Object.values(meal.ingredients).sort((a: MealIngredientProps,b:MealIngredientProps) => a.seq - b.seq) ;
       setIngredientList(initialIngredients);
     } else {
-      setIngredientList([{ id: '', name: '', unit: '', qty: 0, category: '' }]);
+      setIngredientList([{ id: '', name: '', unit: '', qty: 0, category: '' ,expiration:'', seq:0}]);
     }
   }, [meal]);
 
@@ -60,7 +62,7 @@ export default function Meals() {
   };
 
   const handleAddIngredient = () => {
-    setIngredientList([...ingredientList, { id: '', name: '', unit: '', qty: 0, category: '' }]);
+    setIngredientList([...ingredientList, { id: '', name: '', unit: '', qty: 0, category: '', expiration:'',seq: 0 }]);
   };
 
   const handleRemoveIngredient = (index: number) => {
@@ -95,11 +97,11 @@ export default function Meals() {
         acc.push({ ...ingredient });
       }
       return acc;
-    }, [] as IngredientProps[]);
+    }, [] as MealIngredientProps[]);
 
     const mealData: Meal = {
       name: meal.name,
-      date: dayjs(date).format('YYYY-MM-DD'),
+      date: date,
       ingredients: mergedIngredients.filter((ingredient) => ingredient.id && ingredient.qty > 0),
       done: meal?.done,
     };
@@ -153,7 +155,7 @@ export default function Meals() {
           <button className='btn btn-outline btn-secondary' onClick={() => navigate(-1)}>
             취소
           </button>
-          <button className='btn btn-outline btn-primary ' onClick={handleSubmit}>
+          <button className='btn btn-outline btn-primary' onClick={handleSubmit}>
             저장
           </button>
         </div>

@@ -19,10 +19,13 @@ export const MealSection: FC<MealSectionProps> = ({ date, meals, scrollRef, isSk
         <h2 className='text-lg font-semibold'>{`${dayjs(date).format('M월 D일 ddd요일')}`}</h2>
       </div>
       {MEAL_TYPES.map(mealType => {
+        console.log({name:mealType});
+        
+
         if (isSkeleton) return <SkeletonMealItem key={mealType} meal={{name:mealType}} date={date} />
 
         const meal = meals?.[mealType];
-        return meal ? <MealItem key={mealType} meal={meal} date={date} />: <EmptyMealItem key={mealType} meal={{name:mealType}} date={date} />
+        return meal ? <MealItem key={mealType} meal={meal} date={date}  />: <EmptyMealItem key={mealType} meal={{name:mealType}} date={date} />
         ;
       })}
     </div>

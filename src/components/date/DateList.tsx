@@ -8,8 +8,7 @@ import useIsMobile from '../../hooks/useIsMobile';
 export const DateList: FC<DateListProps> = ({ week, selectedDate, onDateClick, onWeek }) => {
   const touchStartRef = useRef<number>(0);
   const [swipeDirection, setSwipeDirection] = useState<string | null>(null); // Track swipe direction
-  const isMobile = useIsMobile();
-
+  const isMobile = useIsMobile();  
 
   const handleTouchStart = (event: React.TouchEvent<HTMLDivElement>) => {
     touchStartRef.current = event.touches[0].clientX; // Capture initial touch position
@@ -42,7 +41,10 @@ export const DateList: FC<DateListProps> = ({ week, selectedDate, onDateClick, o
     onTouchStart={handleTouchStart} 
     onTouchEnd={handleTouchEnd}>
     {!isMobile &&<button 
-      onClick={() => onWeek(-1)} 
+      onClick={() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        onWeek(-1);
+      }} 
       className='px-4 py-2 rounded-lg'
       aria-label="Previous week"
     >
@@ -53,10 +55,10 @@ export const DateList: FC<DateListProps> = ({ week, selectedDate, onDateClick, o
         <ul className='flex gap-2'>
           {week.map((weekday) => (
             <DateItem 
-              key={weekday.format('YYYY-MM-DD')} 
-              selected={selectedDate} 
+              key={weekday} 
+              isSelected={weekday === selectedDate} 
               weekday={weekday} 
-              handleClick={onDateClick} 
+              onDateClick={onDateClick} 
             />
           ))}
         </ul>
@@ -64,7 +66,10 @@ export const DateList: FC<DateListProps> = ({ week, selectedDate, onDateClick, o
 
     {!isMobile && 
     <button 
-      onClick={() => onWeek(1)} 
+      onClick={() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        onWeek(1);
+      }} 
       className='px-4 py-2 rounded-lg'
       aria-label="Next week"
     >

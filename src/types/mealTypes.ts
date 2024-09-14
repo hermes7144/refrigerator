@@ -1,5 +1,4 @@
-import { Dayjs } from 'dayjs';
-import { IngredientProps } from './ingredientTypes';
+import { MealIngredientProps } from './ingredientTypes';
 
 export interface Meals {
   breakfast?: Meal;
@@ -11,12 +10,12 @@ export interface Meal {
   id?: string;
   name: MealType;
   date: string;
-  ingredients: IngredientProps[];
+  ingredients: MealIngredientProps[];
   done: boolean;
 }
 
 export interface MealListProps {
-  week: Dayjs[];
+  week: string[];
   selectedDate: string;
   meals?: MealsByDate;
   scrollRefs: React.MutableRefObject<{ [key: string]: HTMLDivElement | null }>;
@@ -24,7 +23,7 @@ export interface MealListProps {
 }
 
 export interface MealSectionProps {
-  date: Dayjs;
+  date: string;
   meals?: Meals;
   scrollRef: (el: HTMLDivElement | null) => void;
   isSkeleton?: boolean;
@@ -41,7 +40,7 @@ export interface MealsByDate {
 
 export interface MealItemProps {
   meal: Meal;
-  date: Dayjs;
+  date: string;
 }
 
 export type MealType = 'breakfast' | 'lunch' | 'dinner';

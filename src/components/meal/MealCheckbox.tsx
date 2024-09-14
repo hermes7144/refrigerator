@@ -10,7 +10,6 @@ export const MealCheckbox: React.FC<{ meal: Meal; date: string }> = ({ meal, dat
     const { checked } = e.target;
     editMealDone.mutate({ name: meal.name, date, done: checked });
 
-    // Update each ingredient's quantity
     Object.entries(meal.ingredients).forEach(([ingredientId, ingredient]) => {
       const quantityChange = checked ? -ingredient.qty : ingredient.qty;
       updateIngredientQty.mutate({ ingredientId, quantityChange });

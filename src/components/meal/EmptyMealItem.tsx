@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Dayjs } from 'dayjs';
 import { MealImage } from './MealImage';
 
 const mealTranslations = {
@@ -10,7 +9,7 @@ const mealTranslations = {
 };
 
 
-export const EmptyMealItem: React.FC<{meal:{name:string}; date:Dayjs}> = ({ meal, date }) => (
+export const EmptyMealItem: React.FC<{meal: {name:string}; date:string}> = ({ meal, date }) => (
   <Link to='/meals' state={{ meal, date }} className='flex flex-col w-full px-4 py-2 bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-xl transition duration-300'>
     <div className='flex space-x-1'>
       <MealImage meal={meal} />

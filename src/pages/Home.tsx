@@ -1,5 +1,4 @@
 import { Suspense, useCallback, useEffect, useRef, useState } from 'react';
-import { Dayjs } from 'dayjs';
 import DateList from '../components/date/DateList';
 import { MealList } from '../components/meal/MealList';
 import { formatDate, getWeekDates } from '../utils/utils';
@@ -23,10 +22,9 @@ export default function Home() {
   }, []);
 
   const handleDateClick = useCallback(
-    (date: Dayjs) => {
-      const formattedDate = formatDate(date);
-      setSelectedDate(formattedDate);
-      scrollToDate(formattedDate);
+    (date: string) => {
+      setSelectedDate(date);
+      scrollToDate(date);
     },
     [scrollToDate]
   );

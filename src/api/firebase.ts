@@ -87,8 +87,9 @@ export async function addNewMeal(uid: string, meal: Meal): Promise<void> {
     name: meal.name,
     createdDate: serverTimestamp(),
     done: false,
-    ingredients: meal.ingredients.reduce((acc: Record<string, IngredientProps>, ingredient: IngredientProps) => {
-      acc[ingredient.id] = ingredient;
+    date:meal.date,
+    ingredients: meal.ingredients.reduce((acc: Record<string, IngredientProps>, ingredient: IngredientProps, index) => {
+      acc[ingredient.id] = {...ingredient, seq: index +1};
       return acc;
     }, {}),
   };
@@ -97,13 +98,15 @@ export async function addNewMeal(uid: string, meal: Meal): Promise<void> {
 }
 
 export async function editMeal(uid: string, meal: Meal): Promise<void> {
+
   const mealData = {
     id: meal.id,
     name: meal.name,
     done: meal.done,
+    date:meal.date,
     createdDate: serverTimestamp(),
-    ingredients: meal.ingredients.reduce((acc: Record<string, IngredientProps>, ingredient) => {
-      acc[ingredient.id] = ingredient;
+    ingredients: meal.ingredients.reduce((acc: Record<string, IngredientProps>, ingredient, index) => {
+      acc[ingredient.id] = {...ingredient, seq: index +1};
       return acc;
     }, {}),
   };

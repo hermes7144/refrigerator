@@ -1,14 +1,12 @@
-import { Dayjs } from 'dayjs';
-
 export interface DateListProps {
-  week: Dayjs[];
+  week: string[];
   selectedDate: string;
-  onDateClick: (date: Dayjs) => void;
+  onDateClick: (date: string) => void;
   onWeek:(shift:number) => void;
 }
 
 export interface DateItemProps {
-  selected: string;
-  weekday: Dayjs;
-  handleClick: (date: Dayjs) => void;
+  isSelected: boolean;
+  weekday: string;
+  onDateClick: (date: string) => void;
 }

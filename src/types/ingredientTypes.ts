@@ -8,6 +8,10 @@ export interface IngredientProps {
   image?: string;
 }
 
+export interface MealIngredientProps  extends IngredientProps {
+  seq:number;
+}
+
 export interface IngredientTableProps {
   query: string;
   isStale: boolean;
