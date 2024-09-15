@@ -5,7 +5,7 @@ dayjs.extend(isoWeek);
 dayjs.locale('ko');
 
 export function formatDate(date?: Dayjs | Date | string | null) {
-  return dayjs(date).format('YYYYMMDD');
+  return dayjs(date).format('YYYY-MM-DD');
 }
 
 export const isValidDate = (date: Date | null): boolean => {
