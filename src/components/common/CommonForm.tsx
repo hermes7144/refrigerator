@@ -1,9 +1,9 @@
 import { ChangeEvent } from 'react';
-import { formatDate } from '../../utils/utils';
 import TextField from './TextField';
 import SelectField from './SelectField';
 import CustomDatePicker from './CustomDatePicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import dayjs from 'dayjs';
 
 interface Item {
   id?: string;
@@ -11,7 +11,7 @@ interface Item {
   unit: string;
   qty: number;
   category: string;
-  expiration: string;
+  expiration?: string;
 }
 
 interface FormProps {
@@ -28,8 +28,7 @@ function CommonItemForm({ formData, onChange, errors }: FormProps) {
   };
 
   const handleDateChange = (date: Date | null) => {
-    const formattedDate = date ? formatDate(date) : '';
-    onChange('expiration', formattedDate);
+    onChange('expiration', date ? dayjs(date).format('YYYY-MM-DD') : '');
   };
 
   return (
@@ -42,6 +41,7 @@ function CommonItemForm({ formData, onChange, errors }: FormProps) {
         options={[
           { value: 'g', label: 'g' },
           { value: 'ea', label: '개' },
+          { value: 'ml', label: 'ml' },
         ]}
         onChange={handleInputChange}
       />

@@ -2,8 +2,8 @@ import { createContext, useEffect, useState } from 'react';
 import { addNewIngredient, addNewMeal, addNewRecipe, addNewShopping, getIngredients, login, logout, onUserStateChange } from '../api/firebase';
 import { getAuth, signInAnonymously, User } from 'firebase/auth';
 import { providerProps } from '../types/commonTypes';
-import { formatDate } from '../utils/utils';
 import { useQueryClient } from '@tanstack/react-query';
+import dayjs from 'dayjs';
 
 interface AuthContextType {
   user: User | null;
@@ -11,6 +11,7 @@ interface AuthContextType {
   login: () => void;
   logout: () => void;
   isAuthLoading: boolean;
+  demo: ()=>void;
 }
 
 export const AuthContext = createContext<AuthContextType | null>(null);
@@ -43,12 +44,12 @@ export function AuthProvider({ children }: providerProps) {
       });
   }
 
-  const initializeDatabase = async (uid) => {
+  const initializeDatabase = async (uid:string) => {
     // 예시 재료 데이터 추가
     await addNewIngredient(uid, {
       name: '토마토',
       qty: 10,
-      unit: '개',
+      unit: 'ea',
       id: '',
       expiration: '',
       category: 'vegitable',
@@ -57,16 +58,17 @@ export function AuthProvider({ children }: providerProps) {
     await addNewIngredient(uid, {
       name: '파스타',
       qty: 200,
-      unit: '그램',
+      unit: 'g',
       id: '',
       expiration: '',
       category: 'vegitable',
+
     });
 
     await addNewIngredient(uid, {
       name: '토마토 소스',
       qty: 1,
-      unit: '컵',
+      unit: 'ea',
       id: '',
       expiration: '',
       category: 'vegitable',
@@ -77,12 +79,13 @@ export function AuthProvider({ children }: providerProps) {
 
     await addNewMeal(uid, {
       name: 'dinner',
-      date: formatDate(new Date()),
+      date: dayjs().format('YYYYMMDD'),
       ingredients: ingredients.filter((ingredient) => ingredient.name === '파스타' || ingredient.name === '토마토 소스'),
       id: '',
+      done:false
     });
-
-    queryClient.invalidateQueries(['meals', uid]); // 쿼리 무효화
+    
+    queryClient.invalidateQueries ({queryKey:['meals',uid]}),
 
     await addNewRecipe(uid, {
       name: '토마토 수프',
@@ -93,8 +96,10 @@ export function AuthProvider({ children }: providerProps) {
     await addNewShopping(uid, {
       name: '빵',
       qty: 2,
-      unit: '덩어리',
+      unit: 'ea',
       id: '',
+      expiration: '',
+      category: 'vegitable',
     });
 
     console.log('데이터베이스가 데모 데이터로 초기화되었습니다.');

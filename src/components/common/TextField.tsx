@@ -12,7 +12,7 @@ const TextField = ({ name, placeholder, value, onChange, error }: TextFieldProps
   <div className='flex flex-col'>
     <input
       type='text'
-      className='input input-bordered w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:border-blue-500 min-h-[56px]' // 최소 높이 설정
+      className='input input-bordered w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:border-blue-500 min-h-14' // 최소 높이 설정
       placeholder={placeholder}
       name={name}
       value={value}

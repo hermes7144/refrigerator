@@ -1,13 +1,14 @@
 import { Suspense, useCallback, useEffect, useRef, useState } from 'react';
 import DateList from '../components/date/DateList';
 import { MealList } from '../components/meal/MealList';
-import { formatDate, getWeekDates } from '../utils/utils';
+import { getWeekDates } from '../utils/utils';
 import { MealListSkeleton } from '../components/meal/MealListSkeleton';
 import { ErrorBoundary } from 'react-error-boundary';
 import ErrorFallback from '../components/common/ErrorFallback';
+import dayjs from 'dayjs';
 
 export default function Home() {
-  const today = formatDate();
+  const today = dayjs().format('YYYYMMDD');
   const [selectedDate, setSelectedDate] = useState(today);
   const [shift, setShift] = useState(0); // Updated here
 

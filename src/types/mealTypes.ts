@@ -1,4 +1,4 @@
-import { MealIngredientProps } from './ingredientTypes';
+import { IngredientProps } from './ingredientTypes';
 
 export interface Meals {
   breakfast?: Meal;
@@ -10,7 +10,7 @@ export interface Meal {
   id?: string;
   name: MealType;
   date: string;
-  ingredients: MealIngredientProps[];
+  ingredients: IngredientProps[];
   done: boolean;
 }
 

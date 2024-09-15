@@ -3,7 +3,7 @@ import useIngredients from '../hooks/useIngredients';
 import React, { useState, useEffect } from 'react';
 import useMeals from '../hooks/useMeals';
 import { Meal } from '../types/mealTypes';
-import { MealIngredientProps } from '../types/ingredientTypes';
+import { IngredientProps } from '../types/ingredientTypes';
 import ErrorDialog from '../components/common/ErrorDialog';
 import dayjs from 'dayjs';
 import Select, { SingleValue } from 'react-select';
@@ -25,15 +25,15 @@ export default function Meals() {
     ingredientsQuery: { data: ingredients },
   } = useIngredients();
   const { addMeal, updateMeal } = useMeals();
-  const [ingredientList, setIngredientList] = useState<MealIngredientProps[]>([]);
+  const [ingredientList, setIngredientList] = useState<IngredientProps []>([]);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
     if (meal.ingredients) {
-      const initialIngredients: MealIngredientProps[] = Object.values(meal.ingredients).sort((a: MealIngredientProps,b:MealIngredientProps) => a.seq - b.seq) ;
+      const initialIngredients: IngredientProps[] = Object.values(meal.ingredients).sort((a: IngredientProps,b:IngredientProps) => a.seq! - b.seq!) ;
       setIngredientList(initialIngredients);
     } else {
-      setIngredientList([{ id: '', name: '', unit: '', qty: 0, category: '' ,expiration:'', seq:0}]);
+      setIngredientList([{ id: '', name: '', unit: '', qty: 0, category: '' ,expiration:''}]);
     }
   }, [meal]);
 
@@ -62,7 +62,7 @@ export default function Meals() {
   };
 
   const handleAddIngredient = () => {
-    setIngredientList([...ingredientList, { id: '', name: '', unit: '', qty: 0, category: '', expiration:'',seq: 0 }]);
+    setIngredientList([...ingredientList, { id: '', name: '', unit: '', qty: 0, category: '', expiration:'' }]);
   };
 
   const handleRemoveIngredient = (index: number) => {
@@ -97,7 +97,7 @@ export default function Meals() {
         acc.push({ ...ingredient });
       }
       return acc;
-    }, [] as MealIngredientProps[]);
+    }, [] as IngredientProps[]);
 
     const mealData: Meal = {
       name: meal.name,

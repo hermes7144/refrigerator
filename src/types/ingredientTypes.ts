@@ -4,12 +4,9 @@ export interface IngredientProps {
   unit: string;
   qty: number;
   category: string;
-  expiration: string;
+  expiration?: string;
   image?: string;
-}
-
-export interface MealIngredientProps  extends IngredientProps {
-  seq:number;
+  seq?:number;
 }
 
 export interface IngredientTableProps {
