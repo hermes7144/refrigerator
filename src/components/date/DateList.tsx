@@ -4,6 +4,7 @@ import { DateListProps } from '../../types';
 import { FaArrowLeft } from '@react-icons/all-files/fa/FaArrowLeft';
 import { FaArrowRight } from '@react-icons/all-files/fa/FaArrowRight';
 import useIsMobile from '../../hooks/useIsMobile';
+import WeekNavigationButton from './WeekNavigationButton';
 
 export const DateList: FC<DateListProps> = ({ week, selectedDate, onDate, onWeek }) => {
   const touchStartRef = useRef<number>(0);
@@ -38,47 +39,33 @@ export const DateList: FC<DateListProps> = ({ week, selectedDate, onDate, onWeek
     }, 300);
   };
 
+  const swipeClass = swipeDirection === 'left' ? 'translate-x-10' : swipeDirection === 'right' ? '-translate-x-10' : '';
+
   return (
     <div
       className='flex w-full justify-center fixed top-16 bg-white z-10'
-      onTouchStart={handleTouchStart}
-      onTouchEnd={handleTouchEnd}
+      onTouchStart={isMobile ? handleTouchStart : undefined}
+      onTouchEnd={isMobile ? handleTouchEnd : undefined}
     >
-      <ResponsiveButton onClick={() => handleSwipe(-1)} ariaLabel="Previous week">
-        <FaArrowLeft />
-      </ResponsiveButton>
-
-      <div className={`overflow-hidden flex gap-2 p-2 whitespace-nowrap transition-transform duration-300 ${swipeDirection === 'left' ? 'translate-x-10' : swipeDirection === 'right' ? '-translate-x-10' : ''}`}>
-        <ul className='flex gap-2'>
-          {week.map((date) => (
-            <DateItem
-              key={date}
-              isSelected={date === selectedDate}
-              date={date}
-              onDate={onDate}
-            />
-          ))}
-        </ul>
-      </div>
-      <ResponsiveButton onClick={() => handleSwipe(1)} ariaLabel="Next week">
-        <FaArrowRight />
-      </ResponsiveButton>
+      <WeekNavigationButton 
+        onClick={() => handleSwipe(-1)} 
+        ariaLabel="Previous week" 
+        icon={<FaArrowLeft />}
+        isVisible={!isMobile}
+      />
+      <ul className={`overflow-hidden flex gap-2 p-2 whitespace-nowrap transition-transform duration-300 ${swipeClass}`}>
+        {week.map((date) => <DateItem key={date} isSelected={date === selectedDate} date={date} onDate={onDate} />)}
+      </ul>
+      <WeekNavigationButton 
+        onClick={() => handleSwipe(1)} 
+        ariaLabel="Next week" 
+        icon={<FaArrowRight />}
+        isVisible={!isMobile}
+      />
     </div>
   );
 };
 
-  const ResponsiveButton: React.FC<{ 
-    onClick: () => void; 
-    ariaLabel: string; 
-    children: React.ReactNode; 
-  }> = ({ onClick, ariaLabel, children }) => {
-    const isMobile = useIsMobile(); // 모바일 감지
 
-    return !isMobile ? (
-      <button onClick={onClick} aria-label={ariaLabel} className="desktop-button">
-        {children}
-      </button>
-    ) : null; // 모바일에서는 렌더링하지 않음
-  };
 
 export default DateList;

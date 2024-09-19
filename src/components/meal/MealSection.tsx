@@ -1,13 +1,27 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { MealItem } from './MealItem';
 import { MealSectionProps, MealType } from '../../types/mealTypes';
 import { EmptyMealItem } from './EmptyMealItem';
-import { SkeletonMealItem } from './SkeletonMealItem';
 import dayjs from 'dayjs';
 
 const MEAL_TYPES: MealType[] = ['breakfast', 'lunch', 'dinner'];
-export const MealSection: FC<MealSectionProps> = ({ date, meals, scrollRef, isSkeleton ,selected}) => {
-  
+
+export const MealSection: FC<MealSectionProps> = ({ date, meals, scrollRef ,selected}) => {
+  const [copy, setCopy] = useState();
+  const [pasted, setPasted] = useState<boolean>(false); // 붙여넣기 성공 여부
+
+  const handleCopy = (meal) => {
+    setCopy(meal);
+    setPasted(false); // 복사할 때 붙여넣기 상태 초기화
+  };
+
+  const handlePaste = () => {
+    if (copy) {
+      console.log(copy);
+      setPasted(true); // 붙여넣기가 성공했음을 나타냄
+    }
+  };
+
   return (
     <div ref={scrollRef} className='flex flex-col gap-2 p-4'>
       <div className='flex items-center gap-1'>
@@ -16,14 +30,11 @@ export const MealSection: FC<MealSectionProps> = ({ date, meals, scrollRef, isSk
             <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={5} d='M9 5l7 7-7 7' />
           </svg>
         )}
-        <h2 className='text-lg font-semibold'>{`${dayjs(date).format('M/D ddd요일')}`}</h2>
-        </div>
+        <h2 className='text-lg font-semibold'>{dayjs(date).format('M/D ddd요일')}</h2>
+      </div>
       {MEAL_TYPES.map(mealType => { 
-        if (isSkeleton) return <SkeletonMealItem key={mealType} meal={{name:mealType}} date={date} />
-
         const meal = meals?.[mealType];
-        return meal ? <MealItem key={mealType} meal={meal} date={date}  />: <EmptyMealItem key={mealType} meal={{name:mealType}} date={date} />
-        ;
+        return meal ? <MealItem key={mealType} meal={meal} date={date} onCopy={handleCopy}  onPaste={handlePaste}  />: <EmptyMealItem key={mealType} meal={{name:mealType}} date={date} onPaste={handlePaste}/>;
       })}
     </div>
   );

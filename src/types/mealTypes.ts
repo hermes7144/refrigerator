@@ -41,6 +41,7 @@ export interface MealsByDate {
 export interface MealItemProps {
   meal: Meal;
   date: string;
+  onCopy:() => void;
 }
 
 export type MealType = 'breakfast' | 'lunch' | 'dinner';
