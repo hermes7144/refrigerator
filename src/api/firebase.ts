@@ -71,16 +71,23 @@ export async function removeIngredient(uid: string, ingredient: IngredientProps)
 
 export async function getMeals(uid: string): Promise<MealsByDate> {
   const snapshot = await get(ref(database, `meals/${uid}`));
-
   if (snapshot.exists()) {
-    console.log( snapshot.val());
-    
-
     return snapshot.val();
   } else {
     return {};
   }
 }
+
+export async function getMeal(uid: string, meal: MealProps): Promise<MealProps | null> {
+  const snapshot = await get(ref(database, `meals/${uid}/${meal.date}/${meal.mealType}`));
+
+  if (snapshot.exists()) {
+    return snapshot.val();
+  } else {
+    return null;
+  }
+}
+
 
 export async function addNewMeal(uid: string, meal: MealProps): Promise<void> {
   const id = uuid();
@@ -92,22 +99,38 @@ export async function addNewMeal(uid: string, meal: MealProps): Promise<void> {
     done: false,
   };
 
-  await set(ref(database, `meals/${uid}/${meal.date}/${meal.name}`), mealData);
+  await set(ref(database, `meals/${uid}/${meal.date}/${meal.mealType}`), mealData);
 }
 
 export async function editMeal(uid: string, meal: MealProps): Promise<void> {
-  const mealData = {...meal, updatedDate: serverTimestamp()};
+  const originMeal =await getMeal(uid, meal);
+  if (!originMeal) return;
+  await updateIngredientsQuantity(uid, originMeal.ingredients, true); 
 
-  await set(ref(database, `meals/${uid}/${meal.date}/${meal.name}`), mealData);
+  const mealData = {...meal, updatedDate: serverTimestamp()};
+  await updateIngredientsQuantity(uid, meal.ingredients);
+
+  await set(ref(database, `meals/${uid}/${meal.date}/${meal.mealType}`), mealData);
 }
 
 export async function deleteMeal(uid: string, meal: MealProps): Promise<void> {
-  await remove(ref(database, `meals/${uid}/${meal.date}/${meal.name}`));
+  await remove(ref(database, `meals/${uid}/${meal.date}/${meal.mealType}`));
 }
 
 export async function checkMeal(uid: string, meal: MealProps): Promise<void> {
-  const mealRef = ref(database, `meals/${uid}/${meal.date}/${meal.name}`);
+  const mealRef = ref(database, `meals/${uid}/${meal.date}/${meal.mealType}`);
   await update(mealRef, { done: meal.done });
+}
+
+export async function updateIngredientsQuantity(uid: string, ingredients: IngredientProps[], isAdding?: boolean): Promise<void> {  
+
+  for (const ingredient of ingredients) {    
+    const ingredientRef = ref(database, `ingredients/${uid}/${ingredient.id}/qty`);
+
+    await runTransaction(ingredientRef, (currentQty) => {
+      return isAdding ? (currentQty || 0) + ingredient.qty : (currentQty || 0) - ingredient.qty;
+    });
+  }
 }
 
 export async function updateIngredientQuantity(uid: string, ingredient:IngredientProps): Promise<void> {

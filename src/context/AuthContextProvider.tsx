@@ -78,7 +78,7 @@ export function AuthProvider({ children }: providerProps) {
     const ingredients = await getIngredients(uid);
 
     await addNewMeal(uid, {
-      name: 'dinner',
+      mealType: 'dinner',
       date: dayjs().format('YYYYMMDD'),
       ingredients: ingredients.filter((ingredient) => ingredient.name === '파스타' || ingredient.name === '토마토 소스'),
       id: '',

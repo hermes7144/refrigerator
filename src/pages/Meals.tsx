@@ -18,9 +18,8 @@ const mealTranslations = {
 export default function Meals() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { meal }: { meal: MealProps } = location.state;
+  const { meal } = location.state as { meal: MealProps };
 
-  
   const {
     ingredientsQuery: { data: ingredients },
   } = useIngredients();
@@ -37,7 +36,7 @@ export default function Meals() {
     }
   }, [meal]);
 
-  const handleIngredientChange = (e: SingleValue<{ value: string; label: string }>, index: number) => {
+  const handleIngredientChange = (e: SingleValue<{ value: string | undefined; label: string }>, index: number) => {
     const newIngredientList = [...ingredientList];
     const selectedIngredient = ingredients?.find((ingredient) => ingredient.id === e?.value);
     if (selectedIngredient) {
@@ -100,7 +99,8 @@ export default function Meals() {
     }, [] as IngredientProps[]);
 
     const mealData: MealProps = {
-      name: meal.name,
+      id:'',
+      mealType: meal.mealType,
       date: meal.date,
       ingredients: mergedIngredients.filter((ingredient) => ingredient.id && ingredient.qty > 0),
       done: meal?.done,
@@ -123,7 +123,7 @@ export default function Meals() {
     <div className='flex flex-col items-center' style={{ minHeight: 'calc(100vh - 100px)' }}>
       <h1></h1>
       <div className='p-4 w-full md:w-1/2 lg:w-1/3'>
-        <h1 className='text-2xl font-semibold mb-4'>{`${dayjs(meal.date).format('M월 D일 ddd요일')} ${mealTranslations[meal.name]} `}</h1>
+        <h1 className='text-2xl font-semibold mb-4'>{`${dayjs(meal.date).format('M월 D일 ddd요일')} ${mealTranslations[meal.mealType]} `}</h1>
         <div className='flex flex-col gap-2 w-full'>
           <button className='btn btn-success text-white py-2' onClick={handleAddIngredient}>
             재료 추가
@@ -136,7 +136,7 @@ export default function Meals() {
                   classNamePrefix='select'
                   options={ingredientOptions}
                   value={ingredientOptions?.find((option) => option.value === ingredient.id)}
-                  onChange={(selectedOption) => handleIngredientChange(selectedOption, index)}
+                  onChange={(e) => handleIngredientChange(e, index)}
                   menuPortalTarget={document.body}
                   styles={{ menuPortal: (provided) => ({ ...provided, zIndex: 9999 }) }}
                 />

@@ -1,5 +1,5 @@
 export interface IngredientProps {
-  id: string;
+  id?: string;
   name: string;
   unit: string;
   qty: number;

@@ -1,10 +1,10 @@
 import { FC } from 'react';
 import { MealItem } from './MealItem';
-import { MealSectionProps, MealType } from '../../types/mealTypes';
+import { MealSectionProps, MealTypeProps } from '../../types/mealTypes';
 import { EmptyMealItem } from './EmptyMealItem';
 import dayjs from 'dayjs';
 
-const MEAL_TYPES: MealType[] = ['breakfast', 'lunch', 'dinner'];
+const MEAL_TYPES: MealTypeProps[] = ['breakfast', 'lunch', 'dinner'];
 
 export const MealSection: FC<MealSectionProps> = ({ date, meals, scrollRef ,selected, copy, onCopy, onPaste, onCancelCopy}) => {
 
@@ -20,7 +20,7 @@ export const MealSection: FC<MealSectionProps> = ({ date, meals, scrollRef ,sele
       </div>
       {MEAL_TYPES.map(mealType => { 
         const meal = meals?.[mealType];
-        return meal ? <MealItem key={mealType} meal={meal} date={date} copy={copy} onCopy={onCopy}  onPaste={onPaste} onCancelCopy={onCancelCopy}  />: <EmptyMealItem key={mealType} meal={{name:mealType , date}}  copy={copy} onPaste={onPaste}/>;
+        return meal ? <MealItem key={mealType} meal={meal} date={date} copy={copy} onCopy={onCopy}  onPaste={onPaste} onCancelCopy={onCancelCopy}  />: <EmptyMealItem key={mealType} meal={{mealType , date}}  copy={copy} onPaste={onPaste}/>;
       })}
     </div>
   );

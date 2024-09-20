@@ -22,7 +22,7 @@ export default function Home() {
     }
   }, []);
 
-  const handleDateClick = useCallback(
+  const handleDate = useCallback(
     (date: string) => {
       setSelectedDate(date);
       scrollToDate(date);
@@ -30,7 +30,7 @@ export default function Home() {
     [scrollToDate]
   );
 
-  const handleWeekClick = (weekShift: number) => {    
+  const handleWeek = (weekShift: number) => {    
     setShift((prev) => prev + weekShift);
   };
 
@@ -41,7 +41,7 @@ export default function Home() {
 
   return (
     <div className='flex flex-col items-center px-4'>
-      <DateList week={week} selectedDate={selectedDate} onDate={handleDateClick} onWeek={handleWeekClick} />
+      <DateList week={week} selectedDate={selectedDate} onDate={handleDate} onWeek={handleWeek} />
       <ErrorBoundary FallbackComponent={ErrorFallback}>
         <Suspense fallback={<MealListSkeleton week={week} scrollRefs={scrollRefs} selectedDate={selectedDate} />}>
           <MealList week={week} scrollRefs={scrollRefs} selectedDate={selectedDate} />

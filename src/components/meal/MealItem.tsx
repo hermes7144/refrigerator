@@ -39,7 +39,7 @@ export const MealItem: React.FC<MealItemProps> = ({ meal, copy, onCopy, onPaste,
 
   const isCopyMeal = meal === copy;
 
-  const mealName = mealTranslations[meal.name as keyof typeof mealTranslations] || meal.name;
+  const mealType = mealTranslations[meal.mealType] || meal.mealType;
 
   return (
     <Link to='/meals' state={{ meal }} className={`bg-white shadow-md hover:shadow-lg rounded-lg p-4 transition duration-300 border border-gray-200 ${isCopyMeal ? 'bg-blue-100' : ''}`}>
@@ -49,7 +49,7 @@ export const MealItem: React.FC<MealItemProps> = ({ meal, copy, onCopy, onPaste,
             <MealCheckbox meal={meal} />
           </div>
           <MealImage meal={meal} />
-          <h3 className='font-semibold tracking-tight'>{mealName}</h3>
+          <h3 className='font-semibold tracking-tight'>{mealType}</h3>
         </div>
 
         {/* Copy Mode Display */}

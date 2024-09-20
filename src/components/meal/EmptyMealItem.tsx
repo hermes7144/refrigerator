@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { MealImage } from './MealImage';
 import { FaPaste } from '@react-icons/all-files/fa/FaPaste';
+import { EmptyMealProps } from '../../types/mealTypes';
 
 const mealTranslations = {
   breakfast: '아침',
@@ -11,7 +12,7 @@ const mealTranslations = {
 
 
 
-export const EmptyMealItem: React.FC<{meal: {name:string, date:string}, onPaste: () => void}> = ({ meal, copy, onPaste }) => {
+export const EmptyMealItem: React.FC<{meal: EmptyMealProps, onPaste: () => void}> = ({ meal, copy, onPaste }) => {
 
   const handlePaste = (e) => {
     e.preventDefault();
@@ -24,7 +25,7 @@ export const EmptyMealItem: React.FC<{meal: {name:string, date:string}, onPaste:
     <div className='flex  justify-between'>
       <div className='flex space-x-1'>
         <MealImage meal={meal} />
-        <h3 className='font-semibold'>{mealTranslations[meal.name as keyof typeof mealTranslations]}</h3>
+        <h3 className='font-semibold'>{mealTranslations[meal.mealType as keyof typeof mealTranslations]}</h3>
       </div>
       {copy &&
         <button className='btn btn-circle btn-ghost btn-sm' onClick={handlePaste} >

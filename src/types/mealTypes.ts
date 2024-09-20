@@ -7,11 +7,17 @@ export interface MealsProps {
 }
 
 export interface MealProps {
-  id?: string;
-  name: MealType;
+  id: string;
+  mealType: MealTypeProps;
   date: string;
   ingredients: IngredientProps[];
   done: boolean;
+}
+
+export interface EmptyMealProps {
+  mealType: MealTypeProps;
+  date: string;
+  done?:boolean;
 }
 
 export interface MealListProps {
@@ -44,4 +50,4 @@ export interface MealItemProps {
   onCopy:() => void;
 }
 
-export type MealType = 'breakfast' | 'lunch' | 'dinner';
+export type MealTypeProps = 'breakfast' | 'lunch' | 'dinner';

@@ -21,7 +21,10 @@ export default function useMeals() {
 
   const updateMeal = useMutation({
     mutationFn: (meal: MealProps) => editMeal(uid, meal),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey:  ['meals',uid] }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['meals', uid] });
+      queryClient.invalidateQueries({ queryKey: ['ingredients', uid] });
+    }
   });
 
   const removeMeal = useMutation({

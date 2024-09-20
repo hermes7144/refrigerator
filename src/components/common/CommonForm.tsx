@@ -34,7 +34,7 @@ function CommonItemForm({ formData, onChange, errors }: FormProps) {
   return (
     <div className='flex flex-col space-y-4'>
       <TextField name='name' placeholder='아이템 이름' value={formData.name} onChange={handleInputChange} error={errors.name} />
-      <TextField name='qty' placeholder='수량' value={formData.qty > 0 ? formData.qty.toString() : ''} onChange={handleInputChange} error={errors.qty} />
+      <TextField name='qty' placeholder='수량' value={formData.qty !== 0 ? formData.qty.toString() : ''} onChange={handleInputChange} error={errors.qty} />
       <SelectField
         name='unit'
         value={formData.unit}

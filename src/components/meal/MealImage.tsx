@@ -2,14 +2,11 @@ import { ReactComponent as Breakfast } from '../../assets/image/breakfast.svg';
 import { ReactComponent as Lunch } from '../../assets/image/lunch.svg';
 import { ReactComponent as Dinner } from '../../assets/image/dinner.svg';
 
-import { Meal } from '../../types/mealTypes';
+import { EmptyMealProps } from '../../types/mealTypes';
 
-interface MealImageProps {
-  meal: Meal | { name: string; done?: boolean };
-}
 
-export const MealImage: React.FC<MealImageProps> = ({ meal }) => {
-  const { name, done = false } = meal;
+export const MealImage: React.FC<{meal:EmptyMealProps}> = ({ meal }) => {
+  const { mealType, done =false } = meal;
 
   const getIconComponent = (mealName: string) => {
     switch (mealName) {
@@ -24,7 +21,7 @@ export const MealImage: React.FC<MealImageProps> = ({ meal }) => {
     }
   };
 
-  const IconComponent = getIconComponent(name);
+  const IconComponent = getIconComponent(mealType);
 
   return <IconComponent className={done ? 'brightness-75' : ''} />;
 };
