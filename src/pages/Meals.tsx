@@ -2,7 +2,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import useIngredients from '../hooks/useIngredients';
 import React, { useState, useEffect } from 'react';
 import useMeals from '../hooks/useMeals';
-import { Meal } from '../types/mealTypes';
+import { MealProps } from '../types/mealTypes';
 import { IngredientProps } from '../types/ingredientTypes';
 import ErrorDialog from '../components/common/ErrorDialog';
 import dayjs from 'dayjs';
@@ -18,7 +18,7 @@ const mealTranslations = {
 export default function Meals() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { meal, date }: { meal: Meal; date: string } = location.state;
+  const { meal }: { meal: MealProps } = location.state;
 
   
   const {
@@ -30,7 +30,7 @@ export default function Meals() {
 
   useEffect(() => {
     if (meal.ingredients) {
-      const initialIngredients: IngredientProps[] = Object.values(meal.ingredients).sort((a: IngredientProps,b:IngredientProps) => a.seq! - b.seq!) ;
+      const initialIngredients: IngredientProps[] = meal.ingredients.sort((a: IngredientProps,b:IngredientProps) => a.seq! - b.seq!) ;
       setIngredientList(initialIngredients);
     } else {
       setIngredientList([{ id: '', name: '', unit: '', qty: 0, category: '' ,expiration:''}]);
@@ -99,9 +99,9 @@ export default function Meals() {
       return acc;
     }, [] as IngredientProps[]);
 
-    const mealData: Meal = {
+    const mealData: MealProps = {
       name: meal.name,
-      date: date,
+      date: meal.date,
       ingredients: mergedIngredients.filter((ingredient) => ingredient.id && ingredient.qty > 0),
       done: meal?.done,
     };
@@ -123,7 +123,7 @@ export default function Meals() {
     <div className='flex flex-col items-center' style={{ minHeight: 'calc(100vh - 100px)' }}>
       <h1></h1>
       <div className='p-4 w-full md:w-1/2 lg:w-1/3'>
-        <h1 className='text-2xl font-semibold mb-4'>{`${dayjs(date).format('M월 D일 ddd요일')} ${mealTranslations[meal.name]} `}</h1>
+        <h1 className='text-2xl font-semibold mb-4'>{`${dayjs(meal.date).format('M월 D일 ddd요일')} ${mealTranslations[meal.name]} `}</h1>
         <div className='flex flex-col gap-2 w-full'>
           <button className='btn btn-success text-white py-2' onClick={handleAddIngredient}>
             재료 추가

@@ -1,29 +1,27 @@
 import useIngredients from '../../hooks/useIngredients';
 import useMeals from '../../hooks/useMeals';
-import { Meal } from '../../types/mealTypes';
-import { BsX } from '@react-icons/all-files/bs/BsX';
+import { MealProps } from '../../types/mealTypes';
+import { FaRegTrashAlt } from '@react-icons/all-files/fa/FaRegTrashAlt';
 
 export interface RemoveMealButtonProps {
-  meal: Meal;
-  date: string;
+  meal: MealProps;
 }
-
-export const RemoveMealButton: React.FC<RemoveMealButtonProps> = ({ meal, date }) => {
+export const RemoveMealButton: React.FC<RemoveMealButtonProps> = ({ meal }) => {
   const { removeMeal } = useMeals();
   const { updateIngredientQty } = useIngredients();
 
+
   const handleClick = () => {
     if (meal.done) {
-      Object.entries(meal.ingredients).forEach(([ingredientId, ingredient]) => {
-        updateIngredientQty.mutate({ ingredientId, quantityChange: ingredient.qty });
+      meal.ingredients.forEach((ingredient) => {
+        updateIngredientQty.mutate(ingredient);
       });
     }
-    removeMeal.mutate({ name: meal.name, date });
+    removeMeal.mutate(meal);
   };
-
   return (
     <button className='btn btn-circle btn-ghost btn-sm' onClick={handleClick}>
-      <BsX className='h-6 w-6' />
+      <FaRegTrashAlt className='h-4 w-4' />
     </button>
   );
 };

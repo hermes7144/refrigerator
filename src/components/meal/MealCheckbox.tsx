@@ -1,18 +1,18 @@
 import useIngredients from '../../hooks/useIngredients';
 import useMeals from '../../hooks/useMeals';
-import { Meal } from '../../types/mealTypes';
+import { MealProps } from '../../types/mealTypes';
 
-export const MealCheckbox: React.FC<{ meal: Meal; date: string }> = ({ meal, date }) => {
+export const MealCheckbox: React.FC<{ meal: MealProps }> = ({ meal }) => {
   const { editMealDone } = useMeals();
   const { updateIngredientQty } = useIngredients();
 
   const handleCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { checked } = e.target;
-    editMealDone.mutate({ name: meal.name, date, done: checked });
+    editMealDone.mutate({ ...meal, done: checked });
 
-    Object.entries(meal.ingredients).forEach(([ingredientId, ingredient]) => {
+    meal.ingredients.forEach((ingredient) => {
       const quantityChange = checked ? -ingredient.qty : ingredient.qty;
-      updateIngredientQty.mutate({ ingredientId, quantityChange });
+      updateIngredientQty.mutate({ ...ingredient, qty: quantityChange });
     });
   };
 

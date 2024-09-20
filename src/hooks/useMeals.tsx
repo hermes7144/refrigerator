@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient, useSuspenseQuery } from '@tanstack/react-query';
 import  useAuthContext  from '../context/AuthContext';
 import { addNewMeal, getMeals, editMeal, deleteMeal, checkMeal } from '../api/firebase';
-import { Meal } from '../types/mealTypes';
+import { MealProps } from '../types/mealTypes';
 
 export default function useMeals() {
   const {uid} = useAuthContext() ?? {};
@@ -15,22 +15,22 @@ export default function useMeals() {
   const mealsQuery = useSuspenseQuery({ queryKey: ['meals',uid] ,queryFn: () => getMeals(uid) });
 
   const addMeal = useMutation({
-    mutationFn: (meal: Meal) => addNewMeal(uid, meal),
+    mutationFn: (meal: MealProps) => addNewMeal(uid, meal),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['meals',uid] }),
   });
 
   const updateMeal = useMutation({
-    mutationFn: (meal: Meal) => editMeal(uid, meal),
+    mutationFn: (meal: MealProps) => editMeal(uid, meal),
     onSuccess: () => queryClient.invalidateQueries({ queryKey:  ['meals',uid] }),
   });
 
   const removeMeal = useMutation({
-    mutationFn: (meal: { name: string; date: string }) => deleteMeal(uid, meal),
+    mutationFn: (meal: MealProps) => deleteMeal(uid, meal),
     onSuccess: () => queryClient.invalidateQueries({ queryKey:  ['meals',uid] }),
   });
 
   const editMealDone = useMutation({
-    mutationFn: (meal: { name: string; date: string; done: boolean }) => checkMeal(uid, meal),
+    mutationFn: (meal: MealProps) => checkMeal(uid, meal),
     onSuccess: () => queryClient.invalidateQueries({ queryKey:  ['meals',uid] }),
   });
 

@@ -18,7 +18,7 @@ const RecipeItem = ({ item, onSelect, isSelected }: RecipeItemProps) => {
       </td>
       <td>
         <ul>
-          {Object.values(item?.ingredients).map((ingredient) => (
+          {item?.ingredients.map((ingredient) => (
             <li key={item.id + ingredient.id}>{ingredient.name + ingredient.qty + ingredient.unit}</li>
           ))}
         </ul>

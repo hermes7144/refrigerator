@@ -1,12 +1,12 @@
 import { IngredientProps } from './ingredientTypes';
 
-export interface Meals {
-  breakfast?: Meal;
-  lunch?: Meal;
-  dinner?: Meal;
+export interface MealsProps {
+  breakfast?: MealProps;
+  lunch?: MealProps;
+  dinner?: MealProps;
 }
 
-export interface Meal {
+export interface MealProps {
   id?: string;
   name: MealType;
   date: string;
@@ -24,7 +24,7 @@ export interface MealListProps {
 
 export interface MealSectionProps {
   date: string;
-  meals?: Meals;
+  meals?: MealsProps;
   scrollRef: (el: HTMLDivElement | null) => void;
   isSkeleton?: boolean;
   selected:boolean;
@@ -32,14 +32,14 @@ export interface MealSectionProps {
 
 export interface MealsByDate {
   [date: string]: {
-    breakfast?: Meal;
-    lunch?: Meal;
-    dinner?: Meal;
+    breakfast?: MealProps;
+    lunch?: MealProps;
+    dinner?: MealProps;
   };
 }
 
 export interface MealItemProps {
-  meal: Meal;
+  meal: MealProps;
   date: string;
   onCopy:() => void;
 }

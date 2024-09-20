@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import { MealItem } from './MealItem';
 import { MealSectionProps, MealType } from '../../types/mealTypes';
 import { EmptyMealItem } from './EmptyMealItem';
@@ -6,21 +6,7 @@ import dayjs from 'dayjs';
 
 const MEAL_TYPES: MealType[] = ['breakfast', 'lunch', 'dinner'];
 
-export const MealSection: FC<MealSectionProps> = ({ date, meals, scrollRef ,selected}) => {
-  const [copy, setCopy] = useState();
-  const [pasted, setPasted] = useState<boolean>(false); // 붙여넣기 성공 여부
-
-  const handleCopy = (meal) => {
-    setCopy(meal);
-    setPasted(false); // 복사할 때 붙여넣기 상태 초기화
-  };
-
-  const handlePaste = () => {
-    if (copy) {
-      console.log(copy);
-      setPasted(true); // 붙여넣기가 성공했음을 나타냄
-    }
-  };
+export const MealSection: FC<MealSectionProps> = ({ date, meals, scrollRef ,selected, copy, onCopy, onPaste, onCancelCopy}) => {
 
   return (
     <div ref={scrollRef} className='flex flex-col gap-2 p-4'>
@@ -34,7 +20,7 @@ export const MealSection: FC<MealSectionProps> = ({ date, meals, scrollRef ,sele
       </div>
       {MEAL_TYPES.map(mealType => { 
         const meal = meals?.[mealType];
-        return meal ? <MealItem key={mealType} meal={meal} date={date} onCopy={handleCopy}  onPaste={handlePaste}  />: <EmptyMealItem key={mealType} meal={{name:mealType}} date={date} onPaste={handlePaste}/>;
+        return meal ? <MealItem key={mealType} meal={meal} date={date} copy={copy} onCopy={onCopy}  onPaste={onPaste} onCancelCopy={onCancelCopy}  />: <EmptyMealItem key={mealType} meal={{name:mealType , date}}  copy={copy} onPaste={onPaste}/>;
       })}
     </div>
   );

@@ -22,7 +22,7 @@ export default function RegisterRecipes() {
 
   useEffect(() => {
     if (recipe) {
-      const initialIngredients: IngredientProps[] = Object.values(recipe.ingredients) as IngredientProps[];
+      const initialIngredients: IngredientProps[] = recipe.ingredients as IngredientProps[];
       setName(recipe.name);
       setIngredientList(initialIngredients);
     }

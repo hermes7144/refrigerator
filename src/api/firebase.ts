@@ -4,7 +4,7 @@ import { initializeApp } from 'firebase/app';
 import { v4 as uuid } from 'uuid';
 import { getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithPopup, signOut, User } from 'firebase/auth';
 import { get, getDatabase, ref, remove, runTransaction, serverTimestamp, set, update } from 'firebase/database';
-import { Meal, MealsByDate } from '../types/mealTypes';
+import { MealProps, MealsByDate } from '../types/mealTypes';
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -44,7 +44,7 @@ export async function getIngredients(uid: string): Promise<IngredientProps[]> {
 export async function getIngredient(uid: string, ingredient: IngredientProps): Promise<IngredientProps | null> {
   const snapshot = await get(ref(database, `ingredients/${uid}/${ingredient.id}`));
 
-  if (snapshot.exists()) {
+  if (snapshot.exists()) {    
     return snapshot.val();
   } else {
     return null;
@@ -73,63 +73,48 @@ export async function getMeals(uid: string): Promise<MealsByDate> {
   const snapshot = await get(ref(database, `meals/${uid}`));
 
   if (snapshot.exists()) {
+    console.log( snapshot.val());
+    
+
     return snapshot.val();
   } else {
     return {};
   }
 }
 
-export async function addNewMeal(uid: string, meal: Meal): Promise<void> {
+export async function addNewMeal(uid: string, meal: MealProps): Promise<void> {
   const id = uuid();
-
+  
   const mealData = {
+    ...meal,
     id,
-    name: meal.name,
     createdDate: serverTimestamp(),
     done: false,
-    date:meal.date,
-    ingredients: meal.ingredients.reduce((acc: Record<string, IngredientProps>, ingredient: IngredientProps, index) => {
-      acc[ingredient.id] = {...ingredient, seq: index +1};
-      return acc;
-    }, {}),
   };
 
   await set(ref(database, `meals/${uid}/${meal.date}/${meal.name}`), mealData);
 }
 
-export async function editMeal(uid: string, meal: Meal): Promise<void> {
-
-  const mealData = {
-    id: meal.id,
-    name: meal.name,
-    done: meal.done,
-    date:meal.date,
-    createdDate: serverTimestamp(),
-    ingredients: meal.ingredients.reduce((acc: Record<string, IngredientProps>, ingredient, index) => {
-      acc[ingredient.id] = {...ingredient, seq: index +1};
-      return acc;
-    }, {}),
-  };
+export async function editMeal(uid: string, meal: MealProps): Promise<void> {
+  const mealData = {...meal, updatedDate: serverTimestamp()};
 
   await set(ref(database, `meals/${uid}/${meal.date}/${meal.name}`), mealData);
 }
 
-export async function deleteMeal(uid: string, meal: { name: string; date: string }): Promise<void> {
+export async function deleteMeal(uid: string, meal: MealProps): Promise<void> {
   await remove(ref(database, `meals/${uid}/${meal.date}/${meal.name}`));
 }
 
-export async function checkMeal(uid: string, meal: { name: string; date: string; done: boolean }): Promise<void> {
+export async function checkMeal(uid: string, meal: MealProps): Promise<void> {
   const mealRef = ref(database, `meals/${uid}/${meal.date}/${meal.name}`);
   await update(mealRef, { done: meal.done });
 }
 
-export async function updateIngredientQuantity(uid: string, ingredientId: string, quantityChange: number): Promise<void> {
-  const ingredientRef = ref(database, `ingredients/${uid}/${ingredientId}/qty`);
+export async function updateIngredientQuantity(uid: string, ingredient:IngredientProps): Promise<void> {
+  const ingredientRef = ref(database, `ingredients/${uid}/${ingredient.id}/qty`);
 
   await runTransaction(ingredientRef, (currentQty) => {
-    console.log(currentQty, quantityChange);
-
-    return (currentQty || 0) + quantityChange;
+    return (currentQty || 0) + ingredient.qty;
   });
 }
 
@@ -147,13 +132,9 @@ export async function addNewRecipe(uid: string, recipe: RecipeProps): Promise<vo
   const id = uuid();
 
   const recipeData = {
+    ...recipe,
     id,
-    name: recipe.name,
     createdDate: serverTimestamp(),
-    ingredients: recipe.ingredients.reduce((acc: Record<string, IngredientProps>, ingredient: IngredientProps) => {
-      acc[ingredient.id] = ingredient;
-      return acc;
-    }, {}),
   };
 
   await set(ref(database, `recipes/${uid}/${id}`), recipeData);
@@ -161,13 +142,8 @@ export async function addNewRecipe(uid: string, recipe: RecipeProps): Promise<vo
 
 export async function editRecipe(uid: string, recipe: RecipeProps): Promise<void> {
   const recipeData = {
-    id: recipe.id,
-    name: recipe.name,
-    createdDate: serverTimestamp(),
-    ingredients: recipe.ingredients.reduce((acc: Record<string, IngredientProps>, ingredient) => {
-      acc[ingredient.id] = ingredient;
-      return acc;
-    }, {}),
+    ...recipe,
+    updatedDate: serverTimestamp(),
   };
 
   return set(ref(database, `recipes/${uid}/${recipe.id}`), recipeData);

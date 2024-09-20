@@ -24,7 +24,7 @@ export default function useIngredients() {
   });
 
   const updateIngredientQty = useMutation({
-    mutationFn: ({ ingredientId, quantityChange }: { ingredientId: string; quantityChange: number }) => updateIngredientQuantity(uid, ingredientId, quantityChange),
+    mutationFn: (ingredient: IngredientProps) => updateIngredientQuantity(uid, ingredient),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['ingredients', uid] }),
   });
 
