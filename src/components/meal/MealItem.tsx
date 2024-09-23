@@ -6,7 +6,7 @@ import { RemoveMealButton } from './RemoveMealButton';
 import { MealCheckbox } from './MealCheckbox';
 import { MealImage } from './MealImage';
 import { FaRegCopy } from '@react-icons/all-files/fa/FaRegCopy';
-import { FaPaste } from '@react-icons/all-files/fa/FaPaste';
+import { FaCheck } from '@react-icons/all-files/fa/FaCheck';
 import { FaTimes } from '@react-icons/all-files/fa/FaTimes';
 
 const mealTranslations = {
@@ -36,13 +36,14 @@ export const MealItem: React.FC<MealItemProps> = ({ meal, copy, onCopy, onPaste,
   const handleRemove = () => {
     onRemove(meal);
   };
-
-  const isCopyMeal = meal === copy;
-
+  
   const mealType = mealTranslations[meal.mealType] || meal.mealType;
+  
+  const isCopyMeal = meal === copy;
+  const Container = copy ? 'div' : Link;
 
   return (
-    <Link to='/meals' state={{ meal }} className={`bg-white shadow-md hover:shadow-lg rounded-lg p-4 transition duration-300 border border-gray-200 ${isCopyMeal ? 'bg-blue-100' : ''}`}>
+    <Container to={'/meals'} state={{ meal }} className={`bg-white shadow-md hover:shadow-lg rounded-lg p-4 transition duration-300 border border-gray-200 ${isCopyMeal ? 'bg-blue-100' : ''}`}>
       <div className='flex justify-between items-center mb-1'>
         <div className='flex items-start space-x-1'>
           <div onClick={(e) => e.stopPropagation()}>
@@ -54,31 +55,39 @@ export const MealItem: React.FC<MealItemProps> = ({ meal, copy, onCopy, onPaste,
 
         {/* Copy Mode Display */}
         {isCopyMeal ? (
-          <div className='flex items-center space-x-2' onClick={handleStopPropagation}>
+          <div className='flex items-center space-x-2 tooltip' data-tip="복사 취소" onClick={handleStopPropagation}>
             <button
-              className='btn btn-circle btn-ghost  bg-red-500 text-white hover:bg-red-600 transition-colors duration-200 flex items-center space-x-1 px-3 py-2 rounded-full'
+              className='btn btn-circle btn-ghost btn-sm text-white bg-red-500 hover:bg-red-600'
               onClick={handleCancelCopy}>
               <FaTimes className='w-4 h-4' />
             </button>
           </div>
         ) : (
           <div className='flex items-center space-x-2' onClick={handleStopPropagation}>
-            <button className='btn btn-circle btn-ghost btn-sm hover:bg-slate-200' onClick={handleCopy}>
-              <FaRegCopy className='w-4 h-4 text-gray-600' />
-            </button>
-
-            {copy && (
-              <button className='btn btn-circle btn-ghost btn-sm' onClick={handlePaste}>
-                <FaPaste className='w-4 h-4 text-gray-600' />
-                <span className='ml-1'>Paste</span>
-              </button>
-            )}
-
-            <RemoveMealButton meal={meal} onRemove={handleRemove} />
+            {!copy && 
+            <div className="tooltip" data-tip="복사">
+                <button className='btn btn-circle btn-ghost btn-sm hover:bg-slate-200' onClick={handleCopy}>
+                  <FaRegCopy className='w-4 h-4 text-gray-600' />
+                </button>
+            </div>
+            }
+            {copy && 
+              <div className="tooltip" data-tip="복사 적용">
+                <button
+                  className='btn btn-circle btn-ghost btn-sm p-2 hover:bg-slate-200 transition-colors duration-200 flex items-center justify-center'
+                  onClick={handlePaste}>
+                  <FaCheck className='w-4 h-4 text-gray-600' />
+                </button>
+              </div>
+            }
+            {!copy &&
+              <div className="tooltip" data-tip="삭제">
+                <RemoveMealButton meal={meal} onRemove={handleRemove} />
+              </div>}
           </div>
         )}
       </div>
       <MealIngredientsList ingredients={meal.ingredients} />
-    </Link>
+    </Container>
   );
 };

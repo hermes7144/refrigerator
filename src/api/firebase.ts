@@ -103,14 +103,17 @@ export async function addNewMeal(uid: string, meal: MealProps): Promise<void> {
 }
 
 export async function editMeal(uid: string, meal: MealProps): Promise<void> {
+
+
   const originMeal =await getMeal(uid, meal);
-  if (!originMeal) return;
-  await updateIngredientsQuantity(uid, originMeal.ingredients, true); 
+  if (originMeal && originMeal.done) {
+    await updateIngredientsQuantity(uid, originMeal.ingredients, true);       
+    await updateIngredientsQuantity(uid, meal.ingredients);
+  }
 
   const mealData = {...meal, updatedDate: serverTimestamp()};
-  await updateIngredientsQuantity(uid, meal.ingredients);
 
-  await set(ref(database, `meals/${uid}/${meal.date}/${meal.mealType}`), mealData);
+   await set(ref(database, `meals/${uid}/${meal.date}/${meal.mealType}`), mealData);
 }
 
 export async function deleteMeal(uid: string, meal: MealProps): Promise<void> {

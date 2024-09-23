@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { MealImage } from './MealImage';
-import { FaPaste } from '@react-icons/all-files/fa/FaPaste';
+import { FaCheck } from '@react-icons/all-files/fa/FaCheck';
 import { EmptyMealProps } from '../../types/mealTypes';
 
 const mealTranslations = {
@@ -20,22 +20,29 @@ export const EmptyMealItem: React.FC<{meal: EmptyMealProps, onPaste: () => void}
     onPaste(meal);
   }
 
+  const Container = copy ? 'div' : Link;
+
   return (
-    <Link to='/meals' state={{ meal }} className='flex flex-col w-full px-4 py-2 bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-xl transition duration-300'>
-    <div className='flex  justify-between'>
+    <Container to='/meals' state={{ meal }} className='flex flex-col w-full px-4 py-2 bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-xl transition duration-300'>
+    <div className='flex justify-between min-h-8'>
       <div className='flex space-x-1'>
         <MealImage meal={meal} />
         <h3 className='font-semibold'>{mealTranslations[meal.mealType as keyof typeof mealTranslations]}</h3>
       </div>
-      {copy &&
-        <button className='btn btn-circle btn-ghost btn-sm' onClick={handlePaste} >
-        <FaPaste className='w-4 h-4 text-gray-600' />paste
-      </button>
-      }
+      {copy && (
+        <div className="tooltip" data-tip="복사 적용">
+          <button
+            className='btn btn-circle btn-ghost btn-sm p-2 hover:bg-slate-200 transition-colors duration-200 flex items-center justify-center'
+            onClick={handlePaste}
+          >
+            <FaCheck className='w-10 h-4 text-gray-600' />
+          </button>
+        </div>
+      )}
     </div>
 
-    <div className='pl-6 text-gray-400'>등록된 식사가 없습니다</div>
-  </Link>
+    <div className='pl-6 text-gray-400'>식단을 등록해주세요</div>
+  </Container>
   )
 }
 

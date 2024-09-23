@@ -1,5 +1,5 @@
 import { useState } from 'react';
-type WithId = { id: string | number }; // id 속성을 가진 타입 정의
+type WithId = { id?: string | number }; // id 속성을 가진 타입 정의
 
 export default function useSelection<T extends WithId>(initialItems = []) {
   const [selectedItems, setSelectedItems] = useState<T[]>(initialItems);

@@ -1,6 +1,6 @@
 import { FC } from 'react';
-import { MealItem } from './MealItem';
 import { MealSectionProps, MealTypeProps } from '../../types/mealTypes';
+import { MealItem } from './MealItem';
 import { EmptyMealItem } from './EmptyMealItem';
 import dayjs from 'dayjs';
 
@@ -16,7 +16,7 @@ export const MealSection: FC<MealSectionProps> = ({ date, meals, scrollRef ,sele
             <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={5} d='M9 5l7 7-7 7' />
           </svg>
         )}
-        <h2 className='text-lg font-semibold'>{dayjs(date).format('M/D ddd요일')}</h2>
+        <h2 className='text-lg font-semibold'>{dayjs(date).format('M.D ddd요일')}</h2>
       </div>
       {MEAL_TYPES.map(mealType => { 
         const meal = meals?.[mealType];
