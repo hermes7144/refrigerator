@@ -25,7 +25,7 @@ const CustomDatePicker: React.FC<CustomDatePickerProps> = ({ selectedDate, onCha
           onChange={onChange}
           dateFormat='yyyy.MM.dd'
           isClearable
-          placeholderText='유통기한이 있는 제품이라면 날짜를 선택해주세요.'
+          placeholderText=''
         />
     </>
   );

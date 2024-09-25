@@ -39,6 +39,7 @@ function CommonItemForm({ formData, onChange, errors }: FormProps) {
           <TextField name='qty' label='재료 수량' value={formData.qty !== 0 ? formData.qty.toString() : ''} onChange={handleInputChange} error={errors.qty} />
           <SelectField
             name='unit'
+            label='단위'
             value={formData.unit}
             options={[
               { value: 'g', label: 'g' },

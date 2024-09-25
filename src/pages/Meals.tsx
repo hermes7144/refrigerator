@@ -71,18 +71,28 @@ export default function Meals() {
   };
 
   const handleSubmit = () => {
-    const isValid = ingredientList.every((ingredient, i) => {
-      if (!ingredient.category) {
-        setErrorMessage(`${i + 1}번째 카테고리가 없습니다.`);
+    const validateIngredient = (ingredient, index) => {
+      const { category, qty, name } = ingredient;
+      
+      if (!category && !qty) {
+        return true;
+      }
+      
+      if (!category) {
+        setErrorMessage(`${index + 1}번째 카테고리가 없습니다.`);
         return false;
       }
-      if (!ingredient.qty) {
-        setErrorMessage(`재료: ${ingredient.name}의 수량을 입력해주세요.`);
+  
+      if (!qty) {
+        setErrorMessage(`${name}의 수량을 입력해주세요.`);
         return false;
       }
+  
       return true;
-    });
-
+    };
+  
+    const isValid = ingredientList.every(validateIngredient);
+  
     if (!isValid) {
       return false;
     }
@@ -117,7 +127,10 @@ export default function Meals() {
     navigate(-1);
   };
 
-  const ingredientOptions = ingredients?.map((ingredient) => ({ value: ingredient.id, label: `${ingredient.name} (${ingredient.qty + ingredient.unit})` }));
+  const ingredientOptions = ingredients?.map(({ id, name, qty, unit }) => ({
+    value: id,
+    label: `${name} (${qty}${unit === 'ea' ? '개' : unit})`,
+  }));
 
   return (
     <div className='flex flex-col items-center' style={{ minHeight: 'calc(100vh - 100px)' }}>
@@ -139,6 +152,7 @@ export default function Meals() {
                   onChange={(e) => handleIngredientChange(e, index)}
                   menuPortalTarget={document.body}
                   styles={{ menuPortal: (provided) => ({ ...provided, zIndex: 9999 }) }}
+                  placeholder='재료 선택'
                 />
                 <input type='text' className='input input-bordered w-24 ml-2 p-2 h-10' onChange={(e) => handleQtyChange(e, index)} value={ingredient.qty ? ingredient.qty.toString() : ''} />
                 {index > 0 && (
@@ -151,14 +165,16 @@ export default function Meals() {
             ))}
           </div>
         </div>
-        <div className='w-full flex justify-end mt-4 gap-2'>
-          <button className='btn btn-outline btn-secondary' onClick={() => navigate(-1)}>
-            취소
+
+        <div className='w-full flex justify-end mt-4 gap-3'>
+          <button className='btn' onClick={() => navigate(-1)}>
+            돌아가기
           </button>
-          <button className='btn btn-outline btn-primary' onClick={handleSubmit}>
-            저장
+          <button className='btn flex-1 text-white  bg-brand hover:bg-brand hover:brightness-110' onClick={handleSubmit}>
+            등록하기
           </button>
         </div>
+
         {errorMessage && <ErrorDialog message={errorMessage} onClose={() => setErrorMessage(null)} />}
       </div>
     </div>

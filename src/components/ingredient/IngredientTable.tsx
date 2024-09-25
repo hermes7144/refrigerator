@@ -30,7 +30,7 @@ export default function IngredientTable({ query, isStale, items, selectedItems, 
             <th className='px-4 py-2 text-center w-1/2'>이름</th>
             <th className='px-4 py-2 text-center w-1/5'>수량</th>
             <th className='hidden md:table-cell px-4 py-2 text-center w-1/5'>유통기한</th>
-            <th className='w-1/10'></th>
+            <th className='w-1/12'></th>
           </tr>
         </thead>
         <tbody className={isStale ? 'text-gray-400' : ''}>
