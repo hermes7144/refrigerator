@@ -41,12 +41,12 @@ export default function Home() {
 
   return (
     <div className='flex flex-col items-center px-4'>
-      {/* <DateList week={week} selectedDate={selectedDate} onDate={handleDate} onWeek={handleWeek} />
+      <DateList week={week} selectedDate={selectedDate} onDate={handleDate} onWeek={handleWeek} />
       <ErrorBoundary FallbackComponent={ErrorFallback}>
         <Suspense fallback={<MealListSkeleton week={week} scrollRefs={scrollRefs} selectedDate={selectedDate} />}>
           <MealList week={week} scrollRefs={scrollRefs} selectedDate={selectedDate} />
         </Suspense>
-      </ErrorBoundary> */}
+      </ErrorBoundary>
     </div>
   );
 }
