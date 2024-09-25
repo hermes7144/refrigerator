@@ -103,11 +103,12 @@ export async function addNewMeal(uid: string, meal: MealProps): Promise<void> {
 }
 
 export async function editMeal(uid: string, meal: MealProps): Promise<void> {
-
-
-  const originMeal =await getMeal(uid, meal);
+  const originMeal = await getMeal(uid, meal);
   if (originMeal && originMeal.done) {
     await updateIngredientsQuantity(uid, originMeal.ingredients, true);       
+    console.log(uid, meal.ingredients);
+    
+
     await updateIngredientsQuantity(uid, meal.ingredients);
   }
 

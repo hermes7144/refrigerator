@@ -29,9 +29,9 @@ export default function RegisterIngredients() {
 
   const validate = () => {
     const newErrors: { [key: string]: string } = {};
-    if (!ingredientItem.name.trim()) newErrors.name = '이름을 입력해주세요';
-    if (isNaN(Number(ingredientItem.qty))) newErrors.qty = '유효한 수량을 입력해주세요';
-    if (!ingredientItem.category.trim()) newErrors.category = '카테고리를 선택해주세요';
+    if (!ingredientItem.name.trim()) newErrors.name = '재료 이름을 입력해주세요';
+    if (isNaN(Number(ingredientItem.qty)) || Number(ingredientItem.qty) <= 0) newErrors.qty = '유효한 수량을 입력해주세요';
+    if (!ingredientItem.category.trim()) newErrors.category = '분류를 선택해주세요';
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -49,16 +49,14 @@ export default function RegisterIngredients() {
   return (
     <div className='flex flex-col items-center '>
       <div className='w-full md:w-2/3 lg:w-1/2 bg-white p-8'>
-        <h2 className='text-2xl font-bold mb-6 text-center'>재료 등록</h2>
-        <div className='w-full max-h-[600px] overflow-y-auto'>
-          <CommonItemForm formData={ingredientItem} onChange={handleChange} errors={errors} />
-        </div>
+        <h2 className='text-2xl font-bold mb-6 text-center'>재료 등록하기</h2>
+        <CommonItemForm formData={ingredientItem} onChange={handleChange} errors={errors} />
         <div className='w-full flex justify-end mt-4 gap-3'>
-          <button className='btn btn-outline btn-secondary' onClick={() => navigate(-1)}>
-            취소
+          <button className='btn' onClick={() => navigate(-1)}>
+            돌아가기
           </button>
-          <button className='btn btn-outline btn-primary ' onClick={handleSubmit}>
-            저장
+          <button className='btn flex-1 text-white  bg-brand hover:bg-brand hover:brightness-110' onClick={handleSubmit}>
+            등록하기
           </button>
         </div>
       </div>

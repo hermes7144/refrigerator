@@ -3,15 +3,19 @@ import { ChangeEvent } from 'react';
 interface SelectInputProps {
   name: string;
   value: string;
+  label?: string;
   options: Array<{ value: string; label: string; disabled?: boolean }>;
   onChange: (e: ChangeEvent<HTMLSelectElement>) => void;
   error?: string;
 }
 
-const SelectField = ({ name, value, options, onChange, error }: SelectInputProps) => (
-  <div className='flex flex-col'>
+const SelectField = ({ name, value, label, options, onChange, error }: SelectInputProps) => (
+  <div className=''>
+    <div className="label">
+      <span className="label-text min-h-5">{label}</span>
+    </div>
     <select
-      className='select select-bordered w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:border-blue-500 min-h-[56px]' // 최소 높이 설정
+      className='select select-bordered w-full min-w-28 p-3 rounded-lg border border-gray-300 focus:outline-none focus:border-blue-500 min-h-[56px]' // 최소 높이 설정
       name={name}
       onChange={onChange}
       value={value}>

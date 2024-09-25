@@ -8,21 +8,26 @@ registerLocale('ko', ko);
 interface CustomDatePickerProps {
   selectedDate: Date | null;
   onChange: (date: Date) => void;
-  placeholder?: string;
+  label?: string;
   className?: string;
 }
 
-const CustomDatePicker: React.FC<CustomDatePickerProps> = ({ selectedDate, onChange, placeholder = '유통기한' }) => {
+const CustomDatePicker: React.FC<CustomDatePickerProps> = ({ selectedDate, onChange, label = '유통기한' }) => {
   return (
-    <DatePicker
-      locale="ko"
-      className={`w-full p-3 rounded-lg border border-gray-300 min-h-14 focus:outline-none focus:border-blue-500`}
-      selected={selectedDate}
-      onChange={onChange}
-      dateFormat='yyyy.MM.dd'
-      isClearable
-      placeholderText={placeholder}
-    />
+    <>
+    <div className="label">
+        <span className="label-text">{label}</span>
+      </div>
+        <DatePicker
+          locale="ko"
+          className={`w-full p-3 rounded-lg border border-gray-300 min-h-14 focus:outline-none focus:border-blue-500`}
+          selected={selectedDate}
+          onChange={onChange}
+          dateFormat='yyyy.MM.dd'
+          isClearable
+          placeholderText='유통기한이 있는 제품이라면 날짜를 선택해주세요.'
+        />
+    </>
   );
 };
 

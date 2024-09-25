@@ -32,36 +32,41 @@ function CommonItemForm({ formData, onChange, errors }: FormProps) {
   };
 
   return (
-    <div className='flex flex-col space-y-4'>
-      <TextField name='name' placeholder='아이템 이름' value={formData.name} onChange={handleInputChange} error={errors.name} />
-      <TextField name='qty' placeholder='수량' value={formData.qty !== 0 ? formData.qty.toString() : ''} onChange={handleInputChange} error={errors.qty} />
-      <SelectField
-        name='unit'
-        value={formData.unit}
-        options={[
-          { value: 'g', label: 'g' },
-          { value: 'ea', label: '개' },
-          { value: 'ml', label: 'ml' },
-        ]}
-        onChange={handleInputChange}
-      />
-      <SelectField
-        name='category'
-        value={formData.category}
-        options={[
-          { value: '', label: '카테고리', disabled: true },
-          { value: 'grain', label: '곡물' },
-          { value: 'meat', label: '고기' },
-          { value: 'seafood', label: '해산물' },
-          { value: 'vegetable', label: '아채' },
-          { value: 'fruit', label: '과일' },
-          { value: 'condiment', label: '조미료' },
-          { value: 'etc', label: '기타' },
-        ]} // props로 전달된 카테고리 옵션 사용
-        onChange={handleInputChange}
-        error={errors.category}
-      />
-      <CustomDatePicker selectedDate={formData.expiration ? new Date(formData.expiration) : null} onChange={handleDateChange} placeholder='유통기한' />
+    <div className='w-full max-h-[600px] overflow-y-auto'>
+      <label className="form-control w-full">
+        <TextField name='name' label='재료 이름' value={formData.name} onChange={handleInputChange} error={errors.name} />
+        <div className='flex gap-2'>
+          <TextField name='qty' label='재료 수량' value={formData.qty !== 0 ? formData.qty.toString() : ''} onChange={handleInputChange} error={errors.qty} />
+          <SelectField
+            name='unit'
+            value={formData.unit}
+            options={[
+              { value: 'g', label: 'g' },
+              { value: 'ea', label: '개' },
+              { value: 'ml', label: 'ml' },
+            ]}
+            onChange={handleInputChange}
+          />
+        </div>
+        <SelectField
+          name='category'
+          value={formData.category}
+          label='분류'
+          options={[
+            { value: '', label: '선택' },
+            { value: 'grain', label: '곡물' },
+            { value: 'meat', label: '고기' },
+            { value: 'seafood', label: '해산물' },
+            { value: 'vegetable', label: '아채' },
+            { value: 'fruit', label: '과일' },
+            { value: 'condiment', label: '조미료' },
+            { value: 'etc', label: '기타' },
+          ]} // props로 전달된 카테고리 옵션 사용
+          onChange={handleInputChange}
+          error={errors.category}
+        />
+        <CustomDatePicker selectedDate={formData.expiration ? new Date(formData.expiration) : null} onChange={handleDateChange} label='유통기한' />
+      </label>
     </div>
   );
 }

@@ -25,11 +25,11 @@ export default function Navbar() {
 
       <Link to='/' className='flex items-center text-4xl text-brand'>
         <CgSmartHomeRefrigerator className='text-3xl' />
-        <h1 className='tracking-tight leading-snug text-lg font-semibold'>MealManager</h1>
+        <h1 className='tracking-tight leading-snug text-lg font-semibold'>EatPlan</h1>
       </Link>
       <nav className='flex items-center gap-4'>
-        {isAuthLoading ? '' : user ? '' : <button onClick={() => demo()}>DEMO</button>}
-        {isAuthLoading ? '' : user ? <button onClick={logout}>Logout</button> : <button onClick={login}>Login</button>}
+        {isAuthLoading ? '' : user ? '' : <button onClick={() => demo()}>데모</button>}
+        {isAuthLoading ? '' : user ? <button onClick={logout}>로그아웃</button> : <button onClick={login}>로그인</button>}
       </nav>
     </header>
   );
