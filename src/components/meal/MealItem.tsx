@@ -46,9 +46,7 @@ export const MealItem: React.FC<MealItemProps> = ({ meal, copy, onCopy, onPaste,
     <Container to={'/meals'} state={{ meal }} className={`bg-white shadow-md hover:shadow-lg rounded-lg p-4 transition duration-300 border border-gray-200 ${isCopyMeal ? 'bg-blue-100' : ''}`}>
       <div className='flex justify-between items-center mb-1'>
         <div className='flex items-start space-x-1'>
-          <div onClick={(e) => e.stopPropagation()}>
-            <MealCheckbox meal={meal} />
-          </div>
+          <MealCheckbox meal={meal} />
           <MealImage meal={meal} />
           <h3 className='font-semibold tracking-tight'>{mealType}</h3>
         </div>

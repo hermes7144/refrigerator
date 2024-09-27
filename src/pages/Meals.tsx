@@ -52,12 +52,16 @@ export default function Meals() {
   };
 
   const handleQtyChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
-    const newIngredientList = [...ingredientList];
-    newIngredientList[index] = {
-      ...newIngredientList[index],
-      qty: Number(e.target.value),
-    };
-    setIngredientList(newIngredientList);
+    const { value } = e.target;
+
+    if (/^\d*$/.test(value)) {
+      const newIngredientList = [...ingredientList];
+      newIngredientList[index] = {
+        ...newIngredientList[index],
+        qty: Number(e.target.value),
+      };
+      setIngredientList(newIngredientList);    
+    }
   };
 
   const handleAddIngredient = () => {
@@ -71,7 +75,7 @@ export default function Meals() {
   };
 
   const handleSubmit = () => {
-    const validateIngredient = (ingredient, index) => {
+    const validateIngredient = (ingredient : IngredientProps, index :number) => {
       const { category, qty, name } = ingredient;
       
       if (!category && !qty) {
@@ -97,22 +101,22 @@ export default function Meals() {
       return false;
     }
 
-    // 같은 카테고리의 재료를 합치는 로직
-    const mergedIngredients = ingredientList.reduce((acc, ingredient) => {
-      const existingIngredient = acc.find((item) => item.id === ingredient.id);
-      if (existingIngredient) {
-        existingIngredient.qty += ingredient.qty;
-      } else {
-        acc.push({ ...ingredient });
-      }
-      return acc;
-    }, [] as IngredientProps[]);
+    // // 같은 카테고리의 재료를 합치는 로직
+    // const mergedIngredients = ingredientList.reduce((acc, ingredient) => {
+    //   const existingIngredient = acc.find((item) => item.id === ingredient.id);
+    //   if (existingIngredient) {
+    //     existingIngredient.qty += ingredient.qty;
+    //   } else {
+    //     acc.push({ ...ingredient });
+    //   }
+    //   return acc;
+    // }, [] as IngredientProps[]);
 
     const mealData: MealProps = {
       id:'',
       mealType: meal.mealType,
       date: meal.date,
-      ingredients: mergedIngredients.filter((ingredient) => ingredient.id && ingredient.qty > 0),
+      ingredients: ingredientList.filter((ingredient) => ingredient.id && ingredient.qty > 0),
       done: meal?.done,
     };
 
@@ -154,7 +158,7 @@ export default function Meals() {
                   styles={{ menuPortal: (provided) => ({ ...provided, zIndex: 9999 }) }}
                   placeholder='재료 선택'
                 />
-                <input type='text' className='input input-bordered w-24 ml-2 p-2 h-10' onChange={(e) => handleQtyChange(e, index)} value={ingredient.qty ? ingredient.qty.toString() : ''} />
+                <input type='text' className='input input-bordered w-24 ml-2 p-2 h-10' onChange={(e) => handleQtyChange(e, index)} value={ingredient.qty} />
                 {index > 0 && (
                   <button className='btn btn-sm btn-circle ml-2 btn-error text-white' onClick={() => handleRemoveIngredient(index)}>
                     <BsX className='h-5 w-5' />

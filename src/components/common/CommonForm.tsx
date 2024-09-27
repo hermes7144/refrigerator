@@ -23,9 +23,16 @@ interface FormProps {
 function CommonItemForm({ formData, onChange, errors }: FormProps) {
   const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    const newValue = name === 'qty' ? Number(value) : value;
-    onChange(name as keyof Item, newValue);
+    onChange(name as keyof Item, value);
   };
+
+  const handleQtyChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    // 공부하기
+    if (/^\d*$/.test(value)) {
+      onChange(name as keyof Item, value);
+    }
+  }
 
   const handleDateChange = (date: Date | null) => {
     onChange('expiration', date ? dayjs(date).format('YYYY-MM-DD') : '');
@@ -36,7 +43,7 @@ function CommonItemForm({ formData, onChange, errors }: FormProps) {
       <label className="form-control w-full">
         <TextField name='name' label='재료 이름' value={formData.name} onChange={handleInputChange} error={errors.name} />
         <div className='flex gap-2'>
-          <TextField name='qty' label='재료 수량' value={formData.qty !== 0 ? formData.qty.toString() : ''} onChange={handleInputChange} error={errors.qty} />
+          <TextField name='qty' label='재료 수량' value={formData.qty} onChange={handleQtyChange} error={errors.qty} />
           <SelectField
             name='unit'
             label='단위'
