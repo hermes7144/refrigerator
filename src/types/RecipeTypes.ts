@@ -8,9 +8,17 @@ export interface RecipeProps {
 }
 
 export interface RecipeItemProps {
-  recipe: RecipeProps;
-  onEdit: (recipe: RecipeProps) => void;
-  onOpenDialog: (recipe: RecipeProps) => void;
+  item: RecipeProps;
+  onSelect: (id: string) => void;
+  isSelected: boolean;
+}
+
+export interface RecipeTableProps {
+  query: string;
+  isStale: boolean;
+  items?: RecipeProps[];
+  selectedItems: RecipeProps[];
+  toggleSelection: (item: RecipeProps) => void;
 }
 
 export interface CommonDialogProps {

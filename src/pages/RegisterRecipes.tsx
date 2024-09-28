@@ -25,6 +25,9 @@ export default function RegisterRecipes() {
       const initialIngredients: IngredientProps[] = recipe.ingredients as IngredientProps[];
       setName(recipe.name);
       setIngredientList(initialIngredients);
+    } else {
+      setIngredientList([{ id: '', name: '', unit: '', qty: 0, category: '' ,expiration:''}]);
+
     }
   }, []);
 
@@ -111,12 +114,12 @@ export default function RegisterRecipes() {
 
   return (
     <div className='flex flex-col items-center'>
-      <div className='p-4 w-full md:w-1/2 lg:w-1/3 '>
+      <div className='p-4 w-full lg:w-1/2 '>
         <label className='form-control w-full py-4'>
           <div className='label mb-2'>
             <span className='label-text text-lg font-semibold'>레시피 명</span>
           </div>
-          <input type='text' placeholder='Type here' className='input input-bordered w-full p-2 text-lg' value={name} onChange={(e) => setName(e.target.value)} />
+          <input type='text' className='input input-bordered w-full p-2 text-lg' value={name} onChange={(e) => setName(e.target.value)} />
         </label>
         <div className='flex flex-col gap-2 w-full'>
           <button className='btn btn-success text-white py-2' onClick={handleAddIngredient}>
@@ -124,26 +127,24 @@ export default function RegisterRecipes() {
           </button>
           <div className='w-full max-h-80 overflow-y-auto'>
             {ingredientList.map((ingredient, index) => (
-              <div key={index} className='flex items-center mb-2 w-full'>
+              <div key={index} className='flex mb-2 w-ful gap-2'>
                 <Select
-                  className='basic-single flex-grow '
+                  className='basic-single flex-grow w-2/3'
                   classNamePrefix='select'
                   options={ingredientOptions}
                   value={ingredientOptions?.find((option) => option.value === ingredient.id)}
-                  onChange={(selectedOption) => handleIngredientChange(selectedOption, index)}
+                  onChange={(e) => handleIngredientChange(e, index)}
                   menuPortalTarget={document.body}
-                  styles={{
-                    // Fixes the overlapping problem of the component
-                    menuPortal: (provided) => ({ ...provided, zIndex: 9999 }),
-                  }}
+                  styles={{ menuPortal: (provided) => ({ ...provided, zIndex: 9999 }) }}
+                  placeholder='식단 재료를 선택해주세요'
                 />
-                <input type='text' className='input input-bordered w-24 ml-2 p-2' onChange={(e) => handleQtyChange(e, index)} value={ingredient.qty ? ingredient.qty.toString() : ''} />
+                <input type='text' placeholder='수량' className='input input-bordered w-1/6 p-1 h-10' onChange={(e) => handleQtyChange(e, index)} value={ingredient.qty === 0 ? '' :ingredient.qty } />
                 {index > 0 && (
-                  <button className='btn btn-sm btn-circle ml-2 btn-error text-white' onClick={() => handleRemoveIngredient(index)}>
+                  <button className='btn btn-sm btn-circle btn-error text-white' onClick={() => handleRemoveIngredient(index)}>
                     <BsX className='h-5 w-5' />
                   </button>
                 )}
-                {index === 0 && <div className='w-10'></div>}
+                {index === 0 && <div className='w-8'></div>}
               </div>
             ))}
           </div>

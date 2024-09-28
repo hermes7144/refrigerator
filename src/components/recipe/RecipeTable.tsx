@@ -1,6 +1,7 @@
+import { RecipeTableProps } from '../../types/RecipeTypes';
 import RecipeItem from './RecipeItem';
 
-export default function RecipeTable({ items, selectedItems, toggleSelection }) {
+export default function RecipeTable({ items, selectedItems, toggleSelection }: RecipeTableProps) {
   return (
     <div className='flex justify-center'>
       <table className='table-auto w-full'>

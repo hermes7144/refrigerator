@@ -23,6 +23,6 @@ export interface RemoveIngredientsParams {
 
 export interface IngredientItemProps {
   item: IngredientProps;
-  onSelect: (id: string) => void;
+  onSelect: (id?: string) => void;
   isSelected: boolean;
 }

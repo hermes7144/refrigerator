@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { RecipeItemProps } from '../../types/RecipeTypes';
+import { IngredientProps } from '../../types/ingredientTypes';
 
 const RecipeItem = ({ item, onSelect, isSelected }: RecipeItemProps) => {
   return (
@@ -18,8 +19,9 @@ const RecipeItem = ({ item, onSelect, isSelected }: RecipeItemProps) => {
       </td>
       <td>
         <ul>
-          {item?.ingredients.map((ingredient) => (
-            <li key={item.id + ingredient.id}>{ingredient.name + ingredient.qty + ingredient.unit}</li>
+          {item?.ingredients.map((ingredient : IngredientProps) => (
+            <li key={ingredient.id}>
+                {ingredient.name + ' ' + ingredient.qty}{ ingredient.unit === 'ea' ? '개': ingredient.unit}</li>
           ))}
         </ul>
       </td>

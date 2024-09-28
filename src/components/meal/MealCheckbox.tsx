@@ -17,7 +17,7 @@ export const MealCheckbox: React.FC<{ meal: MealProps }> = ({ meal }) => {
   };
 
   return (
-    <div onClick={(e) => e.stopPropagation()} className="tooltip" data-tip={meal.done ? '취소': "완료"}>
+    <div onClick={(e) => e.stopPropagation()}>
       <input className='checkbox' type='checkbox' onChange={handleCheck} checked={meal?.done ?? false} />
     </div>
   );

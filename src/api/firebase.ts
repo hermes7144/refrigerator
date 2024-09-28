@@ -35,6 +35,8 @@ export async function getIngredients(uid: string): Promise<IngredientProps[]> {
   const snapshot = await get(ref(database, `ingredients/${uid}`));
 
   if (snapshot.exists()) {
+    console.log(Object.values(snapshot.val()));
+    
     return Object.values(snapshot.val());
   } else {
     return [];

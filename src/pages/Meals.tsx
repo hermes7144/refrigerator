@@ -133,13 +133,18 @@ export default function Meals() {
 
   const ingredientOptions = ingredients?.map(({ id, name, qty, unit }) => ({
     value: id,
-    label: `${name} (${qty}${unit === 'ea' ? '개' : unit})`,
+    label: (
+      <>
+        <span className="inline lg:hidden">{name}</span>
+        <span className="hidden lg:inline">{`${name} (${qty}${unit === 'ea' ? '개' : unit})`}</span>
+      </>
+    ),
   }));
 
   return (
     <div className='flex flex-col items-center' style={{ minHeight: 'calc(100vh - 100px)' }}>
       <h1></h1>
-      <div className='p-4 w-full md:w-1/2 lg:w-1/3'>
+      <div className='p-4 w-full lg:w-1/2 '>
         <h1 className='text-2xl font-semibold mb-4'>{`${dayjs(meal.date).format('M월 D일 ddd요일')} ${mealTranslations[meal.mealType]} `}</h1>
         <div className='flex flex-col gap-2 w-full'>
           <button className='btn btn-success text-white py-2' onClick={handleAddIngredient}>
@@ -147,24 +152,24 @@ export default function Meals() {
           </button>
           <div className='w-full h-80 overflow-y-auto p-2'>
             {ingredientList.map((ingredient, index) => (
-              <div key={index} className='flex items-center mb-2 w-full'>
+              <div key={index} className='flex gap-2 mb-2 w-full'>
                 <Select
-                  className='basic-single flex-grow'
+                  className='basic-single flex-grow w-2/3'
                   classNamePrefix='select'
                   options={ingredientOptions}
                   value={ingredientOptions?.find((option) => option.value === ingredient.id)}
                   onChange={(e) => handleIngredientChange(e, index)}
                   menuPortalTarget={document.body}
                   styles={{ menuPortal: (provided) => ({ ...provided, zIndex: 9999 }) }}
-                  placeholder='재료 선택'
+                  placeholder='식단 재료를 선택해주세요'
                 />
-                <input type='text' className='input input-bordered w-24 ml-2 p-2 h-10' onChange={(e) => handleQtyChange(e, index)} value={ingredient.qty} />
+                <input type='text' placeholder='수량' className='input input-bordered w-1/6 p-1 h-10' onChange={(e) => handleQtyChange(e, index)} value={ingredient.qty === 0 ? '' :ingredient.qty } />
                 {index > 0 && (
-                  <button className='btn btn-sm btn-circle ml-2 btn-error text-white' onClick={() => handleRemoveIngredient(index)}>
+                  <button className='btn btn-sm btn-circle btn-error text-white' onClick={() => handleRemoveIngredient(index)}>
                     <BsX className='h-5 w-5' />
                   </button>
                 )}
-                {index === 0 && <div className='w-10'></div>} {/* 첫 번째 행에 빈 공간 추가 */}
+                {index === 0 && <div className='w-8'></div>} {/* 첫 번째 행에 빈 공간 추가 */}
               </div>
             ))}
           </div>
