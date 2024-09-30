@@ -20,7 +20,7 @@ export const MealSection: FC<MealSectionProps> = ({ date, meals, scrollRef ,sele
       </div>
       {MEAL_TYPES.map(mealType => { 
         const meal = meals?.[mealType];
-        return meal ? <MealItem key={mealType} meal={meal} date={date} copy={copy} onCopy={onCopy}  onPaste={onPaste} onCancelCopy={onCancelCopy}  />: <EmptyMealItem key={mealType} meal={{mealType , date}}  copy={copy} onPaste={onPaste}/>;
+        return meal ? <MealItem key={mealType} meal={meal} date={date} copy={copy} onCopy={onCopy} onPaste={onPaste} onCancelCopy={onCancelCopy}  />: <EmptyMealItem key={mealType} meal={{mealType , date}}  copy={copy} onPaste={onPaste}/>;
       })}
     </div>
   );
