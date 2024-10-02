@@ -36,9 +36,8 @@ export const MealItem: React.FC<MealItemProps> = ({ meal, copy, onCopy, onPaste,
   const handleRemove = () => {
     onRemove(meal);
   };
-  
+
   const mealType = mealTranslations[meal.mealType] || meal.mealType;
-  
   const isCopyMeal = meal === copy;
   const Container = copy ? 'div' : Link;
 
@@ -51,12 +50,9 @@ export const MealItem: React.FC<MealItemProps> = ({ meal, copy, onCopy, onPaste,
           <h3 className='font-semibold tracking-tight'>{mealType}</h3>
         </div>
 
-        {/* Copy Mode Display */}
         {isCopyMeal ? (
           <div className='flex items-center space-x-2 tooltip' data-tip="복사 취소" onClick={handleStopPropagation}>
-            <button
-              className='btn btn-circle btn-ghost btn-sm text-white bg-red-500 hover:bg-red-600'
-              onClick={handleCancelCopy}>
+            <button className='btn btn-circle btn-ghost btn-sm text-white bg-red-500 hover:bg-red-600' onClick={handleCancelCopy}>
               <FaTimes className='w-4 h-4' />
             </button>
           </div>
@@ -71,9 +67,7 @@ export const MealItem: React.FC<MealItemProps> = ({ meal, copy, onCopy, onPaste,
             }
             {copy && 
               <div className="tooltip" data-tip="복사 적용">
-                <button
-                  className='btn btn-circle btn-ghost btn-sm p-2 hover:bg-slate-200 transition-colors duration-200 flex items-center justify-center'
-                  onClick={handlePaste}>
+                <button className='btn btn-circle btn-ghost btn-sm p-2 hover:bg-slate-200 transition-colors duration-200 flex items-center justify-center' onClick={handlePaste}>
                   <FaCheck className='w-4 h-4 text-gray-600' />
                 </button>
               </div>
@@ -85,7 +79,15 @@ export const MealItem: React.FC<MealItemProps> = ({ meal, copy, onCopy, onPaste,
           </div>
         )}
       </div>
-      <MealIngredientsList ingredients={meal.ingredients} />
+
+      {/* 외식 여부에 따른 조건부 렌더링 */}
+      {meal.isDiningOut ? (
+        <div className='text-gray-600 text-sm'>
+          <span>외식 메뉴: {meal.diningOutMenu}</span>
+        </div>
+      ) : (
+        <MealIngredientsList ingredients={meal.ingredients} />
+      )}
     </Container>
   );
 };
