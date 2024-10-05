@@ -26,22 +26,9 @@ function App() {
       <AuthProvider>
         <SidebarProvider>
           <Navbar />
-
-          {isMobile ? (
-            <>
-              <Outlet />
-              <BottomNavigation />
-              <AddNewButton />
-            </>
-          ) : (
-            <div className='flex h-full'>
-              <Side />
-              <div className='flex-1 p-4'>
-                <Outlet />
-              </div>
-              <AddNewButton />
-            </div>
-          )}
+          <Outlet />
+          {isMobile ? <BottomNavigation /> : <Side />}
+          <AddNewButton />
         </SidebarProvider>
       </AuthProvider>
     </QueryClientProvider>

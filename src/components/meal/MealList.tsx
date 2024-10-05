@@ -22,7 +22,7 @@ export const MealList: FC<MealListProps> = ({ week, selectedDate, scrollRefs }) 
 
   return (
     <>
-      <ul className='flex flex-col w-full md:w-[500px] gap-4 pb-60 mt-20'>
+      <ul className='flex flex-col w-full md:w-[500px] gap-4 pb-60 mt-24'>
         {week.map((date) => 
           <MealSection
           key={date}
