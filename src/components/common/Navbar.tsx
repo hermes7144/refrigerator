@@ -6,8 +6,6 @@ import { IoIosMenu } from '@react-icons/all-files/io/IoIosMenu';
 
 export default function Navbar() {
   const { broken, setToggled } = useSidebarContext();
-
-
   const authContext = useAuthContext();
 
   if (!authContext) {

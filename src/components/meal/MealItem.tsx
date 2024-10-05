@@ -1,13 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { MealItemProps } from '../../types/mealTypes';
+import { MealItemProps, MealProps } from '../../types/mealTypes';
 import { MealIngredientsList } from './MealIngredientsList';
 import { RemoveMealButton } from './RemoveMealButton';
 import { MealCheckbox } from './MealCheckbox';
 import { MealImage } from './MealImage';
 import { FaRegCopy } from '@react-icons/all-files/fa/FaRegCopy';
 import { FaCheck } from '@react-icons/all-files/fa/FaCheck';
-import { FaTimes } from '@react-icons/all-files/fa/FaTimes';
+import useMeals from '../../hooks/useMeals';
+import { useCopyContext } from '../../context/CopyContext';
 
 const mealTranslations = {
   breakfast: '아침',
@@ -15,22 +16,24 @@ const mealTranslations = {
   dinner: '저녁',
 };
 
-export const MealItem: React.FC<MealItemProps> = ({ meal, copy, onCopy, onPaste, onCancelCopy, onRemove }) => {
+export const MealItem: React.FC<MealItemProps> = ({ meal, onRemove }) => {
+  const {  addMeal } = useMeals();
+  const { copy, setCopy } = useCopyContext(); // copy 상태와 setCopy 함수 사용
+
+
   const handleStopPropagation = (e: React.MouseEvent) => {
     e.stopPropagation();
     e.preventDefault();
   };
 
   const handleCopy = () => {
-    onCopy(meal);
+    setCopy(meal);
   };
 
-  const handlePaste = () => {
-    onPaste(meal);
-  };
+  const handlePaste = (meal : MealProps) => {
+    if (!copy) return;
 
-  const handleCancelCopy = () => {
-    onCancelCopy();
+    addMeal.mutate({...meal, ingredients:copy.ingredients});
   };
 
   const handleRemove = () => {
@@ -51,11 +54,7 @@ export const MealItem: React.FC<MealItemProps> = ({ meal, copy, onCopy, onPaste,
         </div>
 
         {isCopyMeal ? (
-          <div className='flex items-center space-x-2 tooltip' data-tip="복사 취소" onClick={handleStopPropagation}>
-            <button className='btn btn-circle btn-ghost btn-sm text-white bg-red-500 hover:bg-red-600' onClick={handleCancelCopy}>
-              <FaTimes className='w-4 h-4' />
-            </button>
-          </div>
+          ''
         ) : (
           <div className='flex items-center space-x-2' onClick={handleStopPropagation}>
             {!copy && 

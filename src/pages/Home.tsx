@@ -6,14 +6,15 @@ import { MealListSkeleton } from '../components/meal/MealListSkeleton';
 import { ErrorBoundary } from 'react-error-boundary';
 import ErrorFallback from '../components/common/ErrorFallback';
 import dayjs from 'dayjs';
-
+import { CopyProvider } from '../context/CopyContextProvider';
+ 
 export default function Home() {
   const today = dayjs().format('YYYYMMDD');
   const [selectedDate, setSelectedDate] = useState(today);
   const [shift, setShift] = useState(0); // Updated here
-
   const week = getWeekDates(shift);
   const scrollRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});  
+
 
   const scrollToDate = useCallback((date: string) => {
     const target = scrollRefs.current[date];
@@ -39,14 +40,19 @@ export default function Home() {
     setSelectedDate(today);
   }, [today, scrollToDate]);
 
+
+
   return (
-    <div className='flex flex-col items-center px-4'>
-      <DateList week={week} selectedDate={selectedDate} onDate={handleDate} onWeek={handleWeek} />
-      <ErrorBoundary FallbackComponent={ErrorFallback}>
-        <Suspense fallback={<MealListSkeleton week={week} scrollRefs={scrollRefs} selectedDate={selectedDate} />}>
-          <MealList week={week} scrollRefs={scrollRefs} selectedDate={selectedDate} />
-        </Suspense>
-      </ErrorBoundary>
-    </div>
+    <CopyProvider>
+      <div className='flex flex-col items-center px-4'>
+        <DateList week={week} selectedDate={selectedDate} onDate={handleDate} onWeek={handleWeek} />
+
+        <ErrorBoundary FallbackComponent={ErrorFallback}>
+          <Suspense fallback={<MealListSkeleton week={week} scrollRefs={scrollRefs} selectedDate={selectedDate} />}>
+            <MealList week={week} scrollRefs={scrollRefs} selectedDate={selectedDate} />
+          </Suspense>
+        </ErrorBoundary>
+      </div>
+    </CopyProvider>
   );
 }

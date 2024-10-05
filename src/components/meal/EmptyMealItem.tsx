@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { MealImage } from './MealImage';
 import { FaCheck } from '@react-icons/all-files/fa/FaCheck';
 import { EmptyMealProps } from '../../types/mealTypes';
+import { useCopyContext } from '../../context/CopyContext';
+import useMeals from '../../hooks/useMeals';
 
 const mealTranslations = {
   breakfast: '아침',
@@ -10,15 +12,18 @@ const mealTranslations = {
   dinner: '저녁',
 };
 
-
-
-export const EmptyMealItem: React.FC<{meal: EmptyMealProps, onPaste: () => void}> = ({ meal, copy, onPaste }) => {
+export const EmptyMealItem: React.FC<{meal: EmptyMealProps}> = ({ meal }) => {
+  const { copy } = useCopyContext(); // copy 상태와 setCopy 함수 사용
+  const { addMeal } = useMeals();
 
   const handlePaste = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    onPaste(meal);
+    if (!copy) return;
+
+    addMeal.mutate({...meal, ingredients:copy.ingredients});
   }
+
 
   const Container = copy ? 'div' : Link;
 

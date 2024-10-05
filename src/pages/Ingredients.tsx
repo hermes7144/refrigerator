@@ -39,10 +39,7 @@ export default function Ingredients() {
           </div>
         </div>
       </div>
-
-      {/* 테이블과 나머지 콘텐츠 */}
       <div className='mt-24'>
-        {/* 상단 고정 요소 아래에 여유 공간 확보 */}
         <IngredientTable query={query} isStale={isStale} items={ingredients} selectedItems={selectedItems} toggleSelection={toggleSelection} />
         <CommonDialog text={action === 'move' ? '쇼핑 목록으로 이동' : '삭제'} isVisible={isVisible} onSubmit={submitAction} onClose={closeDialog} />
       </div>
