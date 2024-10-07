@@ -9,8 +9,9 @@ export default function Testimonials() {
         <div className='py-12 md:py-20 border-t border-gray-800'>
           {/* Section header */}
           <div className='max-w-3xl mx-auto text-center pb-12 md:pb-20'>
-            <h2 className='h2 mb-4'>우리 고객의 소중한 피드백</h2>
-            <p className='text-xl text-gray-400'>식자재와 식단 관리 플랫폼을 사용해본 실제 고객들의 이야기입니다.</p>
+            <h2 className='h2 mb-4'>고객의 소중한 피드백</h2>
+            <p className='text-xl text-gray-400'>이런 이야기를 듣고 싶어요</p>
+            {/* <p className='text-xl text-gray-400'>식자재와 식단 관리 플랫폼을 사용해본 실제 고객들의 이야기입니다.</p> */}
           </div>
 
           {/* Testimonials */}

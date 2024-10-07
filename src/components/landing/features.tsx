@@ -5,7 +5,7 @@ export default function Features() {
         <div className='py-12 md:py-20'>
           {/* Section header */}
           <div className='max-w-3xl mx-auto text-center pb-12 md:pb-20'>
-            <h2 className='h2 mb-4'>우리의 고객들은 식자재와 식단 관리에 대한 확실한 이해를 갖추고 있습니다.</h2>
+            <h2 className='h2 mb-4'>고객들은 식자재와 식단 관리에 대한 확실한 이해를 갖추고 있습니다.</h2>
             <p className='text-xl text-gray-400'>편리한 식자재와 식단 관리로 건강하고 효율적인 생활을 지원합니다.</p>
           </div>
 
@@ -25,7 +25,7 @@ export default function Features() {
                 />
                 <path className='stroke-current text-purple-300' d='M43 42h-9M43 37h-9' strokeLinecap='square' strokeWidth='2' />
               </svg>
-              <h4 className='h4 mb-2'>즉시 사용 가능한 기능</h4>
+              <h4 className='h4 mb-2'>직관적인 식단관리</h4>
               <p className='text-lg text-gray-400 text-center'>효율적인 식자재 관리로 시간과 비용을 절약하세요.</p>
             </div>
 

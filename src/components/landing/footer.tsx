@@ -18,7 +18,7 @@ export default function Footer() {
                   </svg>
                 </Link>
               </div>
-              <p className='text-gray-400'>Meal Manager로 식사와 재료를 효율적으로 관리하세요. 식단 추적, 레시피 탐색 및 손쉽게 정리하는 방법을 제공합니다.</p>
+              <p className='text-gray-400'>밥메이트로 식사와 재료를 효율적으로 관리하세요. 식단 추적, 레시피 탐색 및 손쉽게 정리하는 방법을 제공합니다.</p>
             </div>
 
             {/* 2nd, 3rd, and 4th blocks */}

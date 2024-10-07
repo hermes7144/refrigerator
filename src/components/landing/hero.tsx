@@ -34,15 +34,15 @@ export default function Hero() {
           {/* Section header */}
           <div className='max-w-3xl mx-auto text-center pb-12 md:pb-16'>
             <h1 className='text-4xl font-extrabold leading-tight tracking-tighter mb-4' data-aos='fade-up'>
-              식자재 및 식단 관리 플랫폼
+              밥메이트 - 식단 및 재료 관리
             </h1>
             <p className='text-xl text-gray-400 mb-8' data-aos='fade-up' data-aos-delay='200'>
-              모든 디바이스에서 사용할 수 있는 편리한 식자재 및 식단 관리 플랫폼을 경험해보세요. 관리를 통해서만 자유를 얻을 수 있습니다.
+              편리한 식단 및 재료 관리로 더 건강한 삶을 시작하세요. 밥메이트와 함께라면 자유롭게 식사를 계획하고 관리할 수 있습니다.
             </p>
             <div className='max-w-xs mx-auto'>
               <div data-aos='fade-up' data-aos-delay='400'>
                 <a className='btn  text-white bg-brand hover:bg-brand hover:brightness-95 w-full mb-4 sm:mb-0' onClick={login}>
-                  시작하기
+                 밥메이트와 식단 계획하기
                 </a>
               </div>
             </div>
