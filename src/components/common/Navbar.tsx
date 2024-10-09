@@ -24,7 +24,7 @@ export default function Navbar() {
 
         <Link to='/' className='flex items-center text-4xl text-brand'>
           <CgSmartHomeRefrigerator className='text-3xl' />
-          <h1 className='tracking-tight leading-snug text-lg font-semibold'>EatPlan</h1>
+          <h1 className='tracking-tight leading-snug text-lg font-semibold'>밥메이트</h1>
         </Link>
       </div>
       <nav className='flex items-center gap-4'>
