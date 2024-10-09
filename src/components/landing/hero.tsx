@@ -34,7 +34,7 @@ export default function Hero() {
           {/* Section header */}
           <div className='max-w-3xl mx-auto text-center pb-12 md:pb-16'>
             <h1 className='text-4xl font-extrabold leading-tight tracking-tighter mb-4' data-aos='fade-up'>
-              밥메이트 - 식단 및 재료 관리
+              밥메이트 - 식단과 재료 관리
             </h1>
             <p className='text-xl text-gray-400 mb-8' data-aos='fade-up' data-aos-delay='200'>
               편리한 식단 및 재료 관리로 더 건강한 삶을 시작하세요. 밥메이트와 함께라면 자유롭게 식사를 계획하고 관리할 수 있습니다.
@@ -42,7 +42,7 @@ export default function Hero() {
             <div className='max-w-xs mx-auto'>
               <div data-aos='fade-up' data-aos-delay='400'>
                 <a className='btn  text-white bg-brand hover:bg-brand hover:brightness-95 w-full mb-4 sm:mb-0' onClick={login}>
-                  밥메이트로 식단 관리!
+                  밥메이트와 식단 관리하기!
                 </a>
               </div>
             </div>
