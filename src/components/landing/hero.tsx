@@ -42,7 +42,7 @@ export default function Hero() {
             <div className='max-w-xs mx-auto'>
               <div data-aos='fade-up' data-aos-delay='400'>
                 <a className='btn  text-white bg-brand hover:bg-brand hover:brightness-95 w-full mb-4 sm:mb-0' onClick={login}>
-                 밥메이트와 식단 계획하기
+                  밥메이트로 식단 관리!
                 </a>
               </div>
             </div>

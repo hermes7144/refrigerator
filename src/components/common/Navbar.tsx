@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
 import useAuthContext from '../../context/AuthContext';
-import { CgSmartHomeRefrigerator } from '@react-icons/all-files/cg/CgSmartHomeRefrigerator';
 import useSidebarContext from '../../context/SidebarContext';
 import { IoIosMenu } from '@react-icons/all-files/io/IoIosMenu';
 
@@ -22,9 +21,10 @@ export default function Navbar() {
           </button>
         )}
 
-        <Link to='/' className='flex items-center text-4xl text-brand'>
-          <CgSmartHomeRefrigerator className='text-3xl' />
-          <h1 className='tracking-tight leading-snug text-lg font-semibold'>밥메이트</h1>
+        <Link to='/' className='flex items-center gap-1 text-brand'>
+          {!broken && <img className='w-8 mb-1' src='icon.svg' /> }
+          <h1 className='tracking-tighter text-3xl font-semibold'>밥메이트</h1>
+          
         </Link>
       </div>
       <nav className='flex items-center gap-4'>
