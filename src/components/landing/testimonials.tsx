@@ -31,9 +31,9 @@ export default function Testimonials() {
               </blockquote>
               <div className='text-gray-700 font-medium mt-6 pt-5 border-t border-gray-700'>
                 <cite className='text-gray-200 not-italic'>김민수</cite> -{' '}
-                <a className='text-brand hover:text-gray-200 transition duration-150 ease-in-out' href='#0'>
+                <span className='text-brand'>
                   주방 관리자
-                </a>
+                </span>
               </div>
             </div>
 
@@ -52,9 +52,9 @@ export default function Testimonials() {
               </blockquote>
               <div className='text-gray-700 font-medium mt-6 pt-5 border-t border-gray-700'>
                 <cite className='text-gray-200 not-italic'>이영희</cite> -{' '}
-                <a className='text-brand hover:text-gray-200 transition duration-150 ease-in-out' href='#0'>
+                <span className='text-brand '>
                   건강 코치
-                </a>
+                </span>
               </div>
             </div>
 
@@ -71,9 +71,9 @@ export default function Testimonials() {
               <blockquote className='text-lg text-gray-400 grow'>— 커뮤니티와의 상호작용을 통해 더 많은 정보를 얻고 도움을 받을 수 있었습니다. 전문가의 조언도 정말 큰 도움이 되었어요.</blockquote>
               <div className='text-gray-700 font-medium mt-6 pt-5 border-t border-gray-700'>
                 <cite className='text-gray-200 not-italic'>박지훈</cite> -{' '}
-                <a className='text-brand hover:text-gray-200 transition duration-150 ease-in-out' href='#0'>
+                <span className='text-brand' >
                   고객
-                </a>
+                </span>
               </div>
             </div>
           </div>
