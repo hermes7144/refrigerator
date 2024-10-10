@@ -16,7 +16,7 @@ const mealTranslations = {
   dinner: '저녁',
 };
 
-export const MealItem: React.FC<MealItemProps> = ({ meal, onRemove }) => {
+export const MealItem: React.FC<MealItemProps> = ({ meal }) => {
   const {  addMeal } = useMeals();
   const { copy, setCopy } = useCopyContext(); // copy 상태와 setCopy 함수 사용
 
@@ -31,7 +31,6 @@ export const MealItem: React.FC<MealItemProps> = ({ meal, onRemove }) => {
   };
 
   const handlePaste = () => {
-    console.log(copy);
     if (!copy) return;
     // 외식인 경우 diningOutMenu 복사, 아니면 ingredients 복사
     
@@ -41,11 +40,6 @@ export const MealItem: React.FC<MealItemProps> = ({ meal, onRemove }) => {
       isDiningOut: !!copy.isDiningOut,
       diningOutMenu: copy.isDiningOut ? copy.diningOutMenu : '', // 외식일 경우 diningOutMenu 복사
     });
-  };
-
-
-  const handleRemove = () => {
-    onRemove(meal);
   };
 
   const mealType = mealTranslations[meal.mealType] || meal.mealType;
@@ -81,7 +75,7 @@ export const MealItem: React.FC<MealItemProps> = ({ meal, onRemove }) => {
             }
             {!copy &&
               <div className="tooltip" data-tip="삭제">
-                <RemoveMealButton meal={meal} onRemove={handleRemove} />
+                <RemoveMealButton meal={meal} />
               </div>}
           </div>
         )}

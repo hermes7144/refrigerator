@@ -12,6 +12,8 @@ export interface MealProps {
   date: string;
   ingredients: IngredientProps[];
   done: boolean;
+  isDiningOut?:boolean;
+  diningOutMenu?:string;
 }
 
 export interface EmptyMealProps {
@@ -46,8 +48,6 @@ export interface MealsByDate {
 
 export interface MealItemProps {
   meal: MealProps;
-  date: string;
-  onCopy:(meal :MealProps) => void;
 }
 
 export type MealTypeProps = 'breakfast' | 'lunch' | 'dinner';

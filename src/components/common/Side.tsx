@@ -20,6 +20,7 @@ export default function Side() {
 
   const handleMenuItemClick = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll to top smoothly
+    toggled && setToggled(false);
   };
 
   return (

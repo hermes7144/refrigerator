@@ -3,13 +3,13 @@ import useMeals from '../../hooks/useMeals';
 import { MealProps } from '../../types/mealTypes';
 import { FaRegTrashAlt } from '@react-icons/all-files/fa/FaRegTrashAlt';
 
-export interface RemoveMealButtonProps {
+interface RemoveMealButtonProps {
   meal: MealProps;
 }
+
 export const RemoveMealButton: React.FC<RemoveMealButtonProps> = ({ meal }) => {
   const { removeMeal } = useMeals();
   const { updateIngredientQty } = useIngredients();
-
 
   const handleClick = () => {
     if (meal.done) {
@@ -19,6 +19,7 @@ export const RemoveMealButton: React.FC<RemoveMealButtonProps> = ({ meal }) => {
     }
     removeMeal.mutate(meal);
   };
+
   return (
     <button className='btn btn-circle btn-ghost btn-sm' onClick={handleClick}>
       <FaRegTrashAlt className='h-4 w-4' />
