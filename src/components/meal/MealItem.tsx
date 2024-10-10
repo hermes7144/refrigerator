@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { MealItemProps, MealProps } from '../../types/mealTypes';
+import { MealItemProps } from '../../types/mealTypes';
 import { MealIngredientsList } from './MealIngredientsList';
 import { RemoveMealButton } from './RemoveMealButton';
 import { MealCheckbox } from './MealCheckbox';
@@ -30,11 +30,19 @@ export const MealItem: React.FC<MealItemProps> = ({ meal, onRemove }) => {
     setCopy(meal);
   };
 
-  const handlePaste = (meal : MealProps) => {
+  const handlePaste = () => {
+    console.log(copy);
     if (!copy) return;
-
-    addMeal.mutate({...meal, ingredients:copy.ingredients});
+    // 외식인 경우 diningOutMenu 복사, 아니면 ingredients 복사
+    
+    addMeal.mutate({
+      ...meal,
+      ingredients: copy.isDiningOut ? [] : copy.ingredients, // 외식일 경우 빈 배열
+      isDiningOut: !!copy.isDiningOut,
+      diningOutMenu: copy.isDiningOut ? copy.diningOutMenu : '', // 외식일 경우 diningOutMenu 복사
+    });
   };
+
 
   const handleRemove = () => {
     onRemove(meal);
@@ -82,7 +90,7 @@ export const MealItem: React.FC<MealItemProps> = ({ meal, onRemove }) => {
       {/* 외식 여부에 따른 조건부 렌더링 */}
       {meal.isDiningOut ? (
         <div className='text-gray-600 text-sm'>
-          <span>외식 메뉴: {meal.diningOutMenu}</span>
+          <span>외식: {meal.diningOutMenu}</span>
         </div>
       ) : (
         <MealIngredientsList ingredients={meal.ingredients} />

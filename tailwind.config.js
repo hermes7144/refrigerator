@@ -10,6 +10,9 @@ export default {
     extend: {
       colors: {
         brand: '#016bc3',
+      },
+      backgroundImage: {
+        banner: `url('/images/banner.jpg')`
       }
     },
   },

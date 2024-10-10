@@ -21,9 +21,13 @@ export const EmptyMealItem: React.FC<{meal: EmptyMealProps}> = ({ meal }) => {
     e.stopPropagation();
     if (!copy) return;
 
-    addMeal.mutate({...meal, ingredients:copy.ingredients});
+    addMeal.mutate({
+      ...meal,
+      ingredients: copy.isDiningOut ? [] : copy.ingredients, // 외식일 경우 빈 배열
+      isDiningOut: !!copy.isDiningOut,
+      diningOutMenu: copy.isDiningOut ? copy.diningOutMenu : '', // 외식일 경우 diningOutMenu 복사
+    });  
   }
-
 
   const Container = copy ? 'div' : Link;
 

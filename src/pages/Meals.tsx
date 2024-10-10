@@ -185,7 +185,7 @@ export default function Meals() {
                     <input
                       type='text'
                       placeholder='수량'
-                      className='input input-bordered w-1/6 p-1 h-10'
+                      className='input input-bordered w-1/6 p-1 h-10 text-right'
                       onChange={(e) => handleQtyChange(e, index)}
                       value={ingredient.qty === 0 ? '' : ingredient.qty}
                     />

@@ -26,8 +26,9 @@ function App() {
       <AuthProvider>
         <SidebarProvider>
           <Navbar />
-          <Outlet />
           {isMobile ? <BottomNavigation /> : <Side />}
+          <Outlet />
+          {/* {isMobile ? <BottomNavigation /> : <Side />} */}
           <AddNewButton />
         </SidebarProvider>
       </AuthProvider>

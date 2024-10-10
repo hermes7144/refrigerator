@@ -21,7 +21,8 @@ export default function Hero() {
     <section>
       <div className='max-w-6xl mx-auto px-4 sm:px-6 relative  md:bg-yellow-800'>
         {/* Illustration behind hero content */}
-        <img src="https://images.unsplash.com/photo-1498654896293-37aacf113fd9?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" className='absolute left-0 bottom-0 object-cover opacity-60 min-h-96 hidden md:block'  />
+        <div className='absolute bg-banner'></div>
+        <img src='/images/banner.jpg' className='absolute left-0 bottom-0 opacity-70 min-h-96 hidden md:block object-cover bg-cover bg-banner'></img>
         {/* Hero content */}
         <div className='relative pt-10 md:pt-48 '>
           {/* Section header */}

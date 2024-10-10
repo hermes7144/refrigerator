@@ -93,6 +93,8 @@ export async function getMeal(uid: string, meal: MealProps): Promise<MealProps |
 
 export async function addNewMeal(uid: string, meal: MealProps): Promise<void> {
   const id = uuid();
+  console.log(meal);
+  
   
   const mealData = {
     ...meal,
