@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import useAuthContext from '../context/AuthContext';
 import { addNewIngredient, editIngredient, editShopping, getIngredients, removeIngredient, updateIngredientQuantity } from '../api/firebase';
 import { IngredientProps } from '../types/ingredientTypes';
+import useUpdateStatus from '../context/UpdateContext';
 
 export default function useIngredients() {
   const { uid } = useAuthContext() ?? {};
@@ -10,8 +11,15 @@ export default function useIngredients() {
     throw new Error('User is not authenticated');
   }
 
+  const { setHasUpdated } = useUpdateStatus(); // Context에서 상태 업데이트 함수 가져오기
+
+
   const queryClient = useQueryClient();
-  const ingredientsQuery = useQuery({ queryKey: ['ingredients', uid], queryFn: () => getIngredients(uid) });
+  const ingredientsQuery = useQuery({ 
+    queryKey: ['ingredients', uid],
+    queryFn: () => getIngredients(uid),
+    // enabled: location.pathname.includes('/ingredients')
+  });
 
   const addIngredient = useMutation({
     mutationFn: (ingredient: IngredientProps) => addNewIngredient(uid, ingredient),
@@ -25,7 +33,8 @@ export default function useIngredients() {
 
   const updateIngredientQty = useMutation({
     mutationFn: (ingredient: IngredientProps) => updateIngredientQuantity(uid, ingredient),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['ingredients', uid] }),
+    onSuccess: () => setHasUpdated(true)
+    // onSuccess: () => queryClient.invalidateQueries({ queryKey: ['ingredients', uid] }),
   });
 
   const deleteIngredients = useMutation({
@@ -46,5 +55,7 @@ export default function useIngredients() {
     },
   });
 
-  return { ingredientsQuery, addIngredient, updateIngredient, updateIngredientQty, deleteIngredients };
+  const invalidIngredients = () => queryClient.invalidateQueries({ queryKey: ['ingredients', uid] });
+
+  return { ingredientsQuery, addIngredient, updateIngredient, updateIngredientQty, deleteIngredients, invalidIngredients };
 }

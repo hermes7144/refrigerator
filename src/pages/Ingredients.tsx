@@ -6,16 +6,25 @@ import CommonDialog from '../components/ingredient/CommonDialog';
 import useConfirmationDialog from '../hooks/useConfirmationDialog';
 import SearchInput from '../components/common/SearchInput';
 import { IngredientProps } from '../types/ingredientTypes';
+import useUpdateStatus from '../context/UpdateContext';
 
 export default function Ingredients() {
   const [query, setQuery] = useState('');
   const deferredQuery = useDeferredValue(query);
   const isStale = query !== deferredQuery;
+  const { hasUpdated } = useUpdateStatus(); // Context에서 상태 가져오기
+
 
   const { selectedItems, setSelectedItems, toggleSelection } = useSelection<IngredientProps>(); // 선택된 항목을 관리
-  const { ingredientsQuery, deleteIngredients } = useIngredients();
+  const { ingredientsQuery, deleteIngredients, invalidIngredients } = useIngredients();
   const { isVisible, action, openDialog, closeDialog, submitAction } = useConfirmationDialog<IngredientProps>(selectedItems, setSelectedItems, deleteIngredients);
   const { data: ingredients } = ingredientsQuery || {};
+
+  // 데이터 갱신 후 쿼리 무효화
+  if (ingredientsQuery.isSuccess && hasUpdated) {
+     invalidIngredients();
+  }
+
 
   const handleSearchChange = ({ target }: ChangeEvent<HTMLInputElement>) => setQuery(target.value);
 

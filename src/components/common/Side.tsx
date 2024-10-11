@@ -10,7 +10,7 @@ import { FiShoppingCart } from '@react-icons/all-files/fi/FiShoppingCart';
 
 export default function Side() {
   const location = useLocation();
-  const { setToggled, toggled, setBroken } = useSidebarContext();
+  const { toggled, setToggled, setBroken } = useSidebarContext();
 
   const { uid } = useAuthContext() ?? {};
 

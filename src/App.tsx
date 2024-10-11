@@ -7,6 +7,9 @@ import { SidebarProvider } from './context/SidebarContextProvider';
 import useIsMobile from './hooks/useIsMobile';
 import BottomNavigation from './components/common/BottomNavigation';
 import AddNewButton from './components/common/AddNewButton';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { UpdateProvider } from './context/UpdateContextProvider';
+
 const MINUTE = 1000 * 60;
 
 function App() {
@@ -26,12 +29,14 @@ function App() {
       <AuthProvider>
         <SidebarProvider>
           <Navbar />
-          {isMobile ? <BottomNavigation /> : <Side />}
-          <Outlet />
-          {/* {isMobile ? <BottomNavigation /> : <Side />} */}
+            {isMobile ? <BottomNavigation /> : <Side />}
+            <UpdateProvider>
+              <Outlet />
+            </UpdateProvider>
           <AddNewButton />
         </SidebarProvider>
       </AuthProvider>
+      <ReactQueryDevtools initialIsOpen={true} />
     </QueryClientProvider>
   );
 }

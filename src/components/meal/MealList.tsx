@@ -1,11 +1,9 @@
 import { FC } from 'react';
 import { MealSection } from './MealSection';
 import { MealListProps } from '../../types/mealTypes';
-import useMeals from '../../hooks/useMeals';
 import { useCopyContext } from '../../context/CopyContext';
 
 export const MealList: FC<MealListProps> = ({ week, selectedDate, scrollRefs }) => {
-  const { mealsQuery: { data: meals } } = useMeals();
   const {copy, setCopy} = useCopyContext();
   const handleCancelCopy = () => {
     setCopy(null); // 복사 취소
@@ -23,7 +21,6 @@ export const MealList: FC<MealListProps> = ({ week, selectedDate, scrollRefs }) 
           <MealSection
           key={date}
           date={date}
-          meals={meals?.[date]}
           scrollRef={(el) => (scrollRefs.current[date] = el)}
           selected={selectedDate === date}
           />)}

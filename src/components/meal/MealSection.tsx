@@ -2,12 +2,13 @@ import { FC } from 'react';
 import { MealSectionProps, MealTypeProps } from '../../types/mealTypes';
 import { MealItem } from './MealItem';
 import { EmptyMealItem } from './EmptyMealItem';
+import useMeals from '../../hooks/useMeals';
 import dayjs from 'dayjs';
 
 const MEAL_TYPES: MealTypeProps[] = ['breakfast', 'lunch', 'dinner'];
 
-export const MealSection: FC<MealSectionProps> = ({ date, meals, scrollRef ,selected}) => {
-
+export const MealSection: FC<MealSectionProps> = ({ date, scrollRef ,selected}) => {
+  const { UsemealtypeandDateQuery } = useMeals();
   return (
     <div ref={scrollRef} className='flex flex-col gap-2 p-4'>
       <div className='flex items-center gap-1'>
@@ -19,8 +20,8 @@ export const MealSection: FC<MealSectionProps> = ({ date, meals, scrollRef ,sele
         <h2 className='text-lg font-semibold'>{dayjs(date).format('M.D ddd요일')}</h2>
       </div>
       {MEAL_TYPES.map(mealType => { 
-        const meal = meals?.[mealType];
-        return meal ? <MealItem key={mealType} meal={meal}   />: <EmptyMealItem key={mealType} meal={{mealType , date}} />;
+        const {data :meal} = UsemealtypeandDateQuery(mealType, date);
+        return meal ? <MealItem key={meal.id} meal={meal}   />: <EmptyMealItem key={mealType} meal={{mealType , date}} />;
       })}
     </div>
   );

@@ -3,7 +3,7 @@ import { RecipeProps } from '../types/RecipeTypes';
 import { initializeApp } from 'firebase/app';
 import { v4 as uuid } from 'uuid';
 import { getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithPopup, signOut, User } from 'firebase/auth';
-import { get, getDatabase, ref, remove, runTransaction, serverTimestamp, set, update } from 'firebase/database';
+import {  get, getDatabase, ref, remove, runTransaction, serverTimestamp, set, update } from 'firebase/database';
 import { MealProps, MealsByDate } from '../types/mealTypes';
 
 const firebaseConfig = {
@@ -35,8 +35,6 @@ export async function getIngredients(uid: string): Promise<IngredientProps[]> {
   const snapshot = await get(ref(database, `ingredients/${uid}`));
 
   if (snapshot.exists()) {
-    console.log(Object.values(snapshot.val()));
-    
     return Object.values(snapshot.val());
   } else {
     return [];
@@ -52,6 +50,16 @@ export async function getIngredient(uid: string, ingredient: IngredientProps): P
     return null;
   }
 }
+
+export const fetchMealByTypeAndDate = async (uid: string, date: string, mealType: string,) => {
+  const snapshot = await get(ref(database, `meals/${uid}/${date}/${mealType}`));
+
+  if (snapshot.exists()) {
+    return snapshot.val();
+  } else {
+    return null; // 해당 데이터가 없으면 null 반환
+  }
+};
 
 export async function addNewIngredient(uid: string, ingredient: IngredientProps): Promise<void> {
   const id = uuid();
@@ -91,10 +99,8 @@ export async function getMeal(uid: string, meal: MealProps): Promise<MealProps |
 }
 
 
-export async function addNewMeal(uid: string, meal: MealProps): Promise<void> {
+export async function addNewMeal(uid: string, meal: MealProps): Promise<MealProps> {
   const id = uuid();
-  console.log(meal);
-  
   
   const mealData = {
     ...meal,
@@ -104,14 +110,13 @@ export async function addNewMeal(uid: string, meal: MealProps): Promise<void> {
   };
 
   await set(ref(database, `meals/${uid}/${meal.date}/${meal.mealType}`), mealData);
+  return meal;
 }
 
-export async function editMeal(uid: string, meal: MealProps): Promise<void> {
+export async function editMeal(uid: string, meal: MealProps): Promise<MealProps> {
   const originMeal = await getMeal(uid, meal);
   if (originMeal && originMeal.done) {
-    await updateIngredientsQuantity(uid, originMeal.ingredients, true);       
-    console.log(uid, meal.ingredients);
-    
+    await updateIngredientsQuantity(uid, originMeal.ingredients, true);           
 
     await updateIngredientsQuantity(uid, meal.ingredients);
   }
@@ -119,15 +124,18 @@ export async function editMeal(uid: string, meal: MealProps): Promise<void> {
   const mealData = {...meal, updatedDate: serverTimestamp()};
 
    await set(ref(database, `meals/${uid}/${meal.date}/${meal.mealType}`), mealData);
+   return meal;
 }
 
-export async function deleteMeal(uid: string, meal: MealProps): Promise<void> {
+export async function deleteMeal(uid: string, meal: MealProps): Promise<MealProps> {
   await remove(ref(database, `meals/${uid}/${meal.date}/${meal.mealType}`));
+  return meal;
 }
 
-export async function checkMeal(uid: string, meal: MealProps): Promise<void> {
+export async function checkMeal(uid: string, meal: MealProps): Promise<MealProps> {
   const mealRef = ref(database, `meals/${uid}/${meal.date}/${meal.mealType}`);
   await update(mealRef, { done: meal.done });
+  return meal;
 }
 
 export async function updateIngredientsQuantity(uid: string, ingredients: IngredientProps[], isAdding?: boolean): Promise<void> {  

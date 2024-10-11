@@ -17,7 +17,7 @@ const mealTranslations = {
 };
 
 export const MealItem: React.FC<MealItemProps> = ({ meal }) => {
-  const {  addMeal } = useMeals();
+  const { addMeal } = useMeals();
   const { copy, setCopy } = useCopyContext(); // copy 상태와 setCopy 함수 사용
 
 
