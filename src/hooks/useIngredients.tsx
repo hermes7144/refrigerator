@@ -34,7 +34,6 @@ export default function useIngredients() {
   const updateIngredientQty = useMutation({
     mutationFn: (ingredient: IngredientProps) => updateIngredientQuantity(uid, ingredient),
     onSuccess: () => setHasUpdated(true)
-    // onSuccess: () => queryClient.invalidateQueries({ queryKey: ['ingredients', uid] }),
   });
 
   const deleteIngredients = useMutation({

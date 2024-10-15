@@ -12,7 +12,7 @@ export default function Ingredients() {
   const [query, setQuery] = useState('');
   const deferredQuery = useDeferredValue(query);
   const isStale = query !== deferredQuery;
-  const { hasUpdated } = useUpdateStatus(); // Context에서 상태 가져오기
+  const { hasUpdated, setHasUpdated } = useUpdateStatus(); // Context에서 상태 가져오기
 
 
   const { selectedItems, setSelectedItems, toggleSelection } = useSelection<IngredientProps>(); // 선택된 항목을 관리
@@ -23,6 +23,7 @@ export default function Ingredients() {
   // 데이터 갱신 후 쿼리 무효화
   if (ingredientsQuery.isSuccess && hasUpdated) {
      invalidIngredients();
+     setHasUpdated(false);
   }
 
 

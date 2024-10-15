@@ -8,6 +8,7 @@ import ErrorDialog from '../components/common/ErrorDialog';
 import dayjs from 'dayjs';
 import Select, { SingleValue } from 'react-select';
 import { BsX } from '@react-icons/all-files/bs/BsX';
+import useUpdateStatus from '../context/UpdateContext';
 
 const mealTranslations = {
   breakfast: '아침',
@@ -20,7 +21,7 @@ export default function Meals() {
   const { meal } = location.state as { meal: MealProps };
 
   const {
-    ingredientsQuery: { data: ingredients },
+    ingredientsQuery, ingredientsQuery: { data: ingredients }, invalidIngredients
   } = useIngredients();
   const { addMeal, updateMeal } = useMeals();
 
@@ -38,6 +39,15 @@ export default function Meals() {
       setIngredientList([{ id: '', name: '', unit: '', qty: 0, category: '', expiration: '' }]);
     }
   }, [meal, isDiningOut]);
+
+    const { hasUpdated, setHasUpdated } = useUpdateStatus();
+
+    // 데이터 갱신 후 쿼리 무효화
+    if (ingredientsQuery.isSuccess && hasUpdated) {
+      invalidIngredients();
+      setHasUpdated(false);
+   }
+ 
 
   const handleIngredientChange = (e: SingleValue<{ value: string | undefined; label: string }>, index: number) => {
     const newIngredientList = [...ingredientList];

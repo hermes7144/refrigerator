@@ -16,7 +16,7 @@ interface Item {
 
 interface FormProps {
   formData: Item;
-  onChange: (field: keyof Item, value: string | number) => void;
+  onChange: (field: keyof Item, value: string) => void;
   errors: { [key: string]: string };
 }
 
