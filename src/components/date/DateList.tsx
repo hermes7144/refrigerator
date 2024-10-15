@@ -5,11 +5,17 @@ import { FaArrowLeft } from '@react-icons/all-files/fa/FaArrowLeft';
 import { FaArrowRight } from '@react-icons/all-files/fa/FaArrowRight';
 import useIsMobile from '../../hooks/useIsMobile';
 import WeekNavigationButton from './WeekNavigationButton';
+import { useWeek } from '../../context/WeekContext';
 
-export const DateList: FC<DateListProps> = ({ week, selectedDate, onDate, onWeek }) => {
+export const DateList: FC<DateListProps> = ({  selectedDate, onDate }) => {
   const touchStartRef = useRef<number>(0);
   const [swipeDirection, setSwipeDirection] = useState<string | null>(null);
   const isMobile = useIsMobile();
+  const { week, handleWeek } = useWeek();
+
+  console.log('week',week);
+  
+
 
   const handleTouchStart = (event: React.TouchEvent<HTMLDivElement>) => {
     touchStartRef.current = event.touches[0].clientX;
@@ -32,7 +38,7 @@ export const DateList: FC<DateListProps> = ({ week, selectedDate, onDate, onWeek
       setSwipeDirection(weekChange === 1 ? 'right' : 'left'); // 모바일일 때만 스와이프 방향 설정
     }
     window.scrollTo(0, 0);
-    onWeek(weekChange);
+    handleWeek(weekChange);
 
     setTimeout(() => {
       setSwipeDirection(null);

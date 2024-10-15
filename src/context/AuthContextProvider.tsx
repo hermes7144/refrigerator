@@ -85,7 +85,7 @@ export function AuthProvider({ children }: providerProps) {
       done:false
     });
     
-    queryClient.invalidateQueries ({queryKey:['meals',uid]}),
+    // queryClient.invalidateQueries({queryKey:['meals',uid]}),
 
     await addNewRecipe(uid, {
       name: '토마토 수프',

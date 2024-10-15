@@ -1,14 +1,13 @@
 import { createContext, useContext } from 'react';
 import { MealProps } from '../types/mealTypes';
 
-// Context 타입 정의
-interface CopyContextType {
+interface CopyContextInterface {
   copy: MealProps | null;
   setCopy: (meal: MealProps | null) => void;
 }
 
 // Context 초기값 설정
-const CopyContext = createContext<CopyContextType | undefined>(undefined);
+const CopyContext = createContext<CopyContextInterface | undefined>(undefined);
 
 // Copy 상태와 핸들러를 쉽게 가져오는 커스텀 훅
 export const useCopyContext = () => {

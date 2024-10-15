@@ -23,7 +23,6 @@ export interface EmptyMealProps {
 }
 
 export interface MealListProps {
-  week: string[];
   selectedDate: string;
   meals?: MealsByDate;
   scrollRefs: React.MutableRefObject<{ [key: string]: HTMLDivElement | null }>;

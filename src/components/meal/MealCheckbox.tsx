@@ -3,9 +3,6 @@ import useMeals from '../../hooks/useMeals';
 import { MealProps } from '../../types/mealTypes';
 
 export const MealCheckbox: React.FC<{ meal: MealProps }> = ({ meal }) => {
-  console.log('MealCheckbox',meal);
-  
-
   const { editMealDone } = useMeals();
   const { updateIngredientQty } = useIngredients();
 

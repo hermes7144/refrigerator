@@ -1,8 +1,10 @@
 import { FC } from 'react';
 import { MealListProps } from '../../types/mealTypes';
 import { MealSectionSkeleton } from './MealSectionSkeleton';
+import { useWeek } from '../../context/WeekContext';
 
-export const MealListSkeleton: FC<MealListProps> = ({ week, selectedDate, scrollRefs }) => {
+export const MealListSkeleton: FC<MealListProps> = ({ selectedDate, scrollRefs }) => {
+  const { week } = useWeek();
 
   return (
     <ul className='flex flex-col w-full md:w-[500px] gap-4 pb-80'>

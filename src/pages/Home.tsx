@@ -1,7 +1,6 @@
 import { Suspense, useCallback, useEffect, useRef, useState } from 'react';
 import DateList from '../components/date/DateList';
 import { MealList } from '../components/meal/MealList';
-import { getWeekDates } from '../utils/utils';
 import { MealListSkeleton } from '../components/meal/MealListSkeleton';
 import { ErrorBoundary } from 'react-error-boundary';
 import ErrorFallback from '../components/common/ErrorFallback';
@@ -11,8 +10,6 @@ import { CopyProvider } from '../context/CopyContextProvider';
 export default function Home() {
   const today = dayjs().format('YYYYMMDD');
   const [selectedDate, setSelectedDate] = useState(today);
-  const [shift, setShift] = useState(0); // Updated here
-  const week = getWeekDates(shift);
   const scrollRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});  
 
 
@@ -31,28 +28,21 @@ export default function Home() {
     [scrollToDate]
   );
 
-  const handleWeek = (weekShift: number) => {    
-    setShift((prev) => prev + weekShift);
-  };
-
   useEffect(() => {
     scrollToDate(today);
     setSelectedDate(today);
   }, [today, scrollToDate]);
 
-
-
   return (
     <CopyProvider>
-      <div className='flex flex-col items-center px-4'>
-        <DateList week={week} selectedDate={selectedDate} onDate={handleDate} onWeek={handleWeek} />
-
-        <ErrorBoundary FallbackComponent={ErrorFallback}>
-          <Suspense fallback={<MealListSkeleton week={week} scrollRefs={scrollRefs} selectedDate={selectedDate} />}>
-            <MealList week={week} scrollRefs={scrollRefs} selectedDate={selectedDate} />
-          </Suspense>
-        </ErrorBoundary>
-      </div>
+        <div className='flex flex-col items-center px-4'>
+          <DateList selectedDate={selectedDate} onDate={handleDate} />
+          <ErrorBoundary FallbackComponent={ErrorFallback}>
+            <Suspense fallback={<MealListSkeleton scrollRefs={scrollRefs} selectedDate={selectedDate} />}>
+              <MealList scrollRefs={scrollRefs} selectedDate={selectedDate} />
+            </Suspense>
+          </ErrorBoundary>
+        </div>
     </CopyProvider>
   );
 }

@@ -9,6 +9,7 @@ import BottomNavigation from './components/common/BottomNavigation';
 import AddNewButton from './components/common/AddNewButton';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { UpdateProvider } from './context/UpdateContextProvider';
+import { WeekProvider } from './context/WeekContextProvider';
 
 const MINUTE = 1000 * 60;
 
@@ -28,12 +29,14 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <SidebarProvider>
-          <Navbar />
-            {isMobile ? <BottomNavigation /> : <Side />}
-            <UpdateProvider>
-              <Outlet />
-            </UpdateProvider>
-          <AddNewButton />
+          <WeekProvider>
+            <Navbar />
+              {isMobile ? <BottomNavigation /> : <Side />}
+              <UpdateProvider>
+                <Outlet />
+              </UpdateProvider>
+            <AddNewButton />
+          </WeekProvider>
         </SidebarProvider>
       </AuthProvider>
       <ReactQueryDevtools initialIsOpen={true} />
