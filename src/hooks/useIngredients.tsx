@@ -5,14 +5,10 @@ import { IngredientProps } from '../types/ingredientTypes';
 import useUpdateStatus from '../context/UpdateContext';
 
 export default function useIngredients() {
-  const { uid } = useAuthContext() ?? {};
-
-  if (!uid) {
-    throw new Error('User is not authenticated');
-  }
+  const { uid } = useAuthContext();
+  if (!uid) throw new Error('User is not authenticated');
 
   const { setHasUpdated } = useUpdateStatus(); // Context에서 상태 업데이트 함수 가져오기
-
 
   const queryClient = useQueryClient();
   const ingredientsQuery = useQuery({ 

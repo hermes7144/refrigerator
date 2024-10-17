@@ -7,7 +7,7 @@ import NavButton from './NavButton';
 import { useLocation } from 'react-router-dom';
 
 export default function BottomNavigation() {
-  const { uid } = useAuthContext() ?? {};
+  const { uid } = useAuthContext();
   const location = useLocation(); // Get the current location
 
 

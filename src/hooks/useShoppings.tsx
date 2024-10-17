@@ -4,12 +4,9 @@ import { getShoppings, addNewShopping, editShopping, removeShopping, editIngredi
 import { IngredientProps } from '../types/ingredientTypes';
 
 export default function useShoppings() {
-  const { uid } = useAuthContext() ?? {};
-
-  if (!uid) {
-    throw new Error('User is not authenticated');
-  }
-
+  const { uid } = useAuthContext();
+  if (!uid) throw new Error('User is not authenticated');
+  
   const queryClient = useQueryClient();
   const shoppingsQuery = useQuery({ queryKey: ['shoppings', uid], queryFn: () => getShoppings(uid) });
 

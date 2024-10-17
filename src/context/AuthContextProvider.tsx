@@ -2,7 +2,6 @@ import { createContext, useEffect, useState } from 'react';
 import { addNewIngredient, addNewMeal, addNewRecipe, addNewShopping, getIngredients, login, logout, onUserStateChange } from '../api/firebase';
 import { getAuth, signInAnonymously, User } from 'firebase/auth';
 import { providerProps } from '../types/commonTypes';
-import { useQueryClient } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 
 interface AuthContextType {
@@ -14,12 +13,21 @@ interface AuthContextType {
   demo: ()=>void;
 }
 
-export const AuthContext = createContext<AuthContextType | null>(null);
+const defaultAuthContext: AuthContextType = {
+  user: null,
+  uid: null,
+  login: () => {},
+  logout: () => {},
+  isAuthLoading: true,  // 기본값은 로딩 중
+  demo: () => {},
+};
+
+
+export const AuthContext = createContext<AuthContextType>(defaultAuthContext);
 
 export function AuthProvider({ children }: providerProps) {
   const [user, setUser] = useState<User | null>(null);
   const [isAuthLoading, setIsAuthLoading] = useState<boolean>(true);
-  const queryClient = useQueryClient();
 
   useEffect(() => {
     onUserStateChange((user: User | null) => {

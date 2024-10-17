@@ -12,11 +12,9 @@ export default function Side() {
   const location = useLocation();
   const { toggled, setToggled, setBroken } = useSidebarContext();
 
-  const { uid } = useAuthContext() ?? {};
-
-  if (!uid) {
-    return;
-  }
+  const { uid } = useAuthContext();
+  if (!uid) return;
+  
 
   const handleMenuItemClick = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll to top smoothly
@@ -30,7 +28,6 @@ export default function Side() {
           menuItemStyles={{
             button: {
               [`&.ps-active`]: {
-                // backgroundColor: '#13395e',
                 color: '#016bc3',
                 fontWeight:'900'
               },

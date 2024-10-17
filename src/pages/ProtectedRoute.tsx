@@ -3,7 +3,7 @@ import  useAuthContext  from '../context/AuthContext';
 import { providerProps } from '../types/commonTypes';
 
 export default function ProtectedRoute({ children } : providerProps) {
-  const { user } = useAuthContext() ?? {};
+  const { user } = useAuthContext();
 
   if (!user) {
     return <Navigate to='/' replace />;
