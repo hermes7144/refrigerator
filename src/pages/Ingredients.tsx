@@ -22,13 +22,11 @@ export default function Ingredients() {
 
   // 데이터 갱신 후 쿼리 무효화
   if (ingredientsQuery.isSuccess && hasUpdated) {
-     invalidIngredients();
-     setHasUpdated(false);
+    invalidIngredients();
+    setHasUpdated(false);
   }
 
-
   const handleSearchChange = ({ target }: ChangeEvent<HTMLInputElement>) => setQuery(target.value);
-
   const isDisabled = !selectedItems.length;
 
   return (

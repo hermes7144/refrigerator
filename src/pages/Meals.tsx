@@ -30,6 +30,7 @@ export default function Meals() {
   const [ingredientList, setIngredientList] = useState<IngredientProps[]>([]);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [diningOutMenu, setDiningOutMenu] = useState<string>(meal?.diningOutMenu || '');
+  const { hasUpdated, setHasUpdated } = useUpdateStatus();
 
   useEffect(() => {
     if (meal.ingredients && !isDiningOut) {
@@ -40,13 +41,14 @@ export default function Meals() {
     }
   }, [meal, isDiningOut]);
 
-    const { hasUpdated, setHasUpdated } = useUpdateStatus();
 
+  useEffect(() => {
     // 데이터 갱신 후 쿼리 무효화
     if (ingredientsQuery.isSuccess && hasUpdated) {
       invalidIngredients();
       setHasUpdated(false);
    }
+  })
  
 
   const handleIngredientChange = (e: SingleValue<{ value: string | undefined; label: string }>, index: number) => {

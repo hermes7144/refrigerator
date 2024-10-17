@@ -4,7 +4,7 @@ import { MealListProps } from '../../types/mealTypes';
 import { useCopyContext } from '../../context/CopyContext';
 import { useWeek } from '../../context/WeekContext';
 
-export const MealList: FC<MealListProps> = ({  selectedDate, scrollRefs }) => {
+export const MealList: FC<MealListProps> = ({ selectedDate, scrollRefs }) => {
   const {copy, setCopy} = useCopyContext();
   const handleCancelCopy = () => setCopy(null);
   const { week } = useWeek();

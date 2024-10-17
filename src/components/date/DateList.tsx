@@ -13,10 +13,6 @@ export const DateList: FC<DateListProps> = ({  selectedDate, onDate }) => {
   const isMobile = useIsMobile();
   const { week, handleWeek } = useWeek();
 
-  console.log('week',week);
-  
-
-
   const handleTouchStart = (event: React.TouchEvent<HTMLDivElement>) => {
     touchStartRef.current = event.touches[0].clientX;
     setSwipeDirection(null);
