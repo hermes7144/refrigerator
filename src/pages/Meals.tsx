@@ -46,11 +46,12 @@ export default function Meals() {
 
   useEffect(() => {
     // 데이터 갱신 후 쿼리 무효화
-    if (ingredientsQuery.isSuccess && hasUpdated) {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if ( hasUpdated) {
       invalidIngredients();
       setHasUpdated(false);
     }
-  })
+  },[invalidIngredients,setHasUpdated, hasUpdated])
 
   const handleIngredientChange = (e: SingleValue<{ value: string | undefined; label: string }>, index: number) => {
     const newIngredientList = [...ingredientList];
@@ -182,11 +183,17 @@ export default function Meals() {
               재료 추가
             </button>
             <div className='w-full h-80 overflow-y-auto p-2'>
-              {ingredientList.map((ingredient, index) => (
-                <div key={index} className='flex gap-2 mb-2 w-full'>
-                  <div key={index} className='flex gap-2 mb-2 w-full'>
-                    <Select
-                      className='basic-single flex-grow w-2/3'
+              <table className="table table-sm">
+                <tr>
+                  <td className='w-3/4 text-center text-sm'>재료</td>
+                  <td className='w-1/12 text-center text-sm'>수량</td> 
+                  <td className='w-1/12'></td>
+                </tr>
+                {ingredientList.map((ingredient, index) => (
+                  <tr>
+                    <td>
+                      <Select
+                      className='basic-single flex-grow'
                       classNamePrefix='select'
                       options={ingredientOptions}
                       value={ingredientOptions?.find((option) => option.value === ingredient.id)}
@@ -195,21 +202,26 @@ export default function Meals() {
                       styles={{ menuPortal: (provided) => ({ ...provided, zIndex: 9999 }) }}
                       placeholder='선택'
                     />
-                    <input
+                    </td>
+                    <td>
+                      <input
                       type='text'
-                      className='input input-bordered w-1/12 p-1 h-10 text-right'
+                      className='input input-bordered p-1 h-10 text-right max-w-16'
                       onChange={(e) => handleQtyChange(e, index)}
                       value={ingredient.qty}
                     />
-                    {index > 0 && (
-                      <button className='btn btn-sm btn-circle btn-error text-white' onClick={() => handleRemoveIngredient(index)}>
-                        <BsX className='h-5 w-5' />
-                      </button>
-                    )}
-                    {index === 0 && <div className='w-8'></div>} {/* 첫 번째 행에 빈 공간 추가 */}
-                  </div>{' '}
-                </div>
-              ))}
+                    </td>
+                    <td>
+                      {index > 0 && (
+                        <button className='btn btn-sm btn-circle btn-error text-white' onClick={() => handleRemoveIngredient(index)}>
+                          <BsX className='h-5 w-5' />
+                        </button>
+                      )}
+                      {index === 0 && <div className='w-8'></div>} {/* 첫 번째 행에 빈 공간 추가 */}
+                    </td>
+                  </tr>
+                  ))}
+              </table>
             </div>
           </div>
         ) : (
