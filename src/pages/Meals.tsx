@@ -17,8 +17,8 @@ const mealTranslations = {
 };
 export default function Meals() {
   const location = useLocation();
-  const navigate = useNavigate();
   const { meal } = location.state as { meal: MealProps };
+  const navigate = useNavigate();
 
   const {
     ingredientsQuery, ingredientsQuery: { data: ingredients }, invalidIngredients
@@ -33,11 +33,13 @@ export default function Meals() {
   const { hasUpdated, setHasUpdated } = useUpdateStatus();
 
   useEffect(() => {
-    if (meal.ingredients && !isDiningOut) {
+    if (isDiningOut) return;
+    
+    if (meal.ingredients) {
       const initialIngredients: IngredientProps[] = meal.ingredients.sort((a: IngredientProps, b: IngredientProps) => a.seq! - b.seq!);
       setIngredientList(initialIngredients);
     } else {
-      setIngredientList([{ id: '', name: '', unit: '', qty: 0, category: '', expiration: '' }]);
+      setIngredientList([{ id: '', name: '', unit: '', qty: '', category: '', expiration: '' }]);
     }
   }, [meal, isDiningOut]);
 
@@ -47,9 +49,8 @@ export default function Meals() {
     if (ingredientsQuery.isSuccess && hasUpdated) {
       invalidIngredients();
       setHasUpdated(false);
-   }
+    }
   })
- 
 
   const handleIngredientChange = (e: SingleValue<{ value: string | undefined; label: string }>, index: number) => {
     const newIngredientList = [...ingredientList];
@@ -67,13 +68,13 @@ export default function Meals() {
   };
 
   const handleQtyChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
-    const { value } = e.target;
+    const { value } = e.target;    
 
     if (/^\d*$/.test(value)) {
       const newIngredientList = [...ingredientList];
       newIngredientList[index] = {
         ...newIngredientList[index],
-        qty: Number(e.target.value),
+        qty:  value === '' ? '' : Number(value)
       };
       setIngredientList(newIngredientList);    
     }
@@ -81,7 +82,7 @@ export default function Meals() {
 
 
   const handleAddIngredient = () => {
-    setIngredientList([...ingredientList, { id: '', name: '', unit: '', qty: 0, category: '', expiration: '' }]);
+    setIngredientList([...ingredientList, { id: '', name: '', unit: '', qty: '', category: '', expiration: '' }]);
   };
 
   const handleRemoveIngredient = (index: number) => {
@@ -142,7 +143,7 @@ export default function Meals() {
         id: '',
         mealType: meal.mealType,
         date: meal.date,
-        ingredients: ingredientList.filter((ingredient) => ingredient.id && ingredient.qty > 0),
+        ingredients: ingredientList.filter((ingredient) => ingredient.id && Number(ingredient.qty) > 0),
         done: meal?.done,
         isDiningOut: false,
         diningOutMenu: '',  // 외식이 아니므로 빈 값
@@ -192,14 +193,13 @@ export default function Meals() {
                       onChange={(e) => handleIngredientChange(e, index)}
                       menuPortalTarget={document.body}
                       styles={{ menuPortal: (provided) => ({ ...provided, zIndex: 9999 }) }}
-                      placeholder='식단 재료를 선택해주세요'
+                      placeholder='선택'
                     />
                     <input
                       type='text'
-                      placeholder='수량'
-                      className='input input-bordered w-1/6 p-1 h-10 text-right'
+                      className='input input-bordered w-1/12 p-1 h-10 text-right'
                       onChange={(e) => handleQtyChange(e, index)}
-                      value={ingredient.qty === 0 ? '' : ingredient.qty}
+                      value={ingredient.qty}
                     />
                     {index > 0 && (
                       <button className='btn btn-sm btn-circle btn-error text-white' onClick={() => handleRemoveIngredient(index)}>

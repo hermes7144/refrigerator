@@ -2,7 +2,7 @@ export interface IngredientProps {
   id?: string;
   name: string;
   unit: string;
-  qty: number;
+  qty: number | string;
   category: string;
   expiration?: string;
   image?: string;

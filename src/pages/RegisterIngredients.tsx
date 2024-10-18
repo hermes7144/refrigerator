@@ -24,8 +24,11 @@ export default function RegisterIngredients() {
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
   const handleChange = (field: keyof IngredientProps, value: string) => {
-    setIngredientItem((prev) => ({ ...prev, [field]: field === 'qty' ? Number(value) : value }));
+    setIngredientItem((prev) => ({ ...prev, [field]: field === 'qty' ?  value === '' ? '' : Number(value) : value }));
   };
+
+
+
 
   const validate = () => {
     const newErrors: { [key: string]: string } = {};
