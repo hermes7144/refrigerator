@@ -1,27 +1,31 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { MealItemProps, MealTypeProps } from '../../types/mealTypes';
-import  MealIngredientsList  from './MealIngredientsList';
+import MealIngredientsList from './MealIngredientsList';
 import { RemoveMealButton } from './RemoveMealButton';
-import MealCheckbox  from './MealCheckbox';
+import MealCheckbox from './MealCheckbox';
 import { MealImage } from './MealImage';
 import { FaRegCopy } from '@react-icons/all-files/fa/FaRegCopy';
 import { FaCheck } from '@react-icons/all-files/fa/FaCheck';
 import useMeals from '../../hooks/useMeals';
 import { useCopyContext } from '../../context/CopyContext';
 import { EmptyMealItem } from './EmptyMealItem';
+import IconButton from '../common/IconButton';
+import useIngredients from '../../hooks/useIngredients';
+import { FaRegTrashAlt } from '@react-icons/all-files/fa/FaRegTrashAlt';
 
-const mealTranslations : Record<MealTypeProps, string> = {
+const mealTranslations: Record<MealTypeProps, string> = {
   breakfast: '아침',
   lunch: '점심',
   dinner: '저녁',
 };
 
 export const MealItem: React.FC<MealItemProps> = ({ date, mealType }) => {
-  const { GetMeal, addMeal } = useMeals();
+  const { GetMeal, addMeal, removeMeal } = useMeals();
+  const { updateIngredientQty } = useIngredients();
   const { copy, setCopy } = useCopyContext(); // copy 상태와 setCopy 함수 사용
 
-  const { data: meal }  = GetMeal(date, mealType);  
+  const { data: meal } = GetMeal(date, mealType);
 
   if (!meal) {
     return <EmptyMealItem meal={{ date, mealType }} />;
@@ -39,7 +43,7 @@ export const MealItem: React.FC<MealItemProps> = ({ date, mealType }) => {
   const handlePaste = () => {
     if (!copy) return;
     // 외식인 경우 diningOutMenu 복사, 아니면 ingredients 복사
-    
+
     addMeal.mutate({
       ...meal,
       ingredients: copy.isDiningOut ? [] : copy.ingredients, // 외식일 경우 빈 배열
@@ -52,6 +56,17 @@ export const MealItem: React.FC<MealItemProps> = ({ date, mealType }) => {
   const isCopyMeal = meal === copy;
   const Container = copy ? 'div' : Link;
 
+
+  const handleRemove = () => {
+    if (meal.done) {
+      meal.ingredients.forEach((ingredient) => {
+        updateIngredientQty.mutate(ingredient);
+      });
+    }
+    removeMeal.mutate(meal);
+  };
+
+
   return (
     <Container to={'/meals'} state={{ meal }} className={`bg-white shadow-md hover:shadow-lg rounded-lg p-4 transition duration-300 border border-gray-200 ${isCopyMeal ? 'bg-blue-100' : ''}`}>
       <div className='flex justify-between items-center mb-1'>
@@ -61,30 +76,29 @@ export const MealItem: React.FC<MealItemProps> = ({ date, mealType }) => {
           <h3 className='font-semibold tracking-tight'>{mealTypeText}</h3>
         </div>
 
-        {isCopyMeal ? (
-          ''
-        ) : (
-          <div className='flex items-center space-x-2' onClick={handleStopPropagation}>
-            {!copy && 
-            <div className="tooltip" data-tip="복사">
-                <button className='btn btn-circle btn-ghost btn-sm hover:bg-slate-200' onClick={handleCopy}>
-                  <FaRegCopy className='w-4 h-4 text-gray-600' />
-                </button>
-            </div>
-            }
-            {copy && 
-              <div className="tooltip" data-tip="복사 적용">
-                <button className='btn btn-circle btn-ghost btn-sm p-2 hover:bg-slate-200 transition-colors duration-200 flex items-center justify-center' onClick={handlePaste}>
-                  <FaCheck className='w-4 h-4 text-gray-600' />
-                </button>
-              </div>
-            }
-            {!copy &&
-              <div className="tooltip" data-tip="삭제">
-                <RemoveMealButton meal={meal} />
-              </div>}
-          </div>
-        )}
+        {/* 버튼 렌더링 로직 */}
+        <div className='flex items-center space-x-2' onClick={handleStopPropagation}>
+          {!isCopyMeal && (
+            <>
+              {!copy ? (
+                <>
+                  <IconButton onClick={handleCopy} tooltip='복사'>
+                    <FaRegCopy className='w-4 h-4 text-gray-600' /> 
+                  </IconButton>
+                  <IconButton onClick={handleRemove} tooltip='삭제'>
+                    <FaRegTrashAlt className='w-4 h-4 text-gray-600' /> 
+                  </IconButton>
+                </>
+              ) : 
+                (
+                  <IconButton onClick={handlePaste} tooltip='복사 적용'>
+                  <FaCheck className='w-4 h-4 text-gray-600' /> 
+                </IconButton>
+                )
+              }
+            </>
+          )}
+        </div>
       </div>
 
       {/* 외식 여부에 따른 조건부 렌더링 */}
