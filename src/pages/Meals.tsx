@@ -20,8 +20,7 @@ export default function Meals() {
   const { meal } = location.state as { meal: MealProps };
   const navigate = useNavigate();
 
-  const {
-    ingredientsQuery, ingredientsQuery: { data: ingredients }, invalidIngredients
+  const { ingredientsQuery: { data: ingredients }, invalidIngredients
   } = useIngredients();
   const { addMeal, updateMeal } = useMeals();
 

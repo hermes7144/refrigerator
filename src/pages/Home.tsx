@@ -38,6 +38,7 @@ export default function Home() {
         <div className='flex flex-col items-center px-4'>
           <DateList selectedDate={selectedDate} onDate={handleDate} />
           <ErrorBoundary FallbackComponent={ErrorFallback}>
+            // Suspense를 각각 mealList로 그려줘야 하나
             <Suspense fallback={<MealListSkeleton scrollRefs={scrollRefs} selectedDate={selectedDate} />}>
               <MealList scrollRefs={scrollRefs} selectedDate={selectedDate} />
             </Suspense>

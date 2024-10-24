@@ -16,7 +16,6 @@ export default function useMeals() {
     return useSuspenseQuery({
         queryKey:['meal', uid, date, mealType], 
         queryFn: () => fetchMealByTypeAndDate(uid, date, mealType), 
-        staleTime: 1000 * 60 * 5,
     });
   };
 
