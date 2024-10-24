@@ -11,7 +11,7 @@ interface CommonButtonProps {
 const CommonButton: React.FC<CommonButtonProps> = memo(({ onClick, tooltip, className, children }) => {
   return (
     <div className="tooltip" data-tip={tooltip}>
-      <button className={`btn btn-circle btn-ghost btn-sm hover:bg-slate-200 ${className}`} onClick={onClick}>
+      <button type='button' className={`btn btn-circle btn-ghost btn-sm hover:bg-slate-200 ${className}`} onClick={onClick}>
         {children}
       </button>
     </div>

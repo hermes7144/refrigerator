@@ -5,24 +5,29 @@ import { MealProps } from '../../types/mealTypes';
 
 const MealCheckbox: React.FC<{ meal: MealProps }> = ({ meal }) => {
   const { editMealDone } = useMeals();
-  const { updateIngredientQty } = useIngredients();
+  const { updateIngredientsQty } = useIngredients();
 
   const handleCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { checked } = e.target;
-    const updatedMeal = { ...meal, done: checked }; // meal 객체를 복사하고 업데이트
-    editMealDone.mutate(updatedMeal); // 새로운 객체로 업데이트    
+    const checked = e.target.checked;
 
-    if (!meal.ingredients) return;
+    editMealDone.mutate({ ...meal, done: checked });
 
-    meal.ingredients.forEach((ingredient) => {
-      const quantityChange = checked ? -ingredient.qty : ingredient.qty;
-      updateIngredientQty.mutate({ ...ingredient, qty: quantityChange });
-    });
+    if (!meal.isDiningOut) {
+      updateIngredientsQty.mutate({ 
+        ingredients: meal.ingredients, 
+        isAdding: !checked 
+      });
+    }
   };
 
   return (
     <div onClick={(e) => e.stopPropagation()}>
-      <input className='checkbox' type='checkbox' onChange={handleCheck} checked={meal?.done ?? false} />
+      <input 
+        className='checkbox' 
+        type='checkbox' 
+        onChange={handleCheck} 
+        checked={Boolean(meal?.done)} 
+      />
     </div>
   );
 };

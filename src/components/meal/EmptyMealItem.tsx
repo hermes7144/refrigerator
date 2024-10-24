@@ -12,7 +12,7 @@ const mealTranslations = {
   dinner: '저녁',
 };
 
-export const EmptyMealItem: React.FC<{meal: EmptyMealProps}> = ({ meal }) => {
+export const EmptyMealItem: React.FC<{meal: EmptyMealProps}> = ({ meal}) => {
   const { copy } = useCopyContext(); // copy 상태와 setCopy 함수 사용
   const { addMeal } = useMeals();
 
@@ -21,13 +21,24 @@ const handlePaste = (e: MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     if (!copy) return;
 
-    addMeal.mutate({
-      ...meal,
-      done:false,
-      ingredients: copy.isDiningOut ? [] : copy.ingredients, // 외식일 경우 빈 배열
-      isDiningOut: !!copy.isDiningOut,
-      diningOutMenu: copy.isDiningOut ? copy.diningOutMenu : '', // 외식일 경우 diningOutMenu 복사
-    });  
+
+    if (copy.isDiningOut) {
+      // 외식일 경우
+      addMeal.mutate({
+        ...meal,
+        ingredients: [], // 외식이므로 재료는 없음
+        isDiningOut: true,
+        diningOutMenu: copy.diningOutMenu ?? '' // 외식 메뉴 복사
+      });
+    } else {
+      // 일반 식사의 경우
+      addMeal.mutate({
+        ...meal,
+        ingredients: copy.ingredients, // 재료 복사
+        isDiningOut: false,
+        diningOutMenu: '' // 외식이 아니므로 빈 문자열
+      });
+    }
   }
 
   const Container = copy ? 'div' : Link;

@@ -139,12 +139,14 @@ export async function checkMeal(uid: string, meal: MealProps): Promise<MealProps
 }
 
 export async function updateIngredientsQuantity(uid: string, ingredients: IngredientProps[], isAdding?: boolean): Promise<void> {  
+  console.log(ingredients,isAdding);
+  
 
   for (const ingredient of ingredients) {    
     const ingredientRef = ref(database, `ingredients/${uid}/${ingredient.id}/qty`);
 
     await runTransaction(ingredientRef, (currentQty) => {
-      return isAdding ? (currentQty || 0) + ingredient.qty : (currentQty || 0) - ingredient.qty;
+      return isAdding ? (currentQty || 0) + ingredient.qty : (currentQty || 0) - Number(ingredient.qty);
     });
   }
 }

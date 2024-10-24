@@ -19,6 +19,7 @@ export interface MealProps {
 export interface EmptyMealProps {
   mealType: MealTypeProps;
   date: string;
+  done:boolean;
 }
 
 export interface MealListProps {

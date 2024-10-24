@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import useAuthContext from '../context/AuthContext';
-import { addNewIngredient, editIngredient, editShopping, getIngredients, removeIngredient, updateIngredientQuantity } from '../api/firebase';
+import { addNewIngredient, editIngredient, editShopping, getIngredients, removeIngredient, updateIngredientsQuantity } from '../api/firebase';
 import { IngredientProps } from '../types/ingredientTypes';
 import useUpdateStatus from '../context/UpdateContext';
 
@@ -11,7 +11,7 @@ export default function useIngredients() {
   const { setHasUpdated } = useUpdateStatus(); // Context에서 상태 업데이트 함수 가져오기
 
   const queryClient = useQueryClient();
-  const ingredientsQuery = useQuery({ 
+  const ingredientsQuery = useQuery({
     queryKey: ['ingredients', uid],
     queryFn: () => getIngredients(uid),
   });
@@ -26,9 +26,13 @@ export default function useIngredients() {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['ingredients', uid] }),
   });
 
-  const updateIngredientQty = useMutation({
-    mutationFn: (ingredient: IngredientProps) => updateIngredientQuantity(uid, ingredient),
-    onSuccess: () => setHasUpdated(true)
+  const updateIngredientsQty = useMutation({
+    mutationFn: ({ ingredients, isAdding }: { ingredients: IngredientProps[]; isAdding: boolean }) => updateIngredientsQuantity(uid, ingredients, isAdding),
+    onSuccess: () => setHasUpdated(true),
+    onError: (error) => {
+      // 에러 처리 로직
+      console.error(error);
+    },
   });
 
   const deleteIngredients = useMutation({
@@ -51,5 +55,5 @@ export default function useIngredients() {
 
   const invalidIngredients = () => queryClient.invalidateQueries({ queryKey: ['ingredients', uid] });
 
-  return { ingredientsQuery, addIngredient, updateIngredient, updateIngredientQty, deleteIngredients, invalidIngredients };
+  return { ingredientsQuery, addIngredient, updateIngredient, updateIngredientsQty, deleteIngredients, invalidIngredients };
 }
