@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient, useSuspenseQuery } from '@tanstack/react-query';
+import { useMutation, useQueryClient, useSuspenseQuery, UseSuspenseQueryResult } from '@tanstack/react-query';
 import  useAuthContext  from '../context/AuthContext';
 import { addNewMeal, editMeal, deleteMeal, checkMeal, fetchMealByTypeAndDate } from '../api/firebase';
 import { MealProps } from '../types/mealTypes';
@@ -12,7 +12,7 @@ export default function useMeals() {
 
   const queryClient = useQueryClient();
 
-  const UsemealtypeandDateQuery = (mealType: string, date: string) => {
+  const GetMeal = (date: string, mealType: string) : UseSuspenseQueryResult<MealProps,Error> => {
     return useSuspenseQuery({
         queryKey:['meal', uid, date, mealType], 
         queryFn: () => fetchMealByTypeAndDate(uid, date, mealType), 
@@ -43,5 +43,5 @@ export default function useMeals() {
     }
   });
   
-  return { addMeal, updateMeal, removeMeal, editMealDone, UsemealtypeandDateQuery };
+  return { addMeal, updateMeal, removeMeal, editMealDone, GetMeal };
 }

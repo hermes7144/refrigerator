@@ -1,25 +1,31 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { MealItemProps } from '../../types/mealTypes';
-import { MealIngredientsList } from './MealIngredientsList';
+import { MealItemProps, MealTypeProps } from '../../types/mealTypes';
+import  MealIngredientsList  from './MealIngredientsList';
 import { RemoveMealButton } from './RemoveMealButton';
-import { MealCheckbox } from './MealCheckbox';
+import MealCheckbox  from './MealCheckbox';
 import { MealImage } from './MealImage';
 import { FaRegCopy } from '@react-icons/all-files/fa/FaRegCopy';
 import { FaCheck } from '@react-icons/all-files/fa/FaCheck';
 import useMeals from '../../hooks/useMeals';
 import { useCopyContext } from '../../context/CopyContext';
+import { EmptyMealItem } from './EmptyMealItem';
 
-const mealTranslations = {
+const mealTranslations : Record<MealTypeProps, string> = {
   breakfast: '아침',
   lunch: '점심',
   dinner: '저녁',
 };
 
-export const MealItem: React.FC<MealItemProps> = ({ meal }) => {
-  const { addMeal } = useMeals();
+export const MealItem: React.FC<MealItemProps> = ({ date, mealType }) => {
+  const { GetMeal, addMeal } = useMeals();
   const { copy, setCopy } = useCopyContext(); // copy 상태와 setCopy 함수 사용
 
+  const { data: meal }  = GetMeal(date, mealType);  
+
+  if (!meal) {
+    return <EmptyMealItem meal={{ date, mealType }} />;
+  }
 
   const handleStopPropagation = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -42,7 +48,7 @@ export const MealItem: React.FC<MealItemProps> = ({ meal }) => {
     });
   };
 
-  const mealType = mealTranslations[meal.mealType] || meal.mealType;
+  const mealTypeText = mealTranslations[meal.mealType] || meal.mealType;
   const isCopyMeal = meal === copy;
   const Container = copy ? 'div' : Link;
 
@@ -52,7 +58,7 @@ export const MealItem: React.FC<MealItemProps> = ({ meal }) => {
         <div className='flex items-start space-x-1'>
           <MealCheckbox meal={meal} />
           <MealImage meal={meal} />
-          <h3 className='font-semibold tracking-tight'>{mealType}</h3>
+          <h3 className='font-semibold tracking-tight'>{mealTypeText}</h3>
         </div>
 
         {isCopyMeal ? (

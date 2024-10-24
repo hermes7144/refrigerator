@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { MouseEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { MealImage } from './MealImage';
 import { FaCheck } from '@react-icons/all-files/fa/FaCheck';
@@ -16,13 +16,14 @@ export const EmptyMealItem: React.FC<{meal: EmptyMealProps}> = ({ meal }) => {
   const { copy } = useCopyContext(); // copy 상태와 setCopy 함수 사용
   const { addMeal } = useMeals();
 
-  const handlePaste = (e) => {
+const handlePaste = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     e.stopPropagation();
     if (!copy) return;
 
     addMeal.mutate({
       ...meal,
+      done:false,
       ingredients: copy.isDiningOut ? [] : copy.ingredients, // 외식일 경우 빈 배열
       isDiningOut: !!copy.isDiningOut,
       diningOutMenu: copy.isDiningOut ? copy.diningOutMenu : '', // 외식일 경우 diningOutMenu 복사

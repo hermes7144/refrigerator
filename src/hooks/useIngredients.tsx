@@ -14,7 +14,6 @@ export default function useIngredients() {
   const ingredientsQuery = useQuery({ 
     queryKey: ['ingredients', uid],
     queryFn: () => getIngredients(uid),
-    // enabled: location.pathname.includes('/ingredients')
   });
 
   const addIngredient = useMutation({

@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { IngredientProps } from '../../types/ingredientTypes';
 
-export const MealIngredientsList: React.FC<{ ingredients: IngredientProps[] }> = ({ ingredients }) => (
+const MealIngredientsList: React.FC<{ ingredients: IngredientProps[] }> = ({ ingredients }) => (
   <ul className='pl-6 border-l-2 border-gray-100 '>
     {ingredients.map((ingredient) => (
       <li key={ingredient.id} className='flex items-center text-gray-700 leading-snug tracking-tight text-sm'>
@@ -11,3 +11,5 @@ export const MealIngredientsList: React.FC<{ ingredients: IngredientProps[] }> =
     ))}
   </ul>
 );
+
+export default memo(MealIngredientsList);

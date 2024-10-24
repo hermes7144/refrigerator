@@ -7,7 +7,7 @@ export interface MealsProps {
 }
 
 export interface MealProps {
-  id: string;
+  id?: string;
   mealType: MealTypeProps;
   date: string;
   ingredients: IngredientProps[];
@@ -19,12 +19,10 @@ export interface MealProps {
 export interface EmptyMealProps {
   mealType: MealTypeProps;
   date: string;
-  done?:boolean;
 }
 
 export interface MealListProps {
   selectedDate: string;
-  meals?: MealsByDate;
   scrollRefs: React.MutableRefObject<{ [key: string]: HTMLDivElement | null }>;
   isSkeleton?: boolean;
 }
@@ -46,7 +44,8 @@ export interface MealsByDate {
 }
 
 export interface MealItemProps {
-  meal: MealProps;
+  date:string;
+  mealType:MealTypeProps;
 }
 
 export type MealTypeProps = 'breakfast' | 'lunch' | 'dinner';
