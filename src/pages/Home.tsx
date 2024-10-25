@@ -1,15 +1,15 @@
 import {  useCallback, useEffect, useRef, useState, memo } from 'react';
+import { ErrorBoundary } from 'react-error-boundary';
 import DateList from '../components/date/DateList';
 import MealList from '../components/meal/MealList';
-import { ErrorBoundary } from 'react-error-boundary';
 import ErrorFallback from '../components/common/ErrorFallback';
-import dayjs from 'dayjs';
 import { CopyProvider } from '../context/CopyContextProvider';
+import dayjs from 'dayjs';
  
 export default function Home() {
   const today = dayjs().format('YYYYMMDD');
   const [selectedDate, setSelectedDate] = useState(today);
-  const scrollRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});  
+  const scrollRefs = useRef<{ [key: string]: HTMLLIElement | null }>({});  
 
   const scrollToDate = useCallback((date: string) => {
     const target = scrollRefs.current[date];
@@ -34,7 +34,6 @@ export default function Home() {
   // TODO
   const MemoizedDateList = memo(DateList);
   const MemoizedMealList = memo(MealList);
-  
 
   return (
     <CopyProvider>

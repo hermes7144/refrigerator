@@ -86,7 +86,6 @@ export default function Meals() {
   };
 
   const handleRemoveIngredient = (index: number) => {
-    if (ingredientList.length === 1) return;
     const newIngredientList = ingredientList.filter((_, i) => i !== index);
     setIngredientList(newIngredientList);
   };
@@ -183,13 +182,16 @@ export default function Meals() {
             </button>
             <div className='w-full h-80 overflow-y-auto p-2'>
               <table className="table table-sm">
+                <thead>
                 <tr>
                   <td className='w-3/4 text-center text-sm'>재료</td>
                   <td className='w-1/12 text-center text-sm'>수량</td> 
                   <td className='w-1/12'></td>
                 </tr>
+                </thead>
+                <tbody>
                 {ingredientList.map((ingredient, index) => (
-                  <tr>
+                  <tr key={ingredient.id}>
                     <td>
                       <Select
                       className='basic-single flex-grow'
@@ -220,6 +222,7 @@ export default function Meals() {
                     </td>
                   </tr>
                   ))}
+                </tbody>
               </table>
             </div>
           </div>

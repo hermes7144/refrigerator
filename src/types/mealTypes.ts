@@ -24,14 +24,14 @@ export interface EmptyMealProps {
 
 export interface MealListProps {
   selectedDate: string;
-  scrollRefs: React.MutableRefObject<{ [key: string]: HTMLDivElement | null }>;
+  scrollRefs: React.MutableRefObject<{ [key: string]: HTMLLIElement | null }>;
   isSkeleton?: boolean;
 }
 
 export interface MealSectionProps {
   date: string;
   meals?: MealsProps;
-  scrollRef: (el: HTMLDivElement | null) => void;
+  scrollRef: (el: HTMLLIElement | null) => void;
   isSkeleton?: boolean;
   selected:boolean;
 }

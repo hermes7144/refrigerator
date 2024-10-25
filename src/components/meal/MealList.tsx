@@ -11,20 +11,12 @@ import { useWeek } from '../../context/WeekContext';
 
   return (
     <>
-      {copy && 
-        <div className='flex w-full justify-center fixed top-40 z-10 mt-2'>
-          <button className='btn btn-error text-white' onClick={handleCancelCopy}>선택한 식단 취소하기</button>
-        </div>
+      {copy && <div className='flex w-full justify-center fixed top-40 z-10 mt-2'>
+                <button className='btn btn-error text-white' onClick={handleCancelCopy}>선택한 식단 취소하기</button>
+                </div>
       }
       <ul className='flex flex-col w-full md:w-[500px] gap-4 pb-60 mt-24'>
-        {week.map((date) => 
-          <MealSection
-            key={date}
-            date={date}
-            scrollRef={(el) => (scrollRefs.current[date] = el)}
-            selected={selectedDate === date}
-            />)
-        }
+        {week.map((date) => <MealSection key={date} date={date} scrollRef={(el) => (scrollRefs.current[date] = el)} selected={selectedDate === date} />)}
       </ul>
     </>
   );
