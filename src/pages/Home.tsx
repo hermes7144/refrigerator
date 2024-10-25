@@ -1,7 +1,6 @@
-import { Suspense, useCallback, useEffect, useRef, useState } from 'react';
+import {  useCallback, useEffect, useRef, useState, memo } from 'react';
 import DateList from '../components/date/DateList';
-import { MealList } from '../components/meal/MealList';
-import { MealListSkeleton } from '../components/meal/MealListSkeleton';
+import MealList from '../components/meal/MealList';
 import { ErrorBoundary } from 'react-error-boundary';
 import ErrorFallback from '../components/common/ErrorFallback';
 import dayjs from 'dayjs';
@@ -11,7 +10,6 @@ export default function Home() {
   const today = dayjs().format('YYYYMMDD');
   const [selectedDate, setSelectedDate] = useState(today);
   const scrollRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});  
-
 
   const scrollToDate = useCallback((date: string) => {
     const target = scrollRefs.current[date];
@@ -33,15 +31,17 @@ export default function Home() {
     setSelectedDate(today);
   }, [today, scrollToDate]);
 
+  // TODO
+  const MemoizedDateList = memo(DateList);
+  const MemoizedMealList = memo(MealList);
+  
+
   return (
     <CopyProvider>
         <div className='flex flex-col items-center px-4'>
-          <DateList selectedDate={selectedDate} onDate={handleDate} />
           <ErrorBoundary FallbackComponent={ErrorFallback}>
-            // Suspense를 각각 mealList로 그려줘야 하나
-            <Suspense fallback={<MealListSkeleton scrollRefs={scrollRefs} selectedDate={selectedDate} />}>
-              <MealList scrollRefs={scrollRefs} selectedDate={selectedDate} />
-            </Suspense>
+            <MemoizedDateList selectedDate={selectedDate} onDate={handleDate} />
+            <MemoizedMealList scrollRefs={scrollRefs} selectedDate={selectedDate} />
           </ErrorBoundary>
         </div>
     </CopyProvider>

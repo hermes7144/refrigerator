@@ -1,8 +1,8 @@
-import { FC } from 'react';
+import { FC, memo } from 'react';
 import { DateItemProps } from '../../types';
 import dayjs from 'dayjs';
 
-export const DateItem: FC<DateItemProps> = ({ isSelected, date, onDate }) => {
+export const DateItem: FC<DateItemProps> = memo(({ isSelected, date, onDate }) => {
   const itemClass = isSelected ? 'bg-blue-500 text-white' : 'bg-slate-300 text-gray-600';
 
   return (
@@ -13,4 +13,4 @@ export const DateItem: FC<DateItemProps> = ({ isSelected, date, onDate }) => {
       </div>
     </li>
   );
-};
+});
