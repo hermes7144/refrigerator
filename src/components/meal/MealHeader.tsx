@@ -1,18 +1,20 @@
-import { FC, memo } from 'react';
+import { forwardRef, Ref } from 'react';
 import dayjs from 'dayjs';
 
-interface DateHeaderProps {
-  scrollRef: (el: HTMLHeadingElement | null) => void;
+interface MealHeaderProps {
   date: string;
   selected: boolean;
 }
 
-const DateHeader: FC<DateHeaderProps> = ({ scrollRef, date, selected }) => {
-  return (
-    <h2 ref={scrollRef} className={`flex items-center gap-1 text-lg font-semibold ${selected && 'text-brand'}`}>
-      {dayjs(date).format('M.D ddd요일')}
-    </h2>
-  );
-};
+// forwardRef를 사용하여 ref를 인자로 받는 컴포넌트로 변경
+const MealHeader = forwardRef(
+  ({ date, selected }: MealHeaderProps, ref: Ref<HTMLHeadingElement>) => {
+    return (
+      <h2 ref={ref} className={`flex items-center gap-1 text-lg font-semibold ${selected ? 'text-brand' : ''}`}>
+        {dayjs(date).format('M.D ddd요일')}
+      </h2>
+    );
+  }
+);
 
-export default memo(DateHeader);
+export default MealHeader;

@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React from 'react';
 import { IngredientProps } from '../../types/ingredientTypes';
 
 const MealIngredientsList: React.FC<{ ingredients: IngredientProps[] }> = ({ ingredients }) => (
@@ -12,4 +12,4 @@ const MealIngredientsList: React.FC<{ ingredients: IngredientProps[] }> = ({ ing
   </ul>
 );
 
-export default memo(MealIngredientsList);
+export default MealIngredientsList;

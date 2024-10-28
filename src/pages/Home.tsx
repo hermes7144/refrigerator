@@ -2,11 +2,11 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import ErrorFallback from '../components/common/ErrorFallback';
 import DateList from '../components/date/DateList';
-import MealSection  from '../components/meal/MealSection';
-import MealHeader from '../components/meal/MealHeader';
+import dayjs from 'dayjs';
 import { useCopyContext } from '../context/CopyContext';
 import { useWeek } from '../context/WeekContext';
-import dayjs from 'dayjs';
+import MealSection from '../components/meal/MealSection';
+import MealHeader from '../components/meal/MealHeader';
 
 export default function Home() {
   const today = dayjs().format('YYYYMMDD');
@@ -43,7 +43,11 @@ export default function Home() {
         <ul className='flex flex-col w-full md:w-[500px] gap-4 pb-60 mt-24'>
           {week.map((date) => (
             <li key={date}>
-              <MealHeader scrollRef={(el) => (scrollRefs.current[date] = el)} date={date} selected={selectedDate === date} />
+              <MealHeader
+                ref={(el) => (scrollRefs.current[date] = el)}
+                date={date}
+                selected={selectedDate === date}
+              />
               <MealSection date={date} />
             </li>
           ))}

@@ -1,18 +1,18 @@
-import { FC, ReactNode } from 'react';
+import { FaArrowLeft } from '@react-icons/all-files/fa/FaArrowLeft';
+import { FaArrowRight } from '@react-icons/all-files/fa/FaArrowRight';
+import { FC, memo } from 'react';
 
 const WeekNavigationButton: FC<{ 
   onClick: () => void; 
   ariaLabel: string; 
-  icon: ReactNode;
-  isVisible: boolean;
-}> = ({ onClick, ariaLabel, icon, isVisible }) => {
-  if (!isVisible) return null;
+  direction: 'left' | 'right';
+}> = ({ onClick, ariaLabel ,direction}) => {
 
   return (
     <button onClick={onClick} aria-label={ariaLabel} className="desktop-button">
-      {icon}
+      {direction === 'right'?  <FaArrowRight />:<FaArrowLeft />}
     </button>
   );
 };
 
-export default WeekNavigationButton;
+export default memo(WeekNavigationButton);

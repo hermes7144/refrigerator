@@ -5,12 +5,12 @@ import { providerProps } from '../types/commonTypes';
 
 interface UpdateContextInterface {
   week: string[];
-  handleWeek: (weekshift:number) => void;
+  handleShift: (weekshift:number) => void;
 }
 
 const defaultContextValue: UpdateContextInterface = {
   week: [],
-  handleWeek: () => {}
+  handleShift: () => {}
 }
  
 export const WeekContext = createContext<UpdateContextInterface>(defaultContextValue);
@@ -21,12 +21,12 @@ export const WeekProvider = ({ children }: providerProps) => {
 
   const week = getWeekDates(shift);
 
-  const handleWeek = (weekShift: number) => {
+  const handleShift = (weekShift: number) => {
     setShift((prev) => prev + weekShift);
   };
 
   return (
-    <WeekContext.Provider value={{ week, handleWeek }}>
+    <WeekContext.Provider value={{ week, handleShift }}>
       {children}
     </WeekContext.Provider>
   );
