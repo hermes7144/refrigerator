@@ -1,15 +1,20 @@
-import {  useCallback, useEffect, useRef, useState, memo } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
-import DateList from '../components/date/DateList';
-import MealList from '../components/meal/MealList';
 import ErrorFallback from '../components/common/ErrorFallback';
-import { CopyProvider } from '../context/CopyContextProvider';
+import DateList from '../components/date/DateList';
+import MealSection  from '../components/meal/MealSection';
+import MealHeader from '../components/meal/MealHeader';
+import { useCopyContext } from '../context/CopyContext';
+import { useWeek } from '../context/WeekContext';
 import dayjs from 'dayjs';
- 
+
 export default function Home() {
   const today = dayjs().format('YYYYMMDD');
   const [selectedDate, setSelectedDate] = useState(today);
-  const scrollRefs = useRef<{ [key: string]: HTMLLIElement | null }>({});  
+  const scrollRefs = useRef<{ [key: string]: HTMLHeadingElement | null }>({});
+  const { copy, setCopy } = useCopyContext();
+  const handleCancelCopy = () => setCopy(null);
+  const { week } = useWeek();
 
   const scrollToDate = useCallback((date: string) => {
     const target = scrollRefs.current[date];
@@ -31,18 +36,26 @@ export default function Home() {
     setSelectedDate(today);
   }, [today, scrollToDate]);
 
-  // TODO
-  const MemoizedDateList = memo(DateList);
-  const MemoizedMealList = memo(MealList);
-
   return (
-    <CopyProvider>
-        <div className='flex flex-col items-center px-4'>
-          <ErrorBoundary FallbackComponent={ErrorFallback}>
-            <MemoizedDateList selectedDate={selectedDate} onDate={handleDate} />
-            <MemoizedMealList scrollRefs={scrollRefs} selectedDate={selectedDate} />
-          </ErrorBoundary>
-        </div>
-    </CopyProvider>
+    <div className='flex flex-col items-center px-4'>
+      <ErrorBoundary FallbackComponent={ErrorFallback}>
+        <DateList selectedDate={selectedDate} onDate={handleDate} />
+        <ul className='flex flex-col w-full md:w-[500px] gap-4 pb-60 mt-24'>
+          {week.map((date) => (
+            <li key={date}>
+              <MealHeader scrollRef={(el) => (scrollRefs.current[date] = el)} date={date} selected={selectedDate === date} />
+              <MealSection date={date} />
+            </li>
+          ))}
+        </ul>
+        {copy && (
+          <div className='flex w-full justify-center fixed top-40 z-10 mt-2'>
+            <button className='btn btn-error text-white' onClick={handleCancelCopy}>
+              선택한 식단 취소하기
+            </button>
+          </div>
+        )}
+      </ErrorBoundary>
+    </div>
   );
 }

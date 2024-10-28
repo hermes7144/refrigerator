@@ -30,10 +30,10 @@ export interface MealListProps {
 
 export interface MealSectionProps {
   date: string;
-  meals?: MealsProps;
-  scrollRef: (el: HTMLLIElement | null) => void;
-  isSkeleton?: boolean;
-  selected:boolean;
+  // meals?: MealsProps;
+  // scrollRef: (el: HTMLLIElement | null) => void;
+  // isSkeleton?: boolean;
+  // selected:boolean;
 }
 
 export interface MealsByDate {

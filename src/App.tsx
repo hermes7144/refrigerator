@@ -10,6 +10,7 @@ import AddNewButton from './components/common/AddNewButton';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { UpdateProvider } from './context/UpdateContextProvider';
 import { WeekProvider } from './context/WeekContextProvider';
+import { CopyProvider } from './context/CopyContextProvider';
 
 const MINUTE = 1000 * 60;
 
@@ -30,12 +31,14 @@ function App() {
       <AuthProvider>
         <SidebarProvider>
           <WeekProvider>
+            <CopyProvider>
             <Navbar />
               {isMobile ? <BottomNavigation /> : <Side />}
               <UpdateProvider>
                 <Outlet />
               </UpdateProvider>
             <AddNewButton />
+            </CopyProvider>
           </WeekProvider>
         </SidebarProvider>
       </AuthProvider>

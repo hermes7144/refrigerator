@@ -33,7 +33,6 @@ export const MealItem: React.FC<MealItemProps> = ({ date, mealType }) => {
   }
   const handleCopy = () => setCopy(meal);
 
-
   const handlePaste = () => {
     if (!copy) return;
 
@@ -54,9 +53,7 @@ export const MealItem: React.FC<MealItemProps> = ({ date, mealType }) => {
         diningOutMenu: '' // 외식이 아니므로 빈 문자열
       });
     }
-
   };
-
   
   const handleRemove = () => {
     if (meal.done) updateIngredientsQty.mutate({ingredients: meal.ingredients, isAdding: true});
@@ -83,8 +80,6 @@ export const MealItem: React.FC<MealItemProps> = ({ date, mealType }) => {
       );
     }
   };
-
-
 
   const mealTypeText = mealTranslations[meal.mealType] || meal.mealType;
   const isCopyMeal = meal === copy;
