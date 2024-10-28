@@ -43,11 +43,7 @@ export default function Home() {
         <ul className='flex flex-col w-full md:w-[500px] gap-4 pb-60 mt-24'>
           {week.map((date) => (
             <li key={date}>
-              <MealHeader
-                ref={(el) => (scrollRefs.current[date] = el)}
-                date={date}
-                selected={selectedDate === date}
-              />
+              <MealHeader ref={(el) => (scrollRefs.current[date] = el)} date={date} selected={selectedDate === date} />
               <MealSection date={date} />
             </li>
           ))}

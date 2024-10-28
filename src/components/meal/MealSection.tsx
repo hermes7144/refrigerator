@@ -19,4 +19,4 @@ const MealSection: FC<MealSectionProps> = ({date}) => {
 };
 
 
-export default memo(MealSection)
+export default memo(MealSection);
